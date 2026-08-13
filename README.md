@@ -30,7 +30,7 @@ cd theclinicue
 
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
-pip install -r requirements-dev.txt
+pip install -r requirements-dev.txt   # or requirements-test.txt for tests only
 
 python -m app.seed               # load demonstration data
 python wsgi.py                   # http://localhost:8000

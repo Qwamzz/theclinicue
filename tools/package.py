@@ -25,7 +25,8 @@ BUILD = ROOT / "Submission"
 # Source code and supporting material that goes into Supporting_Files/.
 INCLUDE_DIRS = ["app", "tests", "tools", "docs", ".github"]
 INCLUDE_FILES = [
-    "wsgi.py", "requirements.txt", "requirements-dev.txt", "pytest.ini",
+    "wsgi.py", "requirements.txt", "requirements-test.txt",
+    "requirements-dev.txt", "pytest.ini",
     "Dockerfile", "Procfile", ".env.example", ".gitignore",
     "README.md", "DEPLOY.md", "startup.sh", "azure-setup.sh",
     "azure-deploy-direct.sh",

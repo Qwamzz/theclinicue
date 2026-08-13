@@ -1,11 +1,24 @@
-# Development and test dependencies. Not installed in the production image.
--r requirements.txt
+# Full local development environment: the test suite plus the tooling used to
+# produce the documentation set.
+#
+# CI deliberately installs requirements-test.txt instead, because nothing below
+# the divider is needed to run the tests, and pycairo needs a system cairo
+# library that hosted runners do not carry.
 
-pytest==9.1.1
-pytest-cov==7.1.0
+-r requirements-test.txt
 
-# Used only by tools/svg_preview.py, which renders the design diagrams to PNG
-# and validates their XML. Not needed to run or test the application.
+# ---------------------------------------------------------------------------
+# Documentation tooling — local only.
+#   tools/md2pdf.py      Markdown -> PDF for the submission documents
+#   tools/svg_preview.py renders the design diagrams to PNG and validates them
+#   tools/package.py     builds the submission archive
+# ---------------------------------------------------------------------------
 reportlab==5.0.0
 svglib==2.1.0
+pypdf==6.7.1
+
+# Rasterises the SVG diagrams. Needs the system cairo library:
+#   Windows  bundled with the wheel
+#   macOS    brew install cairo
+#   Ubuntu   sudo apt-get install libcairo2-dev pkg-config
 rlPyCairo==0.3.0

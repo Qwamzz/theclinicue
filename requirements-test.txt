@@ -1,0 +1,14 @@
+# Everything needed to RUN THE TEST SUITE, and nothing more.
+#
+# This file exists because CI was failing while installing a PDF and diagram
+# toolchain it never used: rlPyCairo pulls in pycairo, which builds against the
+# system cairo library, which GitHub's runners do not have. The tests import
+# only pytest and the standard library, so the documentation tooling has no
+# business being on the critical path of the build.
+#
+# Rule of thumb: if the test suite does not import it, it does not belong here.
+
+-r requirements.txt
+
+pytest==9.1.1
+pytest-cov==7.1.0
