@@ -60,9 +60,36 @@ def create_app(config: Config | None = None, **overrides: Any) -> Flask:
     with app.app_context():
         init_schema(get_db())
         get_db().commit()
+        if settings.seed_on_start:
+            _seed_if_empty(app)
         close_db()
 
     return app
+
+
+def _seed_if_empty(app: Flask) -> None:
+    """Load demonstration data when the database has no users.
+
+    Idempotent by construction: app.seed.seed() returns early the moment any
+    user exists, so this cannot overwrite real data. A failure here is logged
+    and swallowed, because an unseeded application that starts is far more
+    useful than a seeded one that will not.
+    """
+    from .seed import seed
+
+    try:
+        summary = seed(get_db())
+        if summary.get("skipped"):
+            app.logger.info("Seed skipped: %s", summary.get("reason"))
+        else:
+            app.logger.info(
+                "Seeded demonstration data: %s users, %s services, %s practitioners, "
+                "%s appointments",
+                summary["users"], summary["services"],
+                summary["practitioners"], summary["appointments"],
+            )
+    except Exception:  # noqa: BLE001 - never let seeding stop the app booting
+        app.logger.exception("Seeding failed; continuing with an empty database")
 
 
 # ---------------------------------------------------------------------------

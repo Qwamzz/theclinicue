@@ -65,6 +65,14 @@ class Config:
     #: Azure deployment sets this to DELETE. See TD-01.
     sqlite_journal_mode: str = "WAL"
 
+    #: Seed demonstration data at start-up when the database has no users.
+    #: App Service's Oryx builder starts its own gunicorn and ignores a
+    #: custom startup command in some configurations, which leaves the
+    #: catalogue empty and the application unusable. This flag is a lever
+    #: that does not depend on the platform honouring startup.sh.
+    #: Safe to leave on: seeding is skipped whenever any user already exists.
+    seed_on_start: bool = False
+
     # Scheduling policy
     booking_horizon_days: int = 60        # FR-23
     max_page_size: int = 100
@@ -132,6 +140,7 @@ def load_config(**overrides: object) -> Config:
         booking_horizon_days=_int("TC_BOOKING_HORIZON_DAYS", 60),
         password_hash_method=TESTING_HASH_METHOD if env == "testing" else PRODUCTION_HASH_METHOD,
         sqlite_journal_mode=_journal_mode(),
+        seed_on_start=_flag("TC_SEED_ON_START", False),
     )
 
     if overrides:

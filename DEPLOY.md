@@ -202,6 +202,7 @@ Click **+ Add** once per row:
 | `TC_BOOKING_HORIZON_DAYS` | `60` |
 | `TC_DATABASE_PATH` | `/home/data/theclinicue.sqlite3` |
 | `TC_SQLITE_JOURNAL` | `DELETE` |
+| `TC_SEED_ON_START` | `true` |
 | `SCM_DO_BUILD_DURING_DEPLOYMENT` | `true` |
 | `WEBSITES_ENABLE_APP_SERVICE_STORAGE` | `true` |
 
