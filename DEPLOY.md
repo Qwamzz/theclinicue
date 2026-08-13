@@ -269,6 +269,36 @@ Edit `.github/workflows/azure-deploy.yml`, line 12:
   AZURE_WEBAPP_NAME: theclinicue     # <- change to your actual app name
 ```
 
+## If GitHub Actions is unavailable — deploy directly
+
+GitHub Actions can be blocked for reasons that have nothing to do with your
+code. The most common is an account-level billing lock, which shows up as:
+
+> *The job was not started because your account is locked due to a billing issue.*
+
+Public repositories get unlimited free Actions minutes, so this normally means
+an unpaid balance, a spending limit set to zero, or a payment method that needs
+attention rather than usage. Check **https://github.com/settings/billing**.
+
+**You are not blocked from deploying.** Run the deployment from this machine
+instead:
+
+```bash
+az login
+bash azure-setup.sh          # once, if the app does not exist yet
+bash azure-deploy-direct.sh  # every time you want to ship
+```
+
+`azure-deploy-direct.sh` enforces the **same quality gate** the CI workflow
+does — the full 312-test suite, the seven-day date matrix and the production
+configuration check — and abandons the deployment if any of them fail. It then
+packages only the runtime files, zip-deploys them, waits for the restart and
+smoke-tests the live `/api/health`. Only the machine running the gate changes;
+the gate itself does not.
+
+Once billing is sorted, pushing to `main` resumes automatic deployment and you
+can stop using the script.
+
 ## Step 3.4 — Deploy
 
 ```bash

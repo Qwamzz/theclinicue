@@ -28,6 +28,7 @@ INCLUDE_FILES = [
     "wsgi.py", "requirements.txt", "requirements-dev.txt", "pytest.ini",
     "Dockerfile", "Procfile", ".env.example", ".gitignore",
     "README.md", "DEPLOY.md", "startup.sh", "azure-setup.sh",
+    "azure-deploy-direct.sh",
 ]
 EXCLUDE_PARTS = {
     "__pycache__", ".pytest_cache", ".venv", ".git", "htmlcov",

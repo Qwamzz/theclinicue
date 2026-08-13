@@ -403,6 +403,7 @@ New debt must be logged **in the same commit that creates it**. Each release res
 | `azure-setup.sh` | One-run Azure provisioning: resource group, plan, web app, settings, health check, TLS policy, logging |
 | `startup.sh` | App Service startup command: creates the data directory, seeds on first boot, launches Gunicorn |
 | `.github/workflows/azure-deploy.yml` | CI/CD: full suite + date matrix + production check, then deploy, then live smoke test |
+| `azure-deploy-direct.sh` | Deploys from a developer machine when CI is unavailable, enforcing the identical quality gate locally |
 | `Procfile` | Heroku-style platforms |
 | `requirements.txt` | Three runtime dependencies |
 | `.env.example` | Every configuration variable, documented |
