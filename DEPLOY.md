@@ -46,6 +46,15 @@ There are two ways to authenticate. **Option A is easier** — it uses a browser
 sign-in instead of hand-creating a token. The GitHub CLI is already installed
 on this machine (`gh` v2.97.0).
 
+> **If you have already created `Qwamzz/theclinicue` on github.com** (it exists
+> and is empty), skip `gh repo create` — it will fail with "Name already exists".
+> The `origin` remote is already configured in this project, so all you need is:
+>
+> ```bash
+> gh auth login          # once, in a NEW terminal
+> git push -u origin main
+> ```
+
 ### Option A — GitHub CLI (recommended)
 
 ```bash
