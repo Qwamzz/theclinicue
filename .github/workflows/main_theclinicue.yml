@@ -11,8 +11,41 @@ on:
   workflow_dispatch:
 
 jobs:
+  test:
+    name: Quality gate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python version
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      # requirements-test.txt, not requirements-dev.txt: the dev file adds the
+      # documentation toolchain, and rlPyCairo needs a system cairo library the
+      # runner does not carry. The tests do not use any of it.
+      - name: Install test dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-test.txt
+
+      - name: Run the test suite with coverage
+        run: python -m pytest --cov=app --cov-report=term --cov-fail-under=80
+
+      - name: Prove the suite is date-independent
+        run: python tools/date_matrix.py --days 7
+
+      - name: Verify the production configuration
+        run: python tools/prod_check.py
+
   build:
     runs-on: ubuntu-latest
+    needs: test          # nothing is built, let alone deployed, until tests pass
     permissions:
       contents: read #This is required for actions/checkout
 
@@ -64,3 +97,19 @@ jobs:
           app-name: 'theclinicue'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FCDAAD213B40457192DCB8633A1F6D00 }}
+
+      - name: Smoke-test the live deployment
+        run: |
+          set -e
+          URL="https://theclinicue.azurewebsites.net/api/health"
+          echo "Checking $URL"
+          for attempt in 1 2 3 4 5 6; do
+            body=$(curl -fsS --max-time 30 "$URL") && break || {
+              echo "attempt $attempt failed, retrying in 20s"; sleep 20;
+            }
+          done
+          echo "$body"
+          echo "$body" | grep -q '"status":"ok"'
+          echo "$body" | grep -q '"database":"ok"'
+          echo "$body" | grep -q '"environment":"production"'
+          echo "Live deployment healthy."

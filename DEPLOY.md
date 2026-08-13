@@ -240,6 +240,18 @@ Left menu → **Settings → Configuration → General settings**:
 
 # Part 3 — Connect GitHub to Azure
 
+> **If you connected Azure's Deployment Center to GitHub**, the portal has
+> already done Part 3 for you: it generated
+> `.github/workflows/main_theclinicue.yml` and created the matching
+> `AZUREAPPSERVICE_PUBLISHPROFILE_*` secret. That workflow now also runs the
+> quality gate — the full test suite, the seven-day date matrix and the
+> production configuration check — before it builds or deploys anything, and it
+> smoke-tests the live health endpoint afterwards.
+>
+> You can skip the rest of Part 3. **You still need Step 2.3** (the startup
+> command `bash startup.sh`) and **Step 2.2** (the application settings) —
+> the portal's Deployment Center does not set those.
+
 ## Step 3.1 — Get the publish profile
 
 **Portal route:** Web App → **Overview** → top toolbar → **Download publish profile**. It saves a `.PublishSettings` file. Open it in Notepad and copy **everything**.
