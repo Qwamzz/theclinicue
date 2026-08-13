@@ -30,7 +30,7 @@ docs/diagrams/_contact_sheet.html
 Submission/
 *.zip
 
-# Editor and OS
+# Editor and IDE configuration — local to a machine, not part of the project
 .vscode/
 .idea/
 .DS_Store
