@@ -4,10 +4,10 @@
   <text x="540" y="45" text-anchor="middle" font-size="11" fill="#5f6368">Mobile-first patient views at 360 px (NFR-USA-01); desktop staff and admin consoles at 1280 px</text>
 
   <!-- ============ PHONE 1 — booking ============ -->
-  <text x="150" y="72" text-anchor="middle" font-size="11" font-weight="bold" fill="#1A73E8">A. Patient — Book an appointment (360 px)</text>
+  <text x="150" y="72" text-anchor="middle" font-size="11" font-weight="bold" fill="#0B6B61">A. Patient — Book an appointment (360 px)</text>
   <rect x="40" y="80" width="220" height="440" rx="18" fill="#ffffff" stroke="#202124" stroke-width="2"/>
-  <rect x="40" y="80" width="220" height="30" rx="18" fill="#1A73E8"/>
-  <rect x="40" y="98" width="220" height="12" fill="#1A73E8"/>
+  <rect x="40" y="80" width="220" height="30" rx="18" fill="#0B6B61"/>
+  <rect x="40" y="98" width="220" height="12" fill="#0B6B61"/>
   <text x="54" y="100" font-size="11" font-weight="bold" fill="#ffffff">TheClinicue</text>
   <text x="238" y="100" text-anchor="middle" font-size="13" fill="#ffffff">☰</text>
 
@@ -30,41 +30,41 @@
 
   <text x="54" y="298" font-size="9" fill="#5f6368">Available times</text>
   <g>
-    <rect x="54" y="304" width="59" height="28" rx="4" fill="#E8F0FE" stroke="#1A73E8"/>
-    <text x="83" y="322" text-anchor="middle" font-size="10" fill="#1A73E8">09:00</text>
-    <rect x="120" y="304" width="59" height="28" rx="4" fill="#1A73E8" stroke="#1A73E8"/>
+    <rect x="54" y="304" width="59" height="28" rx="4" fill="#EFF9F7" stroke="#0B6B61"/>
+    <text x="83" y="322" text-anchor="middle" font-size="10" fill="#0B6B61">09:00</text>
+    <rect x="120" y="304" width="59" height="28" rx="4" fill="#0B6B61" stroke="#0B6B61"/>
     <text x="149" y="322" text-anchor="middle" font-size="10" font-weight="bold" fill="#ffffff">09:30</text>
-    <rect x="186" y="304" width="59" height="28" rx="4" fill="#E8F0FE" stroke="#1A73E8"/>
-    <text x="215" y="322" text-anchor="middle" font-size="10" fill="#1A73E8">10:00</text>
+    <rect x="186" y="304" width="59" height="28" rx="4" fill="#EFF9F7" stroke="#0B6B61"/>
+    <text x="215" y="322" text-anchor="middle" font-size="10" fill="#0B6B61">10:00</text>
     <rect x="54" y="338" width="59" height="28" rx="4" fill="#F1F3F4" stroke="#DADCE0"/>
     <text x="83" y="356" text-anchor="middle" font-size="10" fill="#9AA0A6">10:30</text>
-    <rect x="120" y="338" width="59" height="28" rx="4" fill="#E8F0FE" stroke="#1A73E8"/>
-    <text x="149" y="356" text-anchor="middle" font-size="10" fill="#1A73E8">11:00</text>
-    <rect x="186" y="338" width="59" height="28" rx="4" fill="#E8F0FE" stroke="#1A73E8"/>
-    <text x="215" y="356" text-anchor="middle" font-size="10" fill="#1A73E8">11:30</text>
+    <rect x="120" y="338" width="59" height="28" rx="4" fill="#EFF9F7" stroke="#0B6B61"/>
+    <text x="149" y="356" text-anchor="middle" font-size="10" fill="#0B6B61">11:00</text>
+    <rect x="186" y="338" width="59" height="28" rx="4" fill="#EFF9F7" stroke="#0B6B61"/>
+    <text x="215" y="356" text-anchor="middle" font-size="10" fill="#0B6B61">11:30</text>
   </g>
   <text x="54" y="382" font-size="8" fill="#9AA0A6">Greyed times are already taken</text>
 
-  <rect x="54" y="392" width="192" height="38" rx="6" fill="#137333"/>
+  <rect x="54" y="392" width="192" height="38" rx="6" fill="#15803D"/>
   <text x="150" y="416" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">Confirm booking</text>
   <text x="150" y="444" text-anchor="middle" font-size="8" fill="#5f6368">44 px minimum touch target (NFR-USA-03)</text>
 
-  <rect x="54" y="454" width="192" height="52" rx="6" fill="#E6F4EA" stroke="#137333"/>
-  <text x="62" y="470" font-size="9" font-weight="bold" fill="#137333">✓ Booked — code TC-7F3A21</text>
+  <rect x="54" y="454" width="192" height="52" rx="6" fill="#DCF3E4" stroke="#15803D"/>
+  <text x="62" y="470" font-size="9" font-weight="bold" fill="#15803D">✓ Booked — code TC-7F3A21</text>
   <text x="62" y="484" font-size="8.5" fill="#3C4043">Fri 14 Aug, 09:30, Room 2.</text>
   <text x="62" y="497" font-size="8.5" fill="#3C4043">Arrive 10 minutes early.</text>
 
   <!-- ============ PHONE 2 — queue ============ -->
-  <text x="400" y="72" text-anchor="middle" font-size="11" font-weight="bold" fill="#1A73E8">B. Patient — My appointments and live queue</text>
+  <text x="400" y="72" text-anchor="middle" font-size="11" font-weight="bold" fill="#0B6B61">B. Patient — My appointments and live queue</text>
   <rect x="290" y="80" width="220" height="440" rx="18" fill="#ffffff" stroke="#202124" stroke-width="2"/>
-  <rect x="290" y="80" width="220" height="30" rx="18" fill="#1A73E8"/>
-  <rect x="290" y="98" width="220" height="12" fill="#1A73E8"/>
+  <rect x="290" y="80" width="220" height="30" rx="18" fill="#0B6B61"/>
+  <rect x="290" y="98" width="220" height="12" fill="#0B6B61"/>
   <text x="304" y="100" font-size="11" font-weight="bold" fill="#ffffff">TheClinicue</text>
   <text x="488" y="100" text-anchor="middle" font-size="13" fill="#ffffff">☰</text>
 
   <!-- live queue card -->
-  <rect x="304" y="122" width="192" height="96" rx="8" fill="#FEF7E0" stroke="#B06000" stroke-width="1.6"/>
-  <text x="400" y="140" text-anchor="middle" font-size="9" fill="#B06000">YOUR TICKET TODAY</text>
+  <rect x="304" y="122" width="192" height="96" rx="8" fill="#FDF6EA" stroke="#9A5B08" stroke-width="1.6"/>
+  <text x="400" y="140" text-anchor="middle" font-size="9" fill="#9A5B08">YOUR TICKET TODAY</text>
   <text x="400" y="172" text-anchor="middle" font-size="30" font-weight="bold" fill="#202124">B-07</text>
   <text x="400" y="192" text-anchor="middle" font-size="11" font-weight="bold" fill="#202124">3 patients ahead of you</text>
   <text x="400" y="207" text-anchor="middle" font-size="9" fill="#5f6368">Now serving B-04 · approx. 35 min</text>
@@ -72,22 +72,22 @@
   <text x="304" y="240" font-size="11" font-weight="bold" fill="#202124">Upcoming</text>
 
   <rect x="304" y="248" width="192" height="62" rx="6" fill="#ffffff" stroke="#DADCE0"/>
-  <rect x="304" y="248" width="4" height="62" fill="#137333"/>
+  <rect x="304" y="248" width="4" height="62" fill="#15803D"/>
   <text x="316" y="264" font-size="10" font-weight="bold" fill="#202124">Fri 14 Aug · 09:30</text>
   <text x="316" y="278" font-size="9" fill="#5f6368">General Consultation</text>
   <text x="316" y="291" font-size="9" fill="#5f6368">Dr A. Mensah · Room 2</text>
-  <rect x="316" y="296" width="52" height="12" rx="6" fill="#E6F4EA"/>
-  <text x="342" y="305" text-anchor="middle" font-size="7.5" font-weight="bold" fill="#137333">BOOKED</text>
-  <text x="470" y="305" text-anchor="end" font-size="9" fill="#C5221F">Cancel</text>
+  <rect x="316" y="296" width="52" height="12" rx="6" fill="#DCF3E4"/>
+  <text x="342" y="305" text-anchor="middle" font-size="7.5" font-weight="bold" fill="#15803D">BOOKED</text>
+  <text x="470" y="305" text-anchor="end" font-size="9" fill="#B42318">Cancel</text>
 
   <rect x="304" y="318" width="192" height="62" rx="6" fill="#ffffff" stroke="#DADCE0"/>
-  <rect x="304" y="318" width="4" height="62" fill="#1A73E8"/>
+  <rect x="304" y="318" width="4" height="62" fill="#0B6B61"/>
   <text x="316" y="334" font-size="10" font-weight="bold" fill="#202124">Mon 24 Aug · 14:00</text>
   <text x="316" y="348" font-size="9" fill="#5f6368">Antenatal Review</text>
   <text x="316" y="361" font-size="9" fill="#5f6368">Dr K. Owusu · Room 5</text>
-  <rect x="316" y="366" width="52" height="12" rx="6" fill="#E6F4EA"/>
-  <text x="342" y="375" text-anchor="middle" font-size="7.5" font-weight="bold" fill="#137333">BOOKED</text>
-  <text x="470" y="375" text-anchor="end" font-size="9" fill="#C5221F">Cancel</text>
+  <rect x="316" y="366" width="52" height="12" rx="6" fill="#DCF3E4"/>
+  <text x="342" y="375" text-anchor="middle" font-size="7.5" font-weight="bold" fill="#15803D">BOOKED</text>
+  <text x="470" y="375" text-anchor="end" font-size="9" fill="#B42318">Cancel</text>
 
   <text x="304" y="402" font-size="11" font-weight="bold" fill="#202124">Past</text>
   <rect x="304" y="410" width="192" height="46" rx="6" fill="#FAFBFC" stroke="#DADCE0"/>
@@ -101,15 +101,15 @@
   <text x="400" y="490" text-anchor="middle" font-size="8" fill="#5f6368">(NFR-USA-05 / WCAG 1.4.1)</text>
 
   <!-- ============ DESKTOP — staff ============ -->
-  <text x="795" y="72" text-anchor="middle" font-size="11" font-weight="bold" fill="#137333">C. Reception Staff console — day sheet and live queue (1280 px)</text>
+  <text x="795" y="72" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803D">C. Reception Staff console — day sheet and live queue (1280 px)</text>
   <rect x="550" y="80" width="490" height="255" rx="6" fill="#ffffff" stroke="#202124" stroke-width="2"/>
-  <rect x="550" y="80" width="490" height="26" rx="6" fill="#137333"/>
-  <rect x="550" y="96" width="490" height="10" fill="#137333"/>
+  <rect x="550" y="80" width="490" height="26" rx="6" fill="#15803D"/>
+  <rect x="550" y="96" width="490" height="10" fill="#15803D"/>
   <text x="562" y="98" font-size="10" font-weight="bold" fill="#ffffff">TheClinicue · Staff</text>
-  <text x="700" y="98" font-size="9" fill="#CEEAD6">Schedule</text>
+  <text x="700" y="98" font-size="9" fill="#DCF3E4">Schedule</text>
   <text x="754" y="98" font-size="9" fill="#ffffff" font-weight="bold">Queue</text>
-  <text x="800" y="98" font-size="9" fill="#CEEAD6">Walk-in</text>
-  <text x="1028" y="98" text-anchor="end" font-size="9" fill="#CEEAD6">ama.b@clinic · Sign out</text>
+  <text x="800" y="98" font-size="9" fill="#DCF3E4">Walk-in</text>
+  <text x="1028" y="98" text-anchor="end" font-size="9" fill="#DCF3E4">ama.b@clinic · Sign out</text>
 
   <!-- toolbar -->
   <rect x="560" y="114" width="86" height="20" rx="3" fill="#ffffff" stroke="#9AA0A6"/>
@@ -120,7 +120,7 @@
   <text x="768" y="128" font-size="8.5" fill="#202124">All status ▾</text>
   <rect x="838" y="114" width="110" height="20" rx="3" fill="#ffffff" stroke="#9AA0A6"/>
   <text x="844" y="128" font-size="8.5" fill="#9AA0A6">Search name or code</text>
-  <rect x="954" y="114" width="76" height="20" rx="3" fill="#137333"/>
+  <rect x="954" y="114" width="76" height="20" rx="3" fill="#15803D"/>
   <text x="992" y="128" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#ffffff">+ Walk-in</text>
 
   <!-- table header -->
@@ -140,39 +140,39 @@
 
     <rect x="560" y="180" width="290" height="20" fill="#FAFBFC"/>
     <text x="566" y="193">09:30</text><text x="602" y="193">Ama Serwaa</text><text x="676" y="193">TC-7F3A21</text>
-    <rect x="720" y="184" width="58" height="12" rx="6" fill="#FEF7E0"/><text x="749" y="193" text-anchor="middle" font-size="7" font-weight="bold" fill="#B06000">IN_PROGRESS</text>
-    <rect x="788" y="183" width="46" height="14" rx="3" fill="#137333"/><text x="811" y="193" text-anchor="middle" font-size="7.5" font-weight="bold" fill="#ffffff">Complete</text>
+    <rect x="720" y="184" width="58" height="12" rx="6" fill="#FDF6EA"/><text x="749" y="193" text-anchor="middle" font-size="7" font-weight="bold" fill="#9A5B08">IN_PROGRESS</text>
+    <rect x="788" y="183" width="46" height="14" rx="3" fill="#15803D"/><text x="811" y="193" text-anchor="middle" font-size="7.5" font-weight="bold" fill="#ffffff">Complete</text>
 
     <rect x="560" y="200" width="290" height="20" fill="#ffffff"/>
     <text x="566" y="213">10:00</text><text x="602" y="213">Yaw Darko</text><text x="676" y="213">TC-11D0E7</text>
-    <rect x="720" y="204" width="58" height="12" rx="6" fill="#E6F4EA"/><text x="749" y="213" text-anchor="middle" font-size="7" font-weight="bold" fill="#137333">CHECKED_IN</text>
+    <rect x="720" y="204" width="58" height="12" rx="6" fill="#DCF3E4"/><text x="749" y="213" text-anchor="middle" font-size="7" font-weight="bold" fill="#15803D">CHECKED_IN</text>
     <text x="790" y="213" fill="#9AA0A6">B-07 waiting</text>
 
     <rect x="560" y="220" width="290" height="20" fill="#FAFBFC"/>
     <text x="566" y="233">10:30</text><text x="602" y="233">Efua Nyarko</text><text x="676" y="233">TC-55A2B8</text>
-    <rect x="720" y="224" width="58" height="12" rx="6" fill="#E8F0FE"/><text x="749" y="233" text-anchor="middle" font-size="7" font-weight="bold" fill="#1A73E8">BOOKED</text>
-    <rect x="788" y="223" width="46" height="14" rx="3" fill="#1A73E8"/><text x="811" y="233" text-anchor="middle" font-size="7.5" font-weight="bold" fill="#ffffff">Check in</text>
+    <rect x="720" y="224" width="58" height="12" rx="6" fill="#EFF9F7"/><text x="749" y="233" text-anchor="middle" font-size="7" font-weight="bold" fill="#0B6B61">BOOKED</text>
+    <rect x="788" y="223" width="46" height="14" rx="3" fill="#0B6B61"/><text x="811" y="233" text-anchor="middle" font-size="7.5" font-weight="bold" fill="#ffffff">Check in</text>
 
     <rect x="560" y="240" width="290" height="20" fill="#ffffff"/>
     <text x="566" y="253">11:00</text><text x="602" y="253">Kwame Asante</text><text x="676" y="253">TC-9C4F60</text>
-    <rect x="720" y="244" width="58" height="12" rx="6" fill="#E8F0FE"/><text x="749" y="253" text-anchor="middle" font-size="7" font-weight="bold" fill="#1A73E8">BOOKED</text>
-    <rect x="788" y="243" width="46" height="14" rx="3" fill="#1A73E8"/><text x="811" y="253" text-anchor="middle" font-size="7.5" font-weight="bold" fill="#ffffff">Check in</text>
+    <rect x="720" y="244" width="58" height="12" rx="6" fill="#EFF9F7"/><text x="749" y="253" text-anchor="middle" font-size="7" font-weight="bold" fill="#0B6B61">BOOKED</text>
+    <rect x="788" y="243" width="46" height="14" rx="3" fill="#0B6B61"/><text x="811" y="253" text-anchor="middle" font-size="7.5" font-weight="bold" fill="#ffffff">Check in</text>
   </g>
-  <text x="566" y="276" font-size="8" fill="#C5221F">Mark no-show</text>
+  <text x="566" y="276" font-size="8" fill="#B42318">Mark no-show</text>
   <text x="640" y="276" font-size="8" fill="#5f6368">·  Showing 5 of 18 appointments</text>
 
   <!-- queue panel -->
   <rect x="862" y="142" width="168" height="140" rx="4" fill="#FAFBFC" stroke="#DADCE0"/>
   <text x="870" y="156" font-size="9" font-weight="bold" fill="#202124">LIVE QUEUE — Dr Mensah</text>
-  <rect x="870" y="162" width="152" height="24" rx="3" fill="#FEF7E0" stroke="#B06000"/>
+  <rect x="870" y="162" width="152" height="24" rx="3" fill="#FDF6EA" stroke="#9A5B08"/>
   <text x="876" y="178" font-size="9" fill="#202124">Now serving</text>
-  <text x="1014" y="178" text-anchor="end" font-size="11" font-weight="bold" fill="#B06000">B-06</text>
+  <text x="1014" y="178" text-anchor="end" font-size="11" font-weight="bold" fill="#9A5B08">B-06</text>
   <g font-size="8.5" fill="#202124">
     <text x="872" y="200">B-07  Y. D****</text><text x="1014" y="200" text-anchor="end" fill="#5f6368">waiting 12 m</text>
     <text x="872" y="216">B-08  E. N****</text><text x="1014" y="216" text-anchor="end" fill="#5f6368">waiting 4 m</text>
     <text x="872" y="232">B-09  K. A****</text><text x="1014" y="232" text-anchor="end" fill="#5f6368">waiting 1 m</text>
   </g>
-  <rect x="870" y="242" width="152" height="26" rx="4" fill="#137333"/>
+  <rect x="870" y="242" width="152" height="26" rx="4" fill="#15803D"/>
   <text x="946" y="259" text-anchor="middle" font-size="10" font-weight="bold" fill="#ffffff">Call next patient</text>
   <text x="946" y="278" text-anchor="middle" font-size="7.5" fill="#5f6368">Names masked in shared views (NFR-LEG-03)</text>
 
@@ -181,17 +181,17 @@
   <text x="560" y="328" font-size="8" fill="#5f6368">Every destructive action ("Mark no-show", "Cancel") asks for confirmation before it is sent.</text>
 
   <!-- ============ DESKTOP — admin ============ -->
-  <text x="795" y="360" text-anchor="middle" font-size="11" font-weight="bold" fill="#B06000">D. Administrator console — daily report and configuration (1280 px)</text>
+  <text x="795" y="360" text-anchor="middle" font-size="11" font-weight="bold" fill="#9A5B08">D. Administrator console — daily report and configuration (1280 px)</text>
   <rect x="550" y="368" width="490" height="252" rx="6" fill="#ffffff" stroke="#202124" stroke-width="2"/>
-  <rect x="550" y="368" width="490" height="26" rx="6" fill="#B06000"/>
-  <rect x="550" y="384" width="490" height="10" fill="#B06000"/>
+  <rect x="550" y="368" width="490" height="26" rx="6" fill="#9A5B08"/>
+  <rect x="550" y="384" width="490" height="10" fill="#9A5B08"/>
   <text x="562" y="386" font-size="10" font-weight="bold" fill="#ffffff">TheClinicue · Admin</text>
   <text x="704" y="386" font-size="9" fill="#ffffff" font-weight="bold">Reports</text>
-  <text x="750" y="386" font-size="9" fill="#FEF7E0">Users</text>
-  <text x="786" y="386" font-size="9" fill="#FEF7E0">Services</text>
-  <text x="836" y="386" font-size="9" fill="#FEF7E0">Practitioners</text>
-  <text x="906" y="386" font-size="9" fill="#FEF7E0">Availability</text>
-  <text x="970" y="386" font-size="9" fill="#FEF7E0">Audit log</text>
+  <text x="750" y="386" font-size="9" fill="#FDF6EA">Users</text>
+  <text x="786" y="386" font-size="9" fill="#FDF6EA">Services</text>
+  <text x="836" y="386" font-size="9" fill="#FDF6EA">Practitioners</text>
+  <text x="906" y="386" font-size="9" fill="#FDF6EA">Availability</text>
+  <text x="970" y="386" font-size="9" fill="#FDF6EA">Audit log</text>
 
   <!-- stat tiles -->
   <g>
@@ -201,15 +201,15 @@
 
     <rect x="658" y="404" width="90" height="46" rx="4" fill="#F8F9FA" stroke="#DADCE0"/>
     <text x="666" y="418" font-size="8" fill="#5f6368">COMPLETED</text>
-    <text x="666" y="440" font-size="19" font-weight="bold" fill="#137333">31</text>
+    <text x="666" y="440" font-size="19" font-weight="bold" fill="#15803D">31</text>
 
     <rect x="756" y="404" width="90" height="46" rx="4" fill="#F8F9FA" stroke="#DADCE0"/>
     <text x="764" y="418" font-size="8" fill="#5f6368">NO-SHOW RATE</text>
-    <text x="764" y="440" font-size="19" font-weight="bold" fill="#C5221F">11.9%</text>
+    <text x="764" y="440" font-size="19" font-weight="bold" fill="#B42318">11.9%</text>
 
     <rect x="854" y="404" width="90" height="46" rx="4" fill="#F8F9FA" stroke="#DADCE0"/>
     <text x="862" y="418" font-size="8" fill="#5f6368">MEAN WAIT</text>
-    <text x="862" y="440" font-size="19" font-weight="bold" fill="#B06000">23 m</text>
+    <text x="862" y="440" font-size="19" font-weight="bold" fill="#9A5B08">23 m</text>
 
     <rect x="952" y="404" width="78" height="46" rx="4" fill="#F8F9FA" stroke="#DADCE0"/>
     <text x="960" y="418" font-size="8" fill="#5f6368">CANCELLED</text>
@@ -228,15 +228,15 @@
   </g>
   <g font-size="8.5" fill="#202124">
     <text x="566" y="504">Dr Akosua Mensah</text><text x="724" y="504">240</text><text x="812" y="504">196</text>
-    <rect x="884" y="497" width="70" height="8" rx="4" fill="#E8EAED"/><rect x="884" y="497" width="57" height="8" rx="4" fill="#137333"/>
+    <rect x="884" y="497" width="70" height="8" rx="4" fill="#E8EAED"/><rect x="884" y="497" width="57" height="8" rx="4" fill="#15803D"/>
     <text x="958" y="504" font-size="7.5" fill="#3C4043">82%</text><text x="988" y="504">9.2%</text>
 
     <text x="566" y="521">Dr Kwabena Owusu</text><text x="724" y="521">160</text><text x="812" y="521">104</text>
-    <rect x="884" y="514" width="70" height="8" rx="4" fill="#E8EAED"/><rect x="884" y="514" width="46" height="8" rx="4" fill="#B06000"/>
+    <rect x="884" y="514" width="70" height="8" rx="4" fill="#E8EAED"/><rect x="884" y="514" width="46" height="8" rx="4" fill="#9A5B08"/>
     <text x="958" y="521" font-size="7.5" fill="#3C4043">65%</text><text x="988" y="521">14.4%</text>
 
     <text x="566" y="538">Nurse Adjoa Tetteh</text><text x="724" y="538">200</text><text x="812" y="538">88</text>
-    <rect x="884" y="531" width="70" height="8" rx="4" fill="#E8EAED"/><rect x="884" y="531" width="31" height="8" rx="4" fill="#C5221F"/>
+    <rect x="884" y="531" width="70" height="8" rx="4" fill="#E8EAED"/><rect x="884" y="531" width="31" height="8" rx="4" fill="#B42318"/>
     <text x="958" y="538" font-size="7.5" fill="#3C4043">44%</text><text x="988" y="538">6.8%</text>
   </g>
 

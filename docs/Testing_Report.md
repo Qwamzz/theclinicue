@@ -353,7 +353,7 @@ Each states what happened and what to do next. None exposes a status code, an ex
 
 ## 7. Defect Log
 
-Twelve defects were found and resolved during the build. All are closed; there are no known open defects at severity Medium or above.
+Fourteen defects were found and resolved during the build. All are closed; there are no known open defects at severity Medium or above.
 
 | ID | Defect | Found by | Severity | Root cause | Corrective action | Status |
 |---|---|---|---|---|---|---|
@@ -367,14 +367,16 @@ Twelve defects were found and resolved during the build. All are closed; there a
 | **D-08** | 5 of 30 concurrent logins returned HTTP 500 (`database table is locked`) | Performance run | **High** | Two distinct problems. (a) The harness measured a shared-cache **in-memory** database, whose table-level locks do not honour `busy_timeout` — not the configuration production uses. (b) Genuine write-lock contention surfaced as a 500, implying a broken request rather than a transient condition. | (a) Performance harness switched to a file-backed WAL database, matching production; re-run gave 30/30 with 0 errors. (b) Added a `ServiceBusy` (503) handler with `Retry-After`, plus two tests proving lock errors map to 503 and genuine faults still map to 500. | Closed |
 | **D-09** | 15 integration tests failed with `UNIQUE constraint failed: patient_id, practitioner_id, appt_date` | Full suite run | Low (test defect) | The fixtures assumed the demo patient was free, but the seed had already given them appointments. **The constraint was working exactly as FR-27 specifies.** | Rewrote the `free_slot` fixture to skip days where the patient already has a booking, and the `today_booking` fixture to clear the conflicting row first. Used distinct patients in the reporting test. | Closed |
 | **D-10** | `test_different_durations_produce_different_grids` asserted a wrong expected set | Full suite run | Low (test defect) | The test expected `{08:45, 10:15, 11:00}`; 11:00 exists on both the 30- and 45-minute grids. The implementation was right. | Corrected the expectation and added an assertion on the intersection, which makes the relationship between the two grids explicit. | Closed |
+| **D-13** | The confirmation dialog was rendered on **every page**, and its Cancel button sat over the centre of the viewport swallowing clicks | Reported by the user; reproduced by measuring the live DOM | **High** | `index.html` marks the dialog with the `hidden` attribute, but `hidden` only works through the user agent's `[hidden] { display: none }` rule. The author rule `.modal-backdrop { display: flex }` overrode it, so the element stayed visible. Measured: `hidden` attribute present, `getComputedStyle().display === "flex"`, and `document.elementFromPoint(centre)` returned the dialog's Cancel button. | Added `.modal-backdrop[hidden] { display: none }` — an author rule that removes `hidden`'s effect must restore it. Verified: `display: none` at rest, `flex` when opened, `none` again after Escape, and the element at the viewport centre is now the page content. | Closed |
+| **D-14** | White button text failed WCAG AA against the top of the new button gradients: 4.24:1 on teal and 3.51:1 on green, against a 4.5:1 requirement | Instrumented contrast sweep during the redesign | Medium | A gradient has two stops, and the *lightest* one governs the worst-case contrast. Both gradients were specified from their mid-tone, so the top edge of every button fell below AA. A naive check misses this: `backgroundColor` reads `transparent` on a gradient element, so the measurement silently compares against the card behind it. | Introduced `--brand-650` (5.2:1) as the lightest teal stop and darkened the green gradient to `#17853F → #12692F`. The contrast harness was also fixed to resolve gradients and use their lightest stop. Re-measured: 0 failures across all 7 routes, lowest ratio 4.57:1. | Closed |
 | **D-12** | `test_ticket_numbers_increase_within_a_practitioner_and_day` failed the morning after it was written, having passed all day | Re-run on a later date | Medium (test defect) | The test inserted appointments for fixed patients against practitioner 2 "today". On some weekdays the seed had already given those patients a booking with that clinician, so FR-27's one-per-day index refused the insert. **The application was correct; the test was implicitly weekday-dependent.** | Cleared the clinician's diary for the day before inserting. Then closed the whole defect class: an autouse fixture pins "today" from `TC_TEST_TODAY`, and `tools/date_matrix.py` runs the full suite across seven consecutive days. | Closed |
 | **D-11** | `reports.py` imported `date` from `app.domain` rather than `datetime` | Code review | Low | It happened to work because `domain` re-exports the name, but it is a fragile accidental dependency. | Imported `date` directly from `datetime`; removed an unused import at the same time. | Closed |
 
 ### 7.1 What the defect profile shows
 
-Five of the twelve defects (D-07, D-09, D-10, D-12, and half of D-08) were **defects in the tests, not the application** — the code was correct and the test was wrong. That is a healthy sign rather than an embarrassing one: it means the constraints being tested (FR-27's one-per-day rule, the CSRF gate, the slot grid) were doing real work and refused to be talked out of it.
+Five of the fourteen defects (D-07, D-09, D-10, D-12, and half of D-08) were **defects in the tests, not the application** — the code was correct and the test was wrong. That is a healthy sign rather than an embarrassing one: it means the constraints being tested (FR-27's one-per-day rule, the CSRF gate, the slot grid) were doing real work and refused to be talked out of it.
 
-The two High-severity defects in the application itself (D-01, D-05) were both **environmental or presentational**, not logical. No defect was found in slot generation, the state machine, authorisation or the booking race — the four areas identified in SRS §8.4 as carrying the most risk, and the four that were built and tested first. The mitigation described in the effort estimate worked.
+The three High-severity defects in the application itself (D-01, D-05, D-13) were all **environmental or presentational**, not logical. D-13 is the instructive one: it was invisible to a 312-test back-end suite because it lived entirely in the interaction between an HTML attribute and a CSS rule. It is the clearest argument in this project for the automated front-end testing deferred as TD-09. No defect was found in slot generation, the state machine, authorisation or the booking race — the four areas identified in SRS §8.4 as carrying the most risk, and the four that were built and tested first. The mitigation described in the effort estimate worked.
 
 ---
 
@@ -431,8 +433,8 @@ The application was exercised end to end in a live browser against the running s
 | Automated tests | 312, all passing |
 | Execution time | 32.5 s |
 | Line coverage | 93% (requirement: 80%) |
-| Defects found | 12 |
-| Defects closed | 12 |
+| Defects found | 14 |
+| Defects closed | 14 |
 | Open defects, Medium or above | 0 |
 | Performance budgets | All met, with an order of magnitude of headroom on reads |
 | Acceptance scenarios | 6 of 6 accepted |
