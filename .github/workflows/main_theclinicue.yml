@@ -111,5 +111,8 @@ jobs:
           echo "$body"
           echo "$body" | grep -q '"status":"ok"'
           echo "$body" | grep -q '"database":"ok"'
-          echo "$body" | grep -q '"environment":"production"'
+          if ! echo "$body" | grep -q '"environment":"production"'; then
+            echo "::error::App is not in production mode. In the Azure portal set Configuration -> Environment variables: TC_ENV=production and TC_SECRET_KEY=<random>, then Save and re-run."
+            exit 1
+          fi
           echo "Live deployment healthy."

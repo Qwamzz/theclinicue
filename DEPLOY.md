@@ -187,6 +187,19 @@ Skip to **Part 3**.
 3. **Review + create** → **Create**
 4. Wait for "Your deployment is complete" → **Go to resource**
 
+> **The app now configures itself on App Service.** It detects the platform
+> and applies safe defaults on its own: the database goes to
+> `/home/data/theclinicue.sqlite3` (the only persistent path), the SQLite
+> journal switches to `DELETE` (WAL is unreliable on the SMB share), cookies
+> get the `Secure` flag, and demonstration data is seeded when the database is
+> empty. Any explicit setting below still overrides those defaults.
+>
+> **Two settings are still required and cannot be guessed:** `TC_ENV=production`
+> and `TC_SECRET_KEY`. The app deliberately refuses to invent a signing key,
+> because a generated one differs between workers and is discarded on restart,
+> logging everyone out at random. It logs a warning naming both on every boot
+> until they are set.
+
 ### 2.2 Add the application settings
 
 In the Web App: left menu → **Settings → Environment variables** (older portals: **Configuration → Application settings**).

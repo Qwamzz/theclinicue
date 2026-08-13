@@ -47,6 +47,7 @@ def create_app(config: Config | None = None, **overrides: Any) -> Flask:
     app.config["MAX_CONTENT_LENGTH"] = 256 * 1024      # no endpoint needs a large body
 
     _configure_logging(app)
+    _warn_about_platform_configuration(app, settings)
     _register_lifecycle(app)
     _register_blueprints(app)
     _register_error_handlers(app)
@@ -65,6 +66,35 @@ def create_app(config: Config | None = None, **overrides: Any) -> Flask:
         close_db()
 
     return app
+
+
+def _warn_about_platform_configuration(app: Flask, settings: Config) -> None:
+    """Say plainly, in the logs, what is still missing on a hosted deployment.
+
+    The application deliberately does not invent a secret key or promote itself
+    to production mode: a generated key differs between workers and is
+    discarded on restart, which logs everyone out at random. So it says what to
+    set instead of guessing.
+    """
+    from .config import on_app_service
+
+    if not on_app_service() or settings.is_production:
+        return
+
+    app.logger.warning(
+        "Running on App Service in %s mode. Set these application settings for "
+        "a hardened deployment: TC_ENV=production and TC_SECRET_KEY=<random>. "
+        "Until then sessions are signed with a per-worker key and will not "
+        "survive a restart. Generate one with: "
+        "python -c \"import secrets; print(secrets.token_urlsafe(48))\"",
+        settings.env,
+    )
+    app.logger.info(
+        "Platform defaults applied: database=%s journal=%s seed_on_start=%s "
+        "cookie_secure=%s",
+        settings.database_path, settings.sqlite_journal_mode,
+        settings.seed_on_start, settings.cookie_secure,
+    )
 
 
 def _seed_if_empty(app: Flask) -> None:

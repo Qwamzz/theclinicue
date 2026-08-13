@@ -23,6 +23,15 @@ PRODUCTION_HASH_METHOD = "pbkdf2:sha256:600000"
 TESTING_HASH_METHOD = "pbkdf2:sha256:10000"
 
 
+def on_app_service() -> bool:
+    """True when running on Azure App Service.
+
+    WEBSITE_SITE_NAME is injected by the platform and is not something a
+    developer sets by hand, so it is a reliable signal.
+    """
+    return bool(os.environ.get("WEBSITE_SITE_NAME"))
+
+
 def _flag(name: str, default: bool) -> bool:
     raw = os.environ.get(name)
     if raw is None:
@@ -96,12 +105,18 @@ class Config:
         return self.env == "testing"
 
 
-def _journal_mode() -> str:
+def _journal_mode(database_path: str = "") -> str:
     """Validated against a whitelist: this value is interpolated into a PRAGMA,
     which cannot be parameterised, so it must never come straight from the
-    environment."""
-    requested = os.environ.get("TC_SQLITE_JOURNAL", "WAL").strip().upper()
-    return requested if requested in {"WAL", "DELETE", "TRUNCATE", "PERSIST"} else "WAL"
+    environment.
+
+    Defaults to DELETE on network storage. WAL is unreliable over SMB, which is
+    what App Service's /home is.
+    """
+    network_storage = on_app_service() or database_path.startswith("/home/")
+    default = "DELETE" if network_storage else "WAL"
+    requested = os.environ.get("TC_SQLITE_JOURNAL", default).strip().upper()
+    return requested if requested in {"WAL", "DELETE", "TRUNCATE", "PERSIST"} else default
 
 
 def load_config(**overrides: object) -> Config:
@@ -126,7 +141,16 @@ def load_config(**overrides: object) -> Config:
         # committed default that could reach production by accident.
         secret = secrets.token_urlsafe(48)
 
-    default_db = str(BASE_DIR / "data" / "theclinicue.sqlite3")
+    # Platform-aware defaults. An explicit environment variable always wins;
+    # these only fill the gaps, and they exist because getting them wrong on
+    # App Service is silently destructive rather than merely inconvenient.
+    azure = on_app_service()
+
+    # /home is the only directory App Service preserves across restarts and
+    # deployments. The package-relative default would be wiped by every deploy,
+    # losing every booking without any error being raised.
+    default_db = ("/home/data/theclinicue.sqlite3" if azure
+                  else str(BASE_DIR / "data" / "theclinicue.sqlite3"))
     db_path = os.environ.get("TC_DATABASE_PATH", default_db).strip() or default_db
 
     config = Config(
@@ -134,13 +158,18 @@ def load_config(**overrides: object) -> Config:
         secret_key=secret,
         database_path=db_path,
         session_hours=_int("TC_SESSION_HOURS", 8),
-        cookie_secure=_flag("TC_COOKIE_SECURE", env == "production"),
+        # App Service terminates TLS in front of the app, so cookies can and
+        # should carry the Secure flag there even before TC_ENV is set.
+        cookie_secure=_flag("TC_COOKIE_SECURE", env == "production" or azure),
         login_max_attempts=_int("TC_LOGIN_MAX_ATTEMPTS", 5),
         login_window_seconds=_int("TC_LOGIN_WINDOW_SECONDS", 900),
         booking_horizon_days=_int("TC_BOOKING_HORIZON_DAYS", 60),
         password_hash_method=TESTING_HASH_METHOD if env == "testing" else PRODUCTION_HASH_METHOD,
-        sqlite_journal_mode=_journal_mode(),
-        seed_on_start=_flag("TC_SEED_ON_START", False),
+        sqlite_journal_mode=_journal_mode(db_path),
+        # On App Service the platform's own gunicorn can bypass startup.sh, so
+        # the seed step never runs and the catalogue comes up empty. Seeding is
+        # skipped whenever any user already exists, so this cannot clobber data.
+        seed_on_start=_flag("TC_SEED_ON_START", azure),
     )
 
     if overrides:
