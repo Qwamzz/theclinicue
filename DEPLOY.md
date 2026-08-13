@@ -17,12 +17,16 @@ Nothing here is assumed. Every command is copy-pasteable and every screen is nam
 | 5 | An Azure subscription | Sign in at portal.azure.com |
 | 6 | The `theclinicue.com` domain | You said it is on Azure |
 | 7 | Azure CLI *(optional but much faster)* | `az version` — install from https://aka.ms/installazurecliwindows |
+| 8 | GitHub CLI *(optional, makes Step 1.2 easier)* | `gh --version` — already installed here as v2.97.0 |
 
 ---
 
 # Part 1 — Put the code on GitHub
 
 ## Step 1.1 — Create an empty repository
+
+> **Skip this step if you use Option A in Step 1.2** — the GitHub CLI creates the
+> repository for you. This section is for the plain-Git route.
 
 1. Go to **https://github.com/new**
 2. Fill in exactly:
@@ -38,7 +42,48 @@ GitHub shows a "quick setup" page. Leave it open — you need the URL.
 
 ## Step 1.2 — Push
 
-Open a terminal **in the project folder** and run:
+There are two ways to authenticate. **Option A is easier** — it uses a browser
+sign-in instead of hand-creating a token. The GitHub CLI is already installed
+on this machine (`gh` v2.97.0).
+
+### Option A — GitHub CLI (recommended)
+
+```bash
+gh auth login
+```
+
+Answer the prompts:
+
+| Prompt | Answer |
+|---|---|
+| What account do you want to log into? | **GitHub.com** |
+| What is your preferred protocol for Git operations? | **HTTPS** |
+| Authenticate Git with your GitHub credentials? | **Yes** |
+| How would you like to authenticate? | **Login with a web browser** |
+
+It shows a one-time code, then opens github.com in your browser. Paste the
+code, approve, and come back to the terminal.
+
+Then create the repository and push in one command — this replaces Step 1.1
+entirely, so you can skip creating it in the web UI:
+
+```bash
+gh repo create Qwamzz/theclinicue --public --source=. --remote=origin --push
+```
+
+Verify:
+
+```bash
+gh repo view Qwamzz/theclinicue --web
+```
+
+> If `gh` is not on your PATH, it lives at `C:\Program Files\GitHub CLI\gh.exe`.
+> Open a **new** terminal after installing — PATH changes do not apply to
+> already-open windows.
+
+### Option B — plain Git with a Personal Access Token
+
+Do Step 1.1 first (create the empty repository in the web UI), then:
 
 ```bash
 git remote add origin https://github.com/Qwamzz/theclinicue.git
@@ -46,22 +91,27 @@ git branch -M main
 git push -u origin main
 ```
 
-**When it asks for a username:** type `Qwamzz`.
+**Username:** `Qwamzz`
 
-**When it asks for a password:** GitHub no longer accepts your account password. You need a **Personal Access Token**:
+**Password:** GitHub no longer accepts your account password. Create a token:
 
 1. Go to **https://github.com/settings/tokens**
 2. **Generate new token → Generate new token (classic)**
 3. **Note:** `theclinicue deploy`
 4. **Expiration:** 90 days
-5. **Scopes:** tick **`repo`** (the top-level box — it selects the sub-boxes automatically)
+5. **Scopes:** tick **`repo`** (the top-level box selects the sub-boxes)
 6. **Generate token**
-7. **Copy it now.** GitHub shows it exactly once.
-8. Paste it as the *password* at the prompt.
+7. **Copy it now** — GitHub shows it exactly once
+8. Paste it as the *password* at the prompt
 
-**Verify:** refresh your repository page. You should see `app/`, `docs/`, `tests/`, `.github/`, `README.md`, `Dockerfile`, `azure-setup.sh`.
+### Either way, verify
 
-> Nothing sensitive is pushed. `.gitignore` excludes the database, `.env`, coverage output and the virtual environment, and there are no secrets in the code — Azure generates the session key in Step 2.
+Refresh your repository page. You should see `app/`, `docs/`, `tests/`,
+`.github/`, `README.md`, `Dockerfile`, `azure-setup.sh`.
+
+> Nothing sensitive is pushed. `.gitignore` excludes the database, `.env`,
+> coverage output and the virtual environment, and there are no secrets in the
+> code — Azure generates the session key in Part 2.
 
 ## Step 1.3 — Confirm CI is running
 
