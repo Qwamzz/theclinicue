@@ -105,16 +105,21 @@ class Config:
         return self.env == "testing"
 
 
-def _journal_mode(database_path: str = "") -> str:
+def _journal_mode() -> str:
     """Validated against a whitelist: this value is interpolated into a PRAGMA,
     which cannot be parameterised, so it must never come straight from the
     environment.
 
-    Defaults to DELETE on network storage. WAL is unreliable over SMB, which is
-    what App Service's /home is.
+    Defaults to DELETE on App Service, whose /home is an SMB share where WAL is
+    unreliable, and to WAL everywhere else.
+
+    Detection is by platform variable only. An earlier version also treated any
+    path under /home as network storage, which is wrong: /home is an ordinary
+    Linux prefix. CI caught it — the runner checks out to /home/runner/work,
+    so every Linux host with the app under /home would silently have taken the
+    slower journal.
     """
-    network_storage = on_app_service() or database_path.startswith("/home/")
-    default = "DELETE" if network_storage else "WAL"
+    default = "DELETE" if on_app_service() else "WAL"
     requested = os.environ.get("TC_SQLITE_JOURNAL", default).strip().upper()
     return requested if requested in {"WAL", "DELETE", "TRUNCATE", "PERSIST"} else default
 
@@ -165,7 +170,7 @@ def load_config(**overrides: object) -> Config:
         login_window_seconds=_int("TC_LOGIN_WINDOW_SECONDS", 900),
         booking_horizon_days=_int("TC_BOOKING_HORIZON_DAYS", 60),
         password_hash_method=TESTING_HASH_METHOD if env == "testing" else PRODUCTION_HASH_METHOD,
-        sqlite_journal_mode=_journal_mode(db_path),
+        sqlite_journal_mode=_journal_mode(),
         # On App Service the platform's own gunicorn can bypass startup.sh, so
         # the seed step never runs and the catalogue comes up empty. Seeding is
         # skipped whenever any user already exists, so this cannot clobber data.

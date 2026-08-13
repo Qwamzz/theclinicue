@@ -42,10 +42,22 @@ class TestPlatformDetection:
 
 class TestLocalDefaults:
     def test_database_is_package_relative(self, clean_env):
-        assert load_config().database_path.endswith("theclinicue.sqlite3")
-        assert not load_config().database_path.startswith("/home/")
+        """Relative to the package, not the Azure persistent share. Asserted on
+        the suffix rather than the prefix: on Linux the project may legitimately
+        live under /home, which is not an Azure signal."""
+        path = load_config().database_path
+        assert path.endswith("theclinicue.sqlite3")
+        assert path != "/home/data/theclinicue.sqlite3"
 
     def test_wal_journal_on_local_disk(self, clean_env):
+        """WAL everywhere except App Service — including a Linux host whose
+        project directory happens to sit under /home."""
+        assert load_config().sqlite_journal_mode == "WAL"
+
+    def test_a_home_path_off_app_service_still_uses_wal(self, clean_env):
+        """Regression guard for the heuristic CI caught: /home is an ordinary
+        Linux prefix, not an Azure network share."""
+        clean_env.setenv("TC_DATABASE_PATH", "/home/runner/work/app/data/x.sqlite3")
         assert load_config().sqlite_journal_mode == "WAL"
 
     def test_no_seeding_on_start(self, clean_env):
@@ -86,13 +98,6 @@ class TestAppServiceDefaults:
         """Deliberate. Production requires TC_SECRET_KEY, and inventing one
         would differ between workers and be discarded on restart."""
         assert load_config().env == "development"
-
-    def test_a_database_path_under_home_also_selects_delete(self, clean_env):
-        """Even off App Service, a path on the network share needs the
-        rollback journal."""
-        clean_env.delenv("WEBSITE_SITE_NAME", raising=False)
-        clean_env.setenv("TC_DATABASE_PATH", "/home/data/x.sqlite3")
-        assert load_config().sqlite_journal_mode == "DELETE"
 
 
 class TestExplicitSettingsWin:
