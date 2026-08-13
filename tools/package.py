@@ -4,8 +4,8 @@ Regenerates the PDFs, substitutes the student's details and deployment links
 into every artefact, assembles the required folder structure, and zips it.
 
     python tools/package.py --student "Ama Mensah" --student-id "10891234" \
-        --live-url https://clinicue.onrender.com \
-        --repo-url https://github.com/you/clinicue
+        --live-url https://theclinicue.onrender.com \
+        --repo-url https://github.com/you/theclinicue
 """
 
 from __future__ import annotations
@@ -23,11 +23,11 @@ DOCS = ROOT / "docs"
 BUILD = ROOT / "Submission"
 
 # Source code and supporting material that goes into Supporting_Files/.
-INCLUDE_DIRS = ["app", "tests", "tools", "docs"]
+INCLUDE_DIRS = ["app", "tests", "tools", "docs", ".github"]
 INCLUDE_FILES = [
     "wsgi.py", "requirements.txt", "requirements-dev.txt", "pytest.ini",
-    "Dockerfile", "render.yaml", "Procfile", ".env.example", ".gitignore",
-    "README.md",
+    "Dockerfile", "Procfile", ".env.example", ".gitignore",
+    "README.md", "DEPLOY.md", "startup.sh", "azure-setup.sh",
 ]
 EXCLUDE_PARTS = {
     "__pycache__", ".pytest_cache", ".venv", ".git", "htmlcov",
@@ -85,7 +85,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--student-id", default="[STUDENT ID]")
     parser.add_argument("--live-url", default="")
     parser.add_argument("--repo-url", default="")
-    parser.add_argument("--project-name", default="Clinicue")
+    parser.add_argument("--project-name", default="TheClinicue")
     args = parser.parse_args(argv)
 
     values = {

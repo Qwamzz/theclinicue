@@ -1,6 +1,6 @@
 # Software Effort Estimation
 
-## Clinicue — Outpatient Appointment & Queue Management System
+## TheClinicue — Outpatient Appointment & Queue Management System
 
 **Document version:** 1.0
 **Estimation date:** 12 August 2026 (end of Phase 1, before any implementation)
@@ -352,7 +352,7 @@ Deciding the cut order **in advance** is the point. Under time pressure at hour 
 
 ### 5.1 The two algorithmic models agree; the bottom-up estimate does not
 
-UCP and COCOMO II were applied independently, from different artefacts, using unrelated weighting schemes. They agree within a factor of 1.5 (1,763 h against 2,664 h). For two models of this kind that is close agreement, and it gives real confidence that the **functional size** of Clinicue has been measured correctly at roughly 200 function points / 133 use case points.
+UCP and COCOMO II were applied independently, from different artefacts, using unrelated weighting schemes. They agree within a factor of 1.5 (1,763 h against 2,664 h). For two models of this kind that is close agreement, and it gives real confidence that the **functional size** of TheClinicue has been measured correctly at roughly 200 function points / 133 use case points.
 
 The bottom-up estimate is **37 to 56 times smaller.** An estimator who reports that gap without explaining it has not finished the job.
 
@@ -362,7 +362,7 @@ The gap is **not** a claim of fifty-fold personal productivity. It is a differen
 
 1. **Team and process overhead that does not exist in solo work.** Both models are calibrated on multi-person projects and embed coordination cost, handoffs, code review, status reporting, onboarding and specification churn between roles. A one-person project incurs none of it. Brooks' observation that communication cost grows with the square of team size cuts the other way at n = 1.
 
-2. **Production quality attributes that are deferred, not delivered.** The models price a *productised* system: hardened security with external review, WCAG conformance testing, internationalisation, load and soak testing, disaster recovery, observability, database migration tooling, high availability, support runbooks and a maintenance capability. Clinicue v1.0 delivers the functional surface and defers most of this. **That deferral is not hidden — it is precisely the content of the Technical Debt Register and the Future Evolution roadmap.**
+2. **Production quality attributes that are deferred, not delivered.** The models price a *productised* system: hardened security with external review, WCAG conformance testing, internationalisation, load and soak testing, disaster recovery, observability, database migration tooling, high availability, support runbooks and a maintenance capability. TheClinicue v1.0 delivers the functional surface and defers most of this. **That deferral is not hidden — it is precisely the content of the Technical Debt Register and the Future Evolution roadmap.**
 
 3. **Framework and platform leverage the 1993 and 2000 calibrations did not assume.** Karner's and Boehm's factors assume routing, session management, password hashing, connection pooling, templating, serialisation and persistence are largely built. Flask, Werkzeug and SQLite supply all of it. Backfiring 199 FP to 6,368 SLOC assumes those statements must be *written*; a large proportion of them are instead *imported*.
 
@@ -374,7 +374,7 @@ The gap is **not** a claim of fifty-fold personal productivity. It is a differen
 
 ### 5.4 The honest headline
 
-> A production-grade build of Clinicue v1.0 is a **1,800–2,700 hour** undertaking. This project delivers its **functional surface in 48 hours — roughly 2% of that effort**. The remaining 98% is not wished away: it is enumerated as technical debt and scheduled in the evolution roadmap.
+> A production-grade build of TheClinicue v1.0 is a **1,800–2,700 hour** undertaking. This project delivers its **functional surface in 48 hours — roughly 2% of that effort**. The remaining 98% is not wished away: it is enumerated as technical debt and scheduled in the evolution roadmap.
 
 Stating this plainly is more useful than any single number, and it is the reason the Technical Debt Register is treated in this project as a first-class deliverable rather than an appendix.
 

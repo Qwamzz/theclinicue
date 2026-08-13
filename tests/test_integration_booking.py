@@ -94,7 +94,7 @@ class TestBooking:
         assert response.status_code == 201
         body = response.get_json()
         assert body["status"] == "BOOKED"
-        assert body["code"].startswith("CQ-")
+        assert body["code"].startswith("TC-")
         assert body["start_time"] == free_slot["start_time"]
         assert body["end_time"] != body["start_time"]
 
@@ -128,7 +128,7 @@ class TestBooking:
         guarantee (FR-21). Bypassing the service layer must still fail."""
         with app.app_context():
             conn = get_db()
-            values = ("CQ-DIRECT1", 3, 1, 1, free_slot["date"], free_slot["start_time"],
+            values = ("TC-DIRECT1", 3, 1, 1, free_slot["date"], free_slot["start_time"],
                       "23:59", "BOOKED", "SELF", "", 2, "2026-01-01T00:00:00", "2026-01-01T00:00:00")
             conn.execute(
                 """INSERT INTO appointments (code, patient_id, practitioner_id, service_id,
@@ -140,7 +140,7 @@ class TestBooking:
                     """INSERT INTO appointments (code, patient_id, practitioner_id, service_id,
                          appt_date, start_time, end_time, status, source, notes, created_by,
                          created_at, updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-                    ("CQ-DIRECT2", 4, *values[2:]))
+                    ("TC-DIRECT2", 4, *values[2:]))
                 raised = False
             except sqlite3.IntegrityError:
                 raised = True

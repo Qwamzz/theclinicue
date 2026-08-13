@@ -1,6 +1,6 @@
 # Testing and Quality Assurance Report
 
-## Clinicue — Outpatient Appointment & Queue Management System
+## TheClinicue — Outpatient Appointment & Queue Management System
 
 **Document version:** 1.0
 **Test execution date:** 12 August 2026
@@ -41,7 +41,7 @@ Four decisions shaped the suite and are worth stating because they are what make
 
 3. **The test client mirrors the browser.** It carries cookies, echoes the CSRF token on every unsafe verb, and tracks the signed-in user — exactly as `api.js` does. This mattered: an early version omitted the header on `login`, which produced a failure that looked like an application defect and was not (defect D-07 below).
 
-4. **The suite is proved date-independent.** A clinic scheduler is dense with weekday logic — recurring availability, closed weekends, "is this today" comparisons — so a suite that only ever runs on the current date exercises one seventh of the behaviour. Setting `CQ_TEST_TODAY` pins the clock, and `tools/date_matrix.py` runs the whole suite across seven consecutive days. This was added after defect D-12, where a test that had passed all day failed the next morning.
+4. **The suite is proved date-independent.** A clinic scheduler is dense with weekday logic — recurring availability, closed weekends, "is this today" comparisons — so a suite that only ever runs on the current date exercises one seventh of the behaviour. Setting `TC_TEST_TODAY` pins the clock, and `tools/date_matrix.py` runs the whole suite across seven consecutive days. This was added after defect D-12, where a test that had passed all day failed the next morning.
 
 ```
 $ python tools/date_matrix.py
@@ -155,13 +155,13 @@ Only a representative selection is reproduced here; the full set is the executab
 | TC-U-23 | Terminal states have no exits | Empty transition sets | Empty | Pass |
 | TC-U-24 | Every state reachable from BOOKED | No orphan states | All reachable | Pass |
 | TC-U-25 | `mask_name("Yaw Darko")` | `"Y. D****"`, surname absent | As expected | Pass |
-| TC-U-26 | 500 generated codes | Unique, `CQ-` prefix, no I/O/0/1 | 500 unique, alphabet clean | Pass |
+| TC-U-26 | 500 generated codes | Unique, `TC-` prefix, no I/O/0/1 | 500 unique, alphabet clean | Pass |
 
 ### 3.3 Integration — booking
 
 | ID | Test case | Expected | Actual | P/F |
 |---|---|---|---|---|
-| TC-I-20 | Patient books a free slot | 201, status BOOKED, `CQ-` code | 201 with code `CQ-6S24CU` | Pass |
+| TC-I-20 | Patient books a free slot | 201, status BOOKED, `TC-` code | 201 with code `TC-6S24CU` | Pass |
 | TC-I-21 | Slot list after booking | Booked time absent | Absent | Pass |
 | TC-I-22 | Second patient books the same slot | 409 `SLOT_TAKEN` | 409 `SLOT_TAKEN` | Pass |
 | TC-I-22b | Direct SQL insert of a duplicate slot | `IntegrityError` from the partial index | Raised | Pass |
@@ -357,7 +357,7 @@ Twelve defects were found and resolved during the build. All are closed; there a
 
 | ID | Defect | Found by | Severity | Root cause | Corrective action | Status |
 |---|---|---|---|---|---|---|
-| **D-01** | Every request after startup failed with `no such table: users` when the database was `:memory:` | First integration smoke run | **High** | A bare `:memory:` SQLite database is private to one connection. The factory created the schema on its own connection, which then closed; each request opened a fresh, empty database. | Switched to a named shared-cache URI (`file:cq_N?mode=memory&cache=shared`) with a keep-alive connection held by the app for its lifetime. | Closed |
+| **D-01** | Every request after startup failed with `no such table: users` when the database was `:memory:` | First integration smoke run | **High** | A bare `:memory:` SQLite database is private to one connection. The factory created the schema on its own connection, which then closed; each request opened a fresh, empty database. | Switched to a named shared-cache URI (`file:tc_N?mode=memory&cache=shared`) with a keep-alive connection held by the app for its lifetime. | Closed |
 | **D-02** | Malformed XML in `class.svg` | Diagram render check | Low | XML forbids `--` inside a comment; the association comments used `1 -- *`. | Reworded the four comments. Added an XML well-formedness check to the render tool so it cannot recur silently. | Closed |
 | **D-03** | Overlapping labels in the ERD; a relationship connector crossed a note box | Visual review of rendered diagrams | Low | Hand-authored SVG coordinates. | Repositioned labels; moved the two constraint notes into a dedicated panel. | Closed |
 | **D-04** | "Sign out" was a 34 px tap target at 360 px, breaching NFR-USA-03 | Instrumented usability measurement | Medium | `.btn-sm` set a 34 px height for dense desktop tables, and the topbar reused it. | `@media (pointer: coarse)` restores 44 px on touch devices; the topbar button is always full height. Compact rows are retained where a precise pointer exists. | Closed |
@@ -367,7 +367,7 @@ Twelve defects were found and resolved during the build. All are closed; there a
 | **D-08** | 5 of 30 concurrent logins returned HTTP 500 (`database table is locked`) | Performance run | **High** | Two distinct problems. (a) The harness measured a shared-cache **in-memory** database, whose table-level locks do not honour `busy_timeout` — not the configuration production uses. (b) Genuine write-lock contention surfaced as a 500, implying a broken request rather than a transient condition. | (a) Performance harness switched to a file-backed WAL database, matching production; re-run gave 30/30 with 0 errors. (b) Added a `ServiceBusy` (503) handler with `Retry-After`, plus two tests proving lock errors map to 503 and genuine faults still map to 500. | Closed |
 | **D-09** | 15 integration tests failed with `UNIQUE constraint failed: patient_id, practitioner_id, appt_date` | Full suite run | Low (test defect) | The fixtures assumed the demo patient was free, but the seed had already given them appointments. **The constraint was working exactly as FR-27 specifies.** | Rewrote the `free_slot` fixture to skip days where the patient already has a booking, and the `today_booking` fixture to clear the conflicting row first. Used distinct patients in the reporting test. | Closed |
 | **D-10** | `test_different_durations_produce_different_grids` asserted a wrong expected set | Full suite run | Low (test defect) | The test expected `{08:45, 10:15, 11:00}`; 11:00 exists on both the 30- and 45-minute grids. The implementation was right. | Corrected the expectation and added an assertion on the intersection, which makes the relationship between the two grids explicit. | Closed |
-| **D-12** | `test_ticket_numbers_increase_within_a_practitioner_and_day` failed the morning after it was written, having passed all day | Re-run on a later date | Medium (test defect) | The test inserted appointments for fixed patients against practitioner 2 "today". On some weekdays the seed had already given those patients a booking with that clinician, so FR-27's one-per-day index refused the insert. **The application was correct; the test was implicitly weekday-dependent.** | Cleared the clinician's diary for the day before inserting. Then closed the whole defect class: an autouse fixture pins "today" from `CQ_TEST_TODAY`, and `tools/date_matrix.py` runs the full suite across seven consecutive days. | Closed |
+| **D-12** | `test_ticket_numbers_increase_within_a_practitioner_and_day` failed the morning after it was written, having passed all day | Re-run on a later date | Medium (test defect) | The test inserted appointments for fixed patients against practitioner 2 "today". On some weekdays the seed had already given those patients a booking with that clinician, so FR-27's one-per-day index refused the insert. **The application was correct; the test was implicitly weekday-dependent.** | Cleared the clinician's diary for the day before inserting. Then closed the whole defect class: an autouse fixture pins "today" from `TC_TEST_TODAY`, and `tools/date_matrix.py` runs the full suite across seven consecutive days. | Closed |
 | **D-11** | `reports.py` imported `date` from `app.domain` rather than `datetime` | Code review | Low | It happened to work because `domain` re-exports the name, but it is a fragile accidental dependency. | Imported `date` directly from `datetime`; removed an unused import at the same time. | Closed |
 
 ### 7.1 What the defect profile shows
@@ -396,7 +396,7 @@ Six acceptance scenarios were derived from the stakeholder success criteria in S
 The application was exercised end to end in a live browser against the running server, at both 1280 px and 360 px:
 
 - Signed in as each of the three roles.
-- Booked an appointment as a patient (`CQ-6S24CU`, Mon 24 Aug, 09:30, 45-minute Antenatal Review) and confirmed the slot disappeared from the list.
+- Booked an appointment as a patient (`TC-6S24CU`, Mon 24 Aug, 09:30, 45-minute Antenatal Review) and confirmed the slot disappeared from the list.
 - Confirmed slot generation exactly matched the availability rules: a 45-minute service over 08:00–12:00 and 13:00–16:00 produced 08:00, 08:45, 09:30, 10:15, 11:00, 13:00, 13:45, 14:30, 15:15 — with 11:45 correctly withheld because it would have overrun the midday window.
 - Checked a patient in from the staff console (ticket `A-04`), confirmed the queue showed the masked name `K. A****`, called them, and completed the consultation.
 - Confirmed the administrator's daily report showed 11 booked, 7 completed, 0% no-show, 13.6-minute mean wait, and the utilisation table with three clinicians.

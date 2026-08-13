@@ -74,7 +74,7 @@ class TestRegistration:
 
     def test_duplicate_email_rejected_without_confirming_the_account(self, anon):
         """FR-02: the message must not reveal whether the account is active."""
-        response = anon.register(full_name="Copy Cat", email="patient@clinicue.health",
+        response = anon.register(full_name="Copy Cat", email="patient@theclinicue.com",
                                  phone="+233241110003", password="Passw0rd1")
         assert response.status_code == 400
         body = response.get_json()
@@ -102,34 +102,34 @@ class TestRegistration:
 
 class TestLogin:
     def test_valid_login(self, anon):
-        response = anon.login("patient@clinicue.health", "Patient#2026")
+        response = anon.login("patient@theclinicue.com", "Patient#2026")
         assert response.status_code == 200
         assert response.get_json()["user"]["role"] == "PATIENT"
 
     def test_session_cookie_is_httponly_and_samesite(self, anon):
         """FR-06. HttpOnly is what makes an XSS defect unable to steal the
         session."""
-        response = anon.login("patient@clinicue.health", "Patient#2026")
+        response = anon.login("patient@theclinicue.com", "Patient#2026")
         cookies = response.headers.getlist("Set-Cookie")
-        session = next(c for c in cookies if c.startswith("cq_session="))
+        session = next(c for c in cookies if c.startswith("tc_session="))
         assert "HttpOnly" in session
         assert "SameSite=Lax" in session
 
     def test_csrf_cookie_is_readable_by_script(self, anon):
         """It must NOT be HttpOnly — the client has to echo it in a header."""
-        response = anon.login("patient@clinicue.health", "Patient#2026")
-        csrf = next(c for c in response.headers.getlist("Set-Cookie") if c.startswith("cq_csrf="))
+        response = anon.login("patient@theclinicue.com", "Patient#2026")
+        csrf = next(c for c in response.headers.getlist("Set-Cookie") if c.startswith("tc_csrf="))
         assert "HttpOnly" not in csrf
 
     def test_wrong_password_rejected(self, anon):
-        response = anon.login("patient@clinicue.health", "WrongPass1")
+        response = anon.login("patient@theclinicue.com", "WrongPass1")
         assert response.status_code == 401
         assert response.get_json()["error"] == "UNAUTHENTICATED"
 
     def test_unknown_and_known_accounts_give_the_same_answer(self, anon):
         """No account enumeration through the error message."""
         unknown = anon.login("nobody@example.com", "WrongPass1")
-        known = anon.login("patient@clinicue.health", "WrongPass1")
+        known = anon.login("patient@theclinicue.com", "WrongPass1")
         assert unknown.status_code == known.status_code == 401
         assert unknown.get_json() == known.get_json()
 
@@ -138,9 +138,9 @@ class TestLogin:
         with app.app_context():
             conn = get_db()
             conn.execute("UPDATE users SET is_active = 0 WHERE email = ?",
-                         ("patient@clinicue.health",))
+                         ("patient@theclinicue.com",))
             conn.commit()
-        assert anon.login("patient@clinicue.health", "Patient#2026").status_code == 401
+        assert anon.login("patient@theclinicue.com", "Patient#2026").status_code == 401
 
     def test_deactivation_invalidates_a_live_session(self, app, patient):
         """FR-13 again: offboarding must take effect immediately, not at the
@@ -149,12 +149,12 @@ class TestLogin:
         with app.app_context():
             conn = get_db()
             conn.execute("UPDATE users SET is_active = 0 WHERE email = ?",
-                         ("patient@clinicue.health",))
+                         ("patient@theclinicue.com",))
             conn.commit()
         assert patient.get("/api/auth/me").status_code == 401
 
     def test_login_failure_is_audited(self, app, anon):
-        anon.login("patient@clinicue.health", "WrongPass1")
+        anon.login("patient@theclinicue.com", "WrongPass1")
         with app.app_context():
             row = get_db().execute(
                 "SELECT COUNT(*) AS n FROM audit_log WHERE action = 'LOGIN_FAILED'"
@@ -167,8 +167,8 @@ class TestRateLimiting:
         """FR-08."""
         rate_limiter.reset()
         for _ in range(5):
-            assert anon.login("patient@clinicue.health", "WrongPass1").status_code == 401
-        blocked = anon.login("patient@clinicue.health", "WrongPass1")
+            assert anon.login("patient@theclinicue.com", "WrongPass1").status_code == 401
+        blocked = anon.login("patient@theclinicue.com", "WrongPass1")
         assert blocked.status_code == 429
         assert blocked.get_json()["error"] == "RATE_LIMITED"
 
@@ -177,26 +177,26 @@ class TestRateLimiting:
         right would confirm the password."""
         rate_limiter.reset()
         for _ in range(5):
-            anon.login("patient@clinicue.health", "WrongPass1")
-        assert anon.login("patient@clinicue.health", "Patient#2026").status_code == 429
+            anon.login("patient@theclinicue.com", "WrongPass1")
+        assert anon.login("patient@theclinicue.com", "Patient#2026").status_code == 429
 
     def test_successful_login_clears_the_counter(self, anon):
         rate_limiter.reset()
         for _ in range(3):
-            anon.login("patient@clinicue.health", "WrongPass1")
-        assert anon.login("patient@clinicue.health", "Patient#2026").status_code == 200
+            anon.login("patient@theclinicue.com", "WrongPass1")
+        assert anon.login("patient@theclinicue.com", "Patient#2026").status_code == 200
         for _ in range(3):
-            anon.login("patient@clinicue.health", "WrongPass1")
-        assert anon.login("patient@clinicue.health", "Patient#2026").status_code == 200
+            anon.login("patient@theclinicue.com", "WrongPass1")
+        assert anon.login("patient@theclinicue.com", "Patient#2026").status_code == 200
 
     def test_other_accounts_are_unaffected(self, anon, app):
         """A throttle keyed only on IP would let one attacker lock out an
         entire clinic."""
         rate_limiter.reset()
         for _ in range(5):
-            anon.login("patient@clinicue.health", "WrongPass1")
+            anon.login("patient@theclinicue.com", "WrongPass1")
         other = type(anon)(app)
-        assert other.login("staff@clinicue.health", "Staff#2026").status_code == 200
+        assert other.login("staff@theclinicue.com", "Staff#2026").status_code == 200
 
 
 class TestSession:
@@ -220,7 +220,7 @@ class TestSession:
         """The JWT signature is the only thing standing between a cookie and
         an identity."""
         client = app.test_client()
-        client.set_cookie("cq_session", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0.forged")
+        client.set_cookie("tc_session", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0.forged")
         assert client.get("/api/auth/me").status_code == 401
 
     def test_alg_none_token_is_refused(self, app):
@@ -233,5 +233,5 @@ class TestSession:
 
         token = f"{b64({'alg': 'none', 'typ': 'JWT'})}.{b64({'sub': '1', 'role': 'ADMIN', 'exp': 9999999999})}."
         client = app.test_client()
-        client.set_cookie("cq_session", token)
+        client.set_cookie("tc_session", token)
         assert client.get("/api/auth/me").status_code == 401

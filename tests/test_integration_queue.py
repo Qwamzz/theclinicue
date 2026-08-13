@@ -85,7 +85,7 @@ class TestCheckIn:
                          appt_date, start_time, end_time, status, source, notes, created_by,
                          created_at, updated_at)
                        VALUES (?, ?, 2, 2, ?, ?, ?, 'BOOKED', 'STAFF', '', 2, ?, ?)""",
-                    (f"CQ-SEQ{index:03d}", patient_id, today_iso(),
+                    (f"TC-SEQ{index:03d}", patient_id, today_iso(),
                      to_hhmm(start + index * 45), to_hhmm(start + (index + 1) * 45), stamp, stamp))
                 ids.append(int(cursor.lastrowid))
             conn.commit()
@@ -222,7 +222,7 @@ class TestLiveQueue:
         """FR-44."""
         staff.post("/api/queue/check-in", {"appointment_id": today_booking["id"]})
         patient_client = type(staff)(app)
-        patient_client.login("patient@clinicue.health", "Patient#2026")
+        patient_client.login("patient@theclinicue.com", "Patient#2026")
         body = patient_client.get("/api/queue/my-position").get_json()
         assert body["position"] is not None
         assert body["position"]["ticket"].startswith("A-")

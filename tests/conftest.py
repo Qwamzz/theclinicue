@@ -79,7 +79,7 @@ class Client:
 def _frozen_clock(monkeypatch):
     """Optionally pin 'today' so the suite can be proved date-independent.
 
-    Set CQ_TEST_TODAY=YYYY-MM-DD to run the whole suite as if it were that
+    Set TC_TEST_TODAY=YYYY-MM-DD to run the whole suite as if it were that
     date. `tools/date_matrix.py` uses this to run across a full week, because a
     test that passes only on Wednesdays is not a passing test — a lesson learned
     when the date rolled over mid-project and a seeded clash broke a test that
@@ -88,7 +88,7 @@ def _frozen_clock(monkeypatch):
     Patching `app.domain.utc_now` is enough: every other date helper resolves
     it from the module's globals at call time.
     """
-    pinned = os.environ.get("CQ_TEST_TODAY", "").strip()
+    pinned = os.environ.get("TC_TEST_TODAY", "").strip()
     if not pinned:
         return
 
@@ -121,7 +121,7 @@ def app():
     yield application
     # Release the handle that keeps the shared in-memory database alive;
     # without this the connections accumulate across the suite.
-    keepalive = application.extensions.pop("cq_keepalive", None)
+    keepalive = application.extensions.pop("tc_keepalive", None)
     if keepalive is not None:
         keepalive.close()
 
@@ -134,21 +134,21 @@ def anon(app):
 @pytest.fixture
 def patient(app):
     client = Client(app)
-    client.login("patient@clinicue.health", DEMO_PASSWORD[ROLE_PATIENT])
+    client.login("patient@theclinicue.com", DEMO_PASSWORD[ROLE_PATIENT])
     return client
 
 
 @pytest.fixture
 def staff(app):
     client = Client(app)
-    client.login("staff@clinicue.health", DEMO_PASSWORD[ROLE_STAFF])
+    client.login("staff@theclinicue.com", DEMO_PASSWORD[ROLE_STAFF])
     return client
 
 
 @pytest.fixture
 def admin(app):
     client = Client(app)
-    client.login("admin@clinicue.health", DEMO_PASSWORD[ROLE_ADMIN])
+    client.login("admin@theclinicue.com", DEMO_PASSWORD[ROLE_ADMIN])
     return client
 
 
@@ -220,7 +220,7 @@ def today_booking(app):
             """INSERT INTO appointments
                  (code, patient_id, practitioner_id, service_id, appt_date, start_time,
                   end_time, status, source, notes, created_by, created_at, updated_at)
-               VALUES ('CQ-TESTAA', 3, 1, 1, ?, ?, ?, 'BOOKED', 'STAFF', '', 2, ?, ?)""",
+               VALUES ('TC-TESTAA', 3, 1, 1, ?, ?, ?, 'BOOKED', 'STAFF', '', 2, ?, ?)""",
             (today_iso(), start_time, end_time, stamp, stamp),
         )
         conn.commit()

@@ -252,7 +252,7 @@ def availability_delete(rule_id: int):
 @bp.get("/users")
 @require_admin
 def users_list():
-    config = current_app.config["CQ"]
+    config = current_app.config["TC"]
     args = request.args.to_dict()
     v = Validator(args)
     limit = v.integer("limit", required=False, minimum=1, maximum=config.max_page_size, default=50)
@@ -327,7 +327,7 @@ def users_update(user_id: int):
 @bp.get("/audit")
 @require_admin
 def audit_list():
-    config = current_app.config["CQ"]
+    config = current_app.config["TC"]
     args = request.args.to_dict()
     v = Validator(args)
     limit = v.integer("limit", required=False, minimum=1, maximum=config.max_page_size, default=50)

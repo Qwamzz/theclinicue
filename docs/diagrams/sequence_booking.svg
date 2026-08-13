@@ -123,7 +123,7 @@
   <text x="122" y="545" font-size="10" font-weight="bold" fill="#137333">[ slot still free ]</text>
 
   <line x1="666" y1="570" x2="878" y2="570" stroke="#202124" stroke-width="1.4" marker-end="url(#solid)"/>
-  <text x="672" y="566" font-size="9.5" fill="#202124">18: INSERT INTO appointments (…, code = 'CQ-' || random6, status = 'BOOKED')</text>
+  <text x="672" y="566" font-size="9.5" fill="#202124">18: INSERT INTO appointments (…, code = 'TC-' || random6, status = 'BOOKED')</text>
 
   <line x1="878" y1="590" x2="668" y2="590" stroke="#5f6368" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#open)"/>
   <text x="700" y="586" font-size="9.5" fill="#5f6368">19: appointment_id</text>
@@ -138,7 +138,7 @@
   <text x="380" y="650" font-size="9.5" fill="#5f6368">22: Appointment</text>
 
   <line x1="272" y1="674" x2="92" y2="674" stroke="#5f6368" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#open)"/>
-  <text x="98" y="670" font-size="9.5" fill="#137333" font-weight="bold">23: 201 Created { code: "CQ-7F3A21", date, start_time, status: "BOOKED" }</text>
+  <text x="98" y="670" font-size="9.5" fill="#137333" font-weight="bold">23: 201 Created { code: "TC-7F3A21", date, start_time, status: "BOOKED" }</text>
 
   <!-- else divider -->
   <line x1="46" y1="690" x2="952" y2="690" stroke="#202124" stroke-width="1.2" stroke-dasharray="7 4"/>

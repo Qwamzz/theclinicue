@@ -70,7 +70,7 @@ export async function route() {
   if (!match) {
     mount(h('div', { class: 'card' },
       h('h1', { text: 'Page not found' }),
-      h('p', { text: 'That link does not lead anywhere in Clinicue.' }),
+      h('p', { text: 'That link does not lead anywhere in TheClinicue.' }),
       h('a', { class: 'btn', href: `#${store.user ? store.landingRoute().slice(1) : '/login'}`,
         text: 'Go back' })));
     return;

@@ -1,6 +1,6 @@
 # Technical Debt Register and Repayment Plan
 
-## Clinicue — Outpatient Appointment & Queue Management System
+## TheClinicue — Outpatient Appointment & Queue Management System
 
 **Document version:** 1.0
 **Register date:** 12 August 2026
@@ -43,19 +43,19 @@ The whole delivered system took 48 hours. The register says that making it produ
 
 ## 2. CRITICAL Items — repay before real patient data
 
-### TD-01 — SQLite on an ephemeral container filesystem
+### TD-01 — SQLite on an SMB file share
 
 | Field | Detail |
 |---|---|
-| **Debt** | The production datastore is a single SQLite file inside the application container. On a free hosting tier the container filesystem is ephemeral, so **every redeploy or platform restart destroys all data**. SQLite also serialises writers, so concurrent writes queue behind one lock. |
+| **Debt** | The production datastore is a single SQLite file on Azure App Service's `/home` share. `/home` **is** persistent across restarts and deployments — so, unlike an ephemeral free tier, bookings survive. But it is an **SMB (Azure Files) share**, and SQLite is not designed for network filesystems: its WAL journal is unreliable over SMB, and its locking is slower and less predictable than on local disk. SQLite also serialises writers regardless of storage. |
 | **Cause** | Constraint C-02: no budget for a managed database in v1.0. The decision was recorded at design time, not discovered later. |
-| **Impact** | **Catastrophic and silent.** A clinic that has taken 400 bookings loses all of them at the next deploy, with no error and no warning. The write serialisation is a lesser but real issue: the performance run measured contention failures under concurrent writes, which is what motivated TD-14's 503 handling. |
-| **Interest** | Compounds with every booking taken. Grows with usage — the longer the system runs successfully, the worse the eventual loss. |
+| **Impact** | **Downgraded from catastrophic to serious by the move to Azure**, and the change is worth stating precisely. The original plan put SQLite on an ephemeral filesystem, where every redeploy destroyed all data silently — that was a data-loss defect. On App Service the data persists, so the remaining exposure is *reliability under concurrency*, not loss: writes serialise, contention surfaces as `503 SERVICE_BUSY`, and SMB locking makes the failure mode harder to predict than local disk. The mitigation in place is `TC_SQLITE_JOURNAL=DELETE`, which selects the rollback journal because WAL is unsafe here. That is a workaround chosen to avoid a known corruption risk, not a solution. |
+| **Interest** | Rises with concurrent front-desk activity. One receptionist: negligible. Three checking patients in during a morning rush: noticeable. |
 | **Priority** | **CRITICAL** |
-| **Trigger** | Any deployment intended to hold real patient bookings. Already tripped for pilot use. |
-| **Resolution** | Migrate to managed PostgreSQL. The data access layer (`app/db.py`) is the only module that touches SQLite, which is precisely why it was written that way: the change is bounded to one module plus the connection setup. Steps: (1) add `psycopg`; (2) parameter-style shim (`?` → `%s`); (3) replace the two SQLite-specific partial indexes with PostgreSQL equivalents (identical syntax — both support partial unique indexes); (4) `BEGIN IMMEDIATE` → `SELECT … FOR UPDATE` or serialisable isolation; (5) point `CQ_DATABASE_PATH` at a `DATABASE_URL`. |
+| **Trigger** | Any deployment intended to hold real patient bookings. |
+| **Resolution** | Migrate to **Azure Database for PostgreSQL Flexible Server** (Burstable B1ms is sufficient and sits in the same resource group). The data access layer (`app/db.py`) is the only module that touches SQLite, which is precisely why it was written that way: the change is bounded to one module plus connection setup. Steps: (1) add `psycopg`; (2) parameter-style shim (`?` → `%s`); (3) the two partial unique indexes port unchanged — PostgreSQL supports partial unique indexes with identical syntax; (4) `BEGIN IMMEDIATE` → `SELECT … FOR UPDATE` or serialisable isolation; (5) replace `TC_DATABASE_PATH` with `DATABASE_URL`, injected from Azure Key Vault or an app setting. |
 | **Principal** | 10 h |
-| **Verification** | Full test suite green against PostgreSQL; a redeploy with data present leaves the data present; concurrent-booking test still yields exactly one winner. |
+| **Verification** | Full suite green against PostgreSQL; concurrent-booking test still yields exactly one winner; the 30-reader concurrency check passes with zero `503`s. |
 
 ### TD-02 — No schema migration tooling
 
@@ -81,7 +81,7 @@ The whole delivered system took 48 hours. The register says that making it produ
 | **Interest** | Low frequency, high severity per event. Rises with the number of shared devices in use. |
 | **Priority** | **CRITICAL** (security) |
 | **Trigger** | Deployment to any site using shared devices — which is every clinic front desk. |
-| **Resolution** | Add a `revoked_tokens` table keyed on the JWT `jti` claim (already issued, currently unused), with expiry-based cleanup. Check it in `decode_token`. Cheaper interim measure available immediately: cut `CQ_SESSION_HOURS` from 8 to 2, which shrinks the window at the cost of more frequent logins. |
+| **Resolution** | Add a `revoked_tokens` table keyed on the JWT `jti` claim (already issued, currently unused), with expiry-based cleanup. Check it in `decode_token`. Cheaper interim measure available immediately: cut `TC_SESSION_HOURS` from 8 to 2, which shrinks the window at the cost of more frequent logins. |
 | **Principal** | 5 h |
 | **Verification** | A token captured before logout is rejected after logout. |
 
@@ -198,7 +198,7 @@ The whole delivered system took 48 hours. The register says that making it produ
 | Field | Detail |
 |---|---|
 | **Debt** | There is no backup of any kind. Recovery from data loss is impossible. |
-| **Cause** | Follows directly from TD-01: there is nothing durable to back up. |
+| **Cause** | Deferred as out of scope. Note that on Azure this is now genuinely urgent: `/home` persists, so there is real data to lose — previously there was nothing durable to back up. |
 | **Impact** | No recovery point, no recovery time. Combined with TD-01 this is the difference between an inconvenience and the end of the pilot. |
 | **Interest** | Compounds with data volume. |
 | **Priority** | SCHEDULED — **v1.1**, immediately after TD-01 |

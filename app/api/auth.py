@@ -38,7 +38,7 @@ def _public_user(row) -> dict:
 def register():
     """FR-01 … FR-04. Self-registration always creates a PATIENT; the role is
     never taken from the request body, or anyone could mint an administrator."""
-    config = current_app.config["CQ"]
+    config = current_app.config["TC"]
     payload = request.get_json(silent=True)
 
     v = Validator(payload)
@@ -85,7 +85,7 @@ def register():
 @bp.post("/login")
 def login():
     """FR-05 … FR-08, FR-13."""
-    config = current_app.config["CQ"]
+    config = current_app.config["TC"]
     payload = request.get_json(silent=True)
 
     v = Validator(payload)

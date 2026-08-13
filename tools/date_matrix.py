@@ -31,7 +31,7 @@ def main() -> int:
 
     for offset in range(args.days):
         day = start + timedelta(days=offset)
-        env = {**os.environ, "CQ_TEST_TODAY": day.isoformat()}
+        env = {**os.environ, "TC_TEST_TODAY": day.isoformat()}
         label = f"{day.isoformat()} ({WEEKDAYS[day.weekday()]})"
 
         result = subprocess.run(

@@ -1,4 +1,4 @@
--- Clinicue schema. See docs/System_Design.md §3 and docs/diagrams/erd.svg.
+-- TheClinicue schema. See docs/System_Design.md §3 and docs/diagrams/erd.svg.
 -- Deletion is modelled as deactivation throughout so that historical
 -- appointments never lose their referent.
 

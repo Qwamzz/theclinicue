@@ -40,8 +40,8 @@ def create_app(config: Config | None = None, **overrides: Any) -> Flask:
         settings = Config(**{**settings.__dict__,
                              "database_path": memory_uri(str(next(_memory_counter)))})
 
-    app.config["CQ"] = settings
-    app.config["CQ_VERSION"] = __version__
+    app.config["TC"] = settings
+    app.config["TC_VERSION"] = __version__
     app.config["SECRET_KEY"] = settings.secret_key
     app.config["JSON_SORT_KEYS"] = False
     app.config["MAX_CONTENT_LENGTH"] = 256 * 1024      # no endpoint needs a large body
@@ -55,7 +55,7 @@ def create_app(config: Config | None = None, **overrides: Any) -> Flask:
     if is_memory(settings.database_path):
         # Holding this handle open is what stops the shared in-memory database
         # being destroyed between requests.
-        app.extensions["cq_keepalive"] = _connect(settings.database_path)
+        app.extensions["tc_keepalive"] = _connect(settings.database_path)
 
     with app.app_context():
         init_schema(get_db())
@@ -74,7 +74,7 @@ def _configure_logging(app: Flask) -> None:
     handler.setFormatter(
         logging.Formatter("%(asctime)s %(levelname)s [%(name)s] %(message)s")
     )
-    level = logging.WARNING if app.config["CQ"].is_testing else logging.INFO
+    level = logging.WARNING if app.config["TC"].is_testing else logging.INFO
     app.logger.handlers = [handler]
     app.logger.setLevel(level)
 

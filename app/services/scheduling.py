@@ -1,6 +1,6 @@
 """Slot generation, booking and cancellation.
 
-This is the algorithmic core of Clinicue (SRS §8.4 identified it as the
+This is the algorithmic core of TheClinicue (SRS §8.4 identified it as the
 highest-risk component, so it was built and unit-tested before any HTTP or UI
 code existed).
 

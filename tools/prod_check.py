@@ -23,8 +23,8 @@ def check(label: str, ok: bool, detail: str = "") -> None:
 
 
 def main() -> int:
-    os.environ["CQ_ENV"] = "production"
-    os.environ.pop("CQ_SECRET_KEY", None)
+    os.environ["TC_ENV"] = "production"
+    os.environ.pop("TC_SECRET_KEY", None)
 
     from app import create_app                      # noqa: E402
     from app.db import get_db                       # noqa: E402
@@ -33,15 +33,15 @@ def main() -> int:
     # 1. A production app must refuse to start without a signing key.
     try:
         create_app()
-        check("production refuses to start without CQ_SECRET_KEY", False, "it started")
+        check("production refuses to start without TC_SECRET_KEY", False, "it started")
     except RuntimeError as exc:
-        check("production refuses to start without CQ_SECRET_KEY", True)
+        check("production refuses to start without TC_SECRET_KEY", True)
         print(f"      message: {str(exc).split('.')[0]}.")
 
     # 2. With a key, the transport settings must harden.
-    os.environ["CQ_SECRET_KEY"] = "verification-only-key-not-for-real-use-000000"
-    database = str(Path(tempfile.mkdtemp(prefix="clinicue-prod-")) / "prod.sqlite3")
-    os.environ["CQ_DATABASE_PATH"] = database
+    os.environ["TC_SECRET_KEY"] = "verification-only-key-not-for-real-use-000000"
+    database = str(Path(tempfile.mkdtemp(prefix="theclinicue-prod-")) / "prod.sqlite3")
+    os.environ["TC_DATABASE_PATH"] = database
 
     app = create_app()
     with app.app_context():
@@ -56,12 +56,12 @@ def main() -> int:
     check("CSP header present", "Content-Security-Policy" in health.headers)
 
     login = client.post("/api/auth/login",
-                        json={"email": "patient@clinicue.health", "password": "Patient#2026"})
+                        json={"email": "patient@theclinicue.com", "password": "Patient#2026"})
     check("login succeeds", login.status_code == 200, login.status_code)
 
     cookies = login.headers.getlist("Set-Cookie")
-    session = next((c for c in cookies if c.startswith("cq_session=")), "")
-    csrf = next((c for c in cookies if c.startswith("cq_csrf=")), "")
+    session = next((c for c in cookies if c.startswith("tc_session=")), "")
+    csrf = next((c for c in cookies if c.startswith("tc_csrf=")), "")
     check("session cookie is Secure", "Secure" in session, session[:80])
     check("session cookie is HttpOnly", "HttpOnly" in session)
     check("session cookie is SameSite=Lax", "SameSite=Lax" in session)
@@ -71,7 +71,7 @@ def main() -> int:
     # 3. Password hashing must be at full production cost here.
     with app.app_context():
         row = get_db().execute(
-            "SELECT password_hash FROM users WHERE email = 'patient@clinicue.health'").fetchone()
+            "SELECT password_hash FROM users WHERE email = 'patient@theclinicue.com'").fetchone()
     check("passwords hashed at 600,000 PBKDF2 rounds",
           row["password_hash"].startswith("pbkdf2:sha256:600000$"),
           row["password_hash"][:32])

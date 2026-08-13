@@ -61,7 +61,7 @@ def list_availability():
 @require_auth
 def list_slots():
     """FR-20 … FR-23."""
-    config = current_app.config["CQ"]
+    config = current_app.config["TC"]
     v = Validator(request.args.to_dict())
     practitioner_id = v.integer("practitioner_id", minimum=1)
     service_id = v.integer("service_id", minimum=1)

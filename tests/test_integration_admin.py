@@ -182,7 +182,7 @@ class TestAudit:
             "date": free_slot["date"], "start_time": free_slot["start_time"]})
         items = admin.get("/api/admin/audit?action=BOOK_APPOINTMENT").get_json()["items"]
         assert items
-        assert items[0]["actor_email"] == "patient@clinicue.health"
+        assert items[0]["actor_email"] == "patient@theclinicue.com"
 
     def test_denied_access_is_recorded(self, admin, patient):
         """FR-12: a failed authorisation attempt is exactly what a reviewer
@@ -221,7 +221,7 @@ class TestReports:
                          appt_date, start_time, end_time, status, source, notes, created_by,
                          created_at, updated_at)
                        VALUES (?, ?, 1, 1, ?, ?, ?, ?, 'SELF', '', 2, ?, ?)""",
-                    (f"CQ-RPT{index:03d}", 3 + index, today_iso(), f"{8 + index:02d}:00",
+                    (f"TC-RPT{index:03d}", 3 + index, today_iso(), f"{8 + index:02d}:00",
                      f"{8 + index:02d}:30", status, stamp, stamp))
             conn.commit()
             summary = daily_summary(conn, today_iso())

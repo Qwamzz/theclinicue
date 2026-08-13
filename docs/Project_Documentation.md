@@ -1,6 +1,6 @@
 # Advanced Software Engineering — Project Documentation
 
-# Clinicue
+# TheClinicue
 
 ## Outpatient Appointment & Queue Management System for Community Clinics
 
@@ -8,7 +8,7 @@
 |---|---|
 | **Student name** | [STUDENT NAME] |
 | **Student ID** | [STUDENT ID] |
-| **Project title** | Clinicue — Outpatient Appointment & Queue Management System |
+| **Project title** | TheClinicue — Outpatient Appointment & Queue Management System |
 | **Submission date** | 13 August 2026 |
 | **Version** | 1.0.0 |
 | **Delivery window** | 48 hours, single developer |
@@ -45,7 +45,7 @@
 
 # 1. Project Title
 
-**Clinicue — an outpatient appointment booking and patient queue management system for small and medium community clinics.**
+**TheClinicue — an outpatient appointment booking and patient queue management system for small and medium community clinics.**
 
 The name combines *clinic* with *cue*: the system's central act is turning an undifferentiated crowd into an ordered, visible queue.
 
@@ -64,7 +64,7 @@ The consequences are concrete:
 
 Commercial practice-management suites do solve this, but they are priced per seat in hard currency, assume reliable broadband, and bundle electronic medical record functionality that a small clinic neither needs nor is licensed to operate.
 
-**The gap is therefore specific: there is no lightweight, low-bandwidth, low-cost tool that solves only the appointment-and-queue problem.** Clinicue addresses exactly that gap and deliberately nothing more.
+**The gap is therefore specific: there is no lightweight, low-bandwidth, low-cost tool that solves only the appointment-and-queue problem.** TheClinicue addresses exactly that gap and deliberately nothing more.
 
 ---
 
@@ -89,7 +89,7 @@ To design, build, test and deploy a functional web application that replaces the
 
 ## 3.3 Scope boundary
 
-Clinicue manages the patient's journey **up to the consulting room door**, and the record that they walked through it. It holds no clinical data of any kind — no diagnoses, prescriptions, results or notes. This boundary is deliberate: it keeps the 48-hour scope achievable and keeps the system out of the highest tier of health-data regulation while still delivering measurable operational value.
+TheClinicue manages the patient's journey **up to the consulting room door**, and the record that they walked through it. It holds no clinical data of any kind — no diagnoses, prescriptions, results or notes. This boundary is deliberate: it keeps the 48-hour scope achievable and keeps the system out of the highest tier of health-data regulation while still delivering measurable operational value.
 
 ---
 
@@ -169,7 +169,7 @@ It was cross-checked against **COCOMO II Post-Architecture** with Function Point
 
 The two algorithmic models were applied independently from different artefacts with unrelated weights, and agree within a factor of 1.5. That agreement is what gives confidence the *functional size* is right. The bottom-up figure is 37–56 times smaller, and the gap is not a claim of extraordinary productivity — it decomposes into team and process overhead that a solo project does not incur, production quality attributes that are deferred rather than delivered, and framework leverage the 1993 and 2000 calibrations did not assume.
 
-> **The honest headline:** a production-grade Clinicue is a 1,800–2,700 hour undertaking. This project delivers its functional surface in 48 hours — roughly 2% of that effort. The remaining 98% is not wished away: it is enumerated as technical debt and scheduled in the evolution roadmap.
+> **The honest headline:** a production-grade TheClinicue is a 1,800–2,700 hour undertaking. This project delivers its functional surface in 48 hours — roughly 2% of that effort. The remaining 98% is not wished away: it is enumerated as technical debt and scheduled in the evolution roadmap.
 
 ## 7.4 How the estimate changed the project
 
@@ -193,7 +193,7 @@ Full detail in `System_Design.pdf` §1.
 
 The manual outpatient process was modelled as eleven steps, each classified **automate**, **support** or **leave alone**. Six steps are automated (travelling blind, queue joining, manual arbitration, name-shouting, no attendance record, manager guesswork); five are left alone (the decision to seek care, retrieving the paper record, the consultation itself, clinical notes, dispensing and billing).
 
-That table is what fixes the system boundary — and it is why Clinicue stops at the consulting room door.
+That table is what fixes the system boundary — and it is why TheClinicue stops at the consulting room door.
 
 ## 8.2 The two hard problems
 
@@ -400,31 +400,34 @@ New debt must be logged **in the same commit that creates it**. Each release res
 | Artefact | Purpose |
 |---|---|
 | `Dockerfile` | Production image: Python 3.12-slim, non-root user, health check, Gunicorn with 2 workers × 4 threads |
-| `render.yaml` | Render blueprint: service definition, generated secret, health check path |
+| `azure-setup.sh` | One-run Azure provisioning: resource group, plan, web app, settings, health check, TLS policy, logging |
+| `startup.sh` | App Service startup command: creates the data directory, seeds on first boot, launches Gunicorn |
+| `.github/workflows/azure-deploy.yml` | CI/CD: full suite + date matrix + production check, then deploy, then live smoke test |
 | `Procfile` | Heroku-style platforms |
 | `requirements.txt` | Three runtime dependencies |
 | `.env.example` | Every configuration variable, documented |
 
 ## 13.2 Configuration
 
-All configuration is environment variables with safe development defaults. In production the application **refuses to start** without `CQ_SECRET_KEY` — a generated fallback would differ between workers and be discarded on every restart, silently logging everyone out.
+All configuration is environment variables with safe development defaults. In production the application **refuses to start** without `TC_SECRET_KEY` — a generated fallback would differ between workers and be discarded on every restart, silently logging everyone out.
 
 | Variable | Purpose |
 |---|---|
-| `CQ_ENV` | `development` / `testing` / `production` |
-| `CQ_SECRET_KEY` | Session signing key. Required in production. |
-| `CQ_DATABASE_PATH` | SQLite file location — must be a mounted volume (TD-01) |
-| `CQ_COOKIE_SECURE` | HTTPS-only cookies; defaults true in production |
-| `CQ_SESSION_HOURS` | Session lifetime (default 8) |
-| `CQ_LOGIN_MAX_ATTEMPTS` | Login throttle (default 5 per 15 minutes) |
-| `CQ_BOOKING_HORIZON_DAYS` | How far ahead patients may book (default 60) |
+| `TC_ENV` | `development` / `testing` / `production` |
+| `TC_SECRET_KEY` | Session signing key. Required in production. |
+| `TC_DATABASE_PATH` | SQLite file location — must be under `/home` on App Service, the only persistent path |
+| `TC_SQLITE_JOURNAL` | `WAL` on local disk; `DELETE` on Azure's SMB share, where WAL is unreliable (TD-01) |
+| `TC_COOKIE_SECURE` | HTTPS-only cookies; defaults true in production |
+| `TC_SESSION_HOURS` | Session lifetime (default 8) |
+| `TC_LOGIN_MAX_ATTEMPTS` | Login throttle (default 5 per 15 minutes) |
+| `TC_BOOKING_HORIZON_DAYS` | How far ahead patients may book (default 60) |
 
 ## 13.3 Production verification
 
 `tools/prod_check.py` verifies the production path before deploying. All twelve checks pass:
 
 ```
-ok   production refuses to start without CQ_SECRET_KEY
+ok   production refuses to start without TC_SECRET_KEY
 ok   health endpoint responds 200
 ok   environment reports production
 ok   HSTS header present
@@ -439,14 +442,23 @@ ok   passwords hashed at 600,000 PBKDF2 rounds
 
 **Docker:**
 ```bash
-docker build -t clinicue .
+docker build -t theclinicue .
 docker run -p 8000:8000 \
-  -e CQ_SECRET_KEY="$(python -c 'import secrets;print(secrets.token_urlsafe(48))')" \
-  -v clinicue-data:/data \
-  clinicue
+  -e TC_SECRET_KEY="$(python -c 'import secrets;print(secrets.token_urlsafe(48))')" \
+  -v theclinicue-data:/data \
+  theclinicue
 ```
 
-**Render:** push the repository, then create a Blueprint from `render.yaml`. It provisions the service, generates the secret and points the health check at `/api/health`.
+**Azure App Service (production):**
+
+```bash
+az login
+bash azure-setup.sh
+```
+
+This provisions everything and prints the publish profile and DNS records. Pushing to `main` then triggers GitHub Actions, which runs the 312-test suite, the seven-day date matrix and the production configuration check, deploys only if all three pass, and smoke-tests the live `/api/health` endpoint afterwards. **The deployment gate is the test suite** — a red build cannot reach the clinic.
+
+The custom domain `theclinicue.com` is bound with a free App Service managed certificate; the full procedure is in `DEPLOY.md`.
 
 > The `-v` volume mount is not optional for real use. Without it the database is destroyed on every restart (TD-01).
 
@@ -622,7 +634,7 @@ Stated plainly, because a limitation that is documented is a known risk and one 
 
 # 18. Conclusion
 
-Clinicue delivers a working, deployable outpatient appointment and queue management system: three roles, 39 API routes, seven relations, a responsive 82 KB client, and 312 automated tests at 93% coverage. Every Must-have requirement in the SRS is implemented and verified.
+TheClinicue delivers a working, deployable outpatient appointment and queue management system: three roles, 39 API routes, seven relations, a responsive 82 KB client, and 312 automated tests at 93% coverage. Every Must-have requirement in the SRS is implemented and verified.
 
 The more important claim is about method rather than output. The project set out to demonstrate that a full engineering lifecycle can be executed under a hard 48-hour constraint without either abandoning rigour or pretending the constraint does not exist. Three things are offered as evidence:
 

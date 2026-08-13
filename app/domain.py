@@ -141,9 +141,9 @@ _CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"  # no I/O/0/1 — spoken alo
 
 
 def new_appointment_code() -> str:
-    """Human-readable booking reference, e.g. 'CQ-7F3A21' (FR-25)."""
+    """Human-readable booking reference, e.g. 'TC-7F3A21' (FR-25)."""
     body = "".join(secrets.choice(_CODE_ALPHABET) for _ in range(6))
-    return f"CQ-{body}"
+    return f"TC-{body}"
 
 
 def mask_name(full_name: str) -> str:

@@ -14,5 +14,5 @@ app = create_app()
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", "8000"))
-    debug = os.environ.get("CQ_ENV", "development") != "production"
+    debug = os.environ.get("TC_ENV", "development") != "production"
     app.run(host="0.0.0.0", port=port, debug=debug, use_reloader=False)

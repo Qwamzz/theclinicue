@@ -1,6 +1,6 @@
 # Software Requirements Specification (SRS)
 
-## Clinicue — Outpatient Appointment & Queue Management System
+## TheClinicue — Outpatient Appointment & Queue Management System
 
 **Document version:** 1.0
 **Status:** Baselined (end of Phase 1)
@@ -15,7 +15,7 @@
 
 ### 1.1 Purpose
 
-This Software Requirements Specification defines the functional and non-functional requirements for **Clinicue**, a web-based outpatient appointment booking and patient-queue management system intended for small and medium-sized community clinics and polyclinics.
+This Software Requirements Specification defines the functional and non-functional requirements for **TheClinicue**, a web-based outpatient appointment booking and patient-queue management system intended for small and medium-sized community clinics and polyclinics.
 
 The document is written for three audiences:
 
@@ -27,7 +27,7 @@ Every requirement in this document is uniquely identified, prioritised and trace
 
 ### 1.2 Scope
 
-Clinicue is a single deployable web application consisting of a REST API, a relational datastore and a responsive browser client. It delivers:
+TheClinicue is a single deployable web application consisting of a REST API, a relational datastore and a responsive browser client. It delivers:
 
 - Self-service appointment booking by patients against real practitioner availability.
 - Automatic, conflict-free generation of bookable time slots.
@@ -35,7 +35,7 @@ Clinicue is a single deployable web application consisting of a REST API, a rela
 - Role-based operational dashboards for reception staff and clinic administrators.
 - Basic operational reporting (attendance, no-show rate, utilisation, waiting time).
 
-Clinicue **is not** an Electronic Medical Record (EMR) system. It does not store clinical notes, diagnoses, prescriptions, laboratory results or billing data. This boundary is deliberate: it keeps the 48-hour scope achievable and keeps the system out of the highest tier of health-data regulation while still delivering measurable operational value.
+TheClinicue **is not** an Electronic Medical Record (EMR) system. It does not store clinical notes, diagnoses, prescriptions, laboratory results or billing data. This boundary is deliberate: it keeps the 48-hour scope achievable and keeps the system out of the highest tier of health-data regulation while still delivering measurable operational value.
 
 ### 1.3 Definitions, Acronyms and Abbreviations
 
@@ -88,7 +88,7 @@ Existing commercial practice-management suites do address this, but they are pri
 
 ### 2.2 Product Perspective
 
-Clinicue is a new, self-contained system. It has no mandatory integration with existing clinic software, which is the correct architectural decision for the target market — most target clinics have no existing software to integrate with. It is designed to be deployable by a single non-specialist administrator onto a low-cost cloud host, and to be usable on the low-end Android devices that dominate the patient population.
+TheClinicue is a new, self-contained system. It has no mandatory integration with existing clinic software, which is the correct architectural decision for the target market — most target clinics have no existing software to integrate with. It is designed to be deployable by a single non-specialist administrator onto a low-cost cloud host, and to be usable on the low-end Android devices that dominate the patient population.
 
 The system replaces a manual process rather than an incumbent system. This means adoption risk, not migration risk, is the dominant deployment concern, and it is addressed through deliberate design choices recorded in NFR-USA-01 through NFR-USA-04.
 
@@ -193,7 +193,7 @@ Verification methods: **T** = automated test, **D** = demonstration, **I** = ins
 | FR-22 | The system shall exclude slots for dates in the past, and slots whose start time has already elapsed on the current date. | Must | Booking into the past is meaningless and corrupts reporting. | T |
 | FR-23 | The system shall reject a booking request for a date more than 60 days ahead. | Should | Bounds the planning horizon; avoids speculative bookings that inflate no-shows. | T |
 | FR-24 | A Patient shall be able to book an available slot, creating an appointment with status BOOKED. | Must | The core value transaction. | T, D |
-| FR-25 | The system shall assign each appointment a unique, human-readable reference code of the form CQ-XXXXXX. | Must | Patients and staff need a spoken/written handle that is not a database id. | T |
+| FR-25 | The system shall assign each appointment a unique, human-readable reference code of the form TC-XXXXXX. | Must | Patients and staff need a spoken/written handle that is not a database id. | T |
 | FR-26 | The system shall atomically re-verify slot availability at the moment of booking and reject the request with HTTP 409 if the slot was taken between listing and submission. | Must | Time-of-check-to-time-of-use race is a real concurrency defect, not a theoretical one. | T |
 | FR-27 | The system shall prevent a patient from holding more than one non-cancelled appointment with the same practitioner on the same date. | Should | Prevents accidental duplicate bookings and slot hoarding. | T |
 | FR-28 | A Patient shall be able to list their own appointments, filtered by upcoming or past. | Must | Without recall, the booking has no follow-through. | T, D |

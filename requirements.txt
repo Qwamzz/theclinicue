@@ -1,4 +1,4 @@
-# Clinicue runtime dependencies.
+# TheClinicue runtime dependencies.
 # Deliberately small: every dependency is a maintenance and supply-chain
 # obligation, so each one here earns its place.
 

@@ -1,0 +1,92 @@
+name: Test and deploy to Azure
+
+# Every push to main runs the full suite first. Deployment is gated on it:
+# a red build must never reach the clinic.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  AZURE_WEBAPP_NAME: theclinicue
+  PYTHON_VERSION: '3.12'
+
+jobs:
+  test:
+    name: Test suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Run tests with coverage
+        run: python -m pytest --cov=app --cov-report=term --cov-fail-under=80
+
+      - name: Prove the suite is date-independent
+        run: python tools/date_matrix.py --days 7
+
+      - name: Verify the production configuration
+        run: python tools/prod_check.py
+
+  deploy:
+    name: Deploy to Azure App Service
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.webapp-url }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      # Azure's Oryx builder can install dependencies itself, but doing it here
+      # means the deployed artefact is exactly what the tests ran against.
+      - name: Build dependencies into the artefact
+        run: |
+          python -m pip install --upgrade pip
+          pip install --target=".python_packages/lib/site-packages" -r requirements.txt
+
+      - name: Deploy
+        id: deploy
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+
+      - name: Wait for the app to come up
+        run: sleep 45
+
+      - name: Smoke-test the live deployment
+        run: |
+          set -e
+          URL="https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net/api/health"
+          echo "Checking $URL"
+          for attempt in 1 2 3 4 5 6; do
+            body=$(curl -fsS --max-time 30 "$URL") && break || {
+              echo "attempt $attempt failed, retrying in 20s"; sleep 20;
+            }
+          done
+          echo "$body"
+          echo "$body" | grep -q '"status":"ok"'
+          echo "$body" | grep -q '"database":"ok"'
+          echo "$body" | grep -q '"environment":"production"'
+          echo "Live deployment healthy."

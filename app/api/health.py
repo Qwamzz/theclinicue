@@ -17,7 +17,7 @@ bp = Blueprint("health", __name__, url_prefix="/api")
 
 @bp.get("/health")
 def health():
-    config = current_app.config["CQ"]
+    config = current_app.config["TC"]
     database_ok = True
     try:
         scalar(get_db(), "SELECT 1")
@@ -25,8 +25,8 @@ def health():
         database_ok = False
 
     payload = {
-        "service": "clinicue",
-        "version": current_app.config.get("CQ_VERSION", "1.0.0"),
+        "service": "theclinicue",
+        "version": current_app.config.get("TC_VERSION", "1.0.0"),
         "status": "ok" if database_ok else "degraded",
         "database": "ok" if database_ok else "unavailable",
         "environment": config.env,

@@ -53,7 +53,7 @@ def inflate(app, target: int) -> int:
                                  service_id, appt_date, start_time, end_time, status, source,
                                  notes, created_by, created_at, updated_at)
                                VALUES (?, ?, ?, 1, ?, ?, ?, 'COMPLETED', 'SELF', '', 1, ?, ?)""",
-                            (f"CQ-P{index:06d}", patient_id, practitioner_id, day,
+                            (f"TC-P{index:06d}", patient_id, practitioner_id, day,
                              start, end, stamp, stamp))
                         have += 1
                     except Exception:            # noqa: BLE001 - constraint clash, just skip
@@ -86,7 +86,7 @@ def main() -> int:
     # runs. A shared-cache in-memory database uses table-level locks that do
     # not honour busy_timeout, so measuring concurrency against it would
     # report a contention failure the deployment does not have.
-    workdir = tempfile.mkdtemp(prefix="clinicue-perf-")
+    workdir = tempfile.mkdtemp(prefix="theclinicue-perf-")
     database = str(Path(workdir) / "perf.sqlite3")
 
     app = create_app(env="testing", database_path=database)
@@ -96,14 +96,14 @@ def main() -> int:
 
     patient = app.test_client()
     patient.post("/api/auth/login",
-                 json={"email": "patient@clinicue.health", "password": "Patient#2026"})
+                 json={"email": "patient@theclinicue.com", "password": "Patient#2026"})
     staff = app.test_client()
     staff_login = staff.post("/api/auth/login",
-                             json={"email": "staff@clinicue.health", "password": "Staff#2026"})
+                             json={"email": "staff@theclinicue.com", "password": "Staff#2026"})
     staff_csrf = staff_login.get_json()["csrf_token"]
     admin = app.test_client()
     admin.post("/api/auth/login",
-               json={"email": "admin@clinicue.health", "password": "Admin#2026"})
+               json={"email": "admin@theclinicue.com", "password": "Admin#2026"})
 
     tomorrow = add_days(today_iso(), 1)
 
@@ -144,7 +144,7 @@ def main() -> int:
           f"{writes['max']:>9.1f}   {verdict}")
 
     login = measure(app.test_client(), "post", "/api/auth/login",
-                    body={"email": "patient@clinicue.health", "password": "Patient#2026"},
+                    body={"email": "patient@theclinicue.com", "password": "Patient#2026"},
                     iterations=10)
     print(f"{'login (test KDF cost)':<26}{login['p50']:>9.1f}{login['p95']:>9.1f}"
           f"{login['max']:>9.1f}   informational")
@@ -159,7 +159,7 @@ def main() -> int:
     def worker():
         client = app.test_client()
         client.post("/api/auth/login",
-                    json={"email": "patient@clinicue.health", "password": "Patient#2026"})
+                    json={"email": "patient@theclinicue.com", "password": "Patient#2026"})
         started = time.perf_counter()
         response = client.get(f"/api/slots?practitioner_id=1&service_id=1&date={tomorrow}")
         elapsed = (time.perf_counter() - started) * 1000
@@ -182,7 +182,7 @@ def main() -> int:
     if errors:
         failures.append("concurrency")
 
-    for connection in list(app.extensions.get("cq_keepalive", []) or []):
+    for connection in list(app.extensions.get("tc_keepalive", []) or []):
         connection.close()
     shutil.rmtree(workdir, ignore_errors=True)
 

@@ -13,7 +13,7 @@
   <circle cx="70" cy="127" r="9" fill="#202124"/>
   <line x1="79" y1="127" x2="163" y2="127" stroke="#202124" stroke-width="1.6" marker-end="url(#sm)"/>
   <text x="76" y="118" font-size="9.5" fill="#3C4043">book()</text>
-  <text x="76" y="146" font-size="8.5" fill="#5f6368">/ assign CQ- code</text>
+  <text x="76" y="146" font-size="8.5" fill="#5f6368">/ assign TC- code</text>
 
   <!-- ===== states ===== -->
   <rect x="170" y="100" width="140" height="54" rx="14" fill="#E8F0FE" stroke="#1A73E8" stroke-width="2"/>

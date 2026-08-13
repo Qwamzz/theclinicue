@@ -51,13 +51,19 @@ class Config:
     # Session and security
     session_hours: int = 8                # NFR-SEC-03
     cookie_secure: bool = False           # NFR-SEC-01, forced True in production
-    session_cookie: str = "cq_session"
-    csrf_cookie: str = "cq_csrf"
+    session_cookie: str = "tc_session"
+    csrf_cookie: str = "tc_csrf"
     csrf_header: str = "X-CSRF-Token"
 
     # Login throttling (FR-08)
     login_max_attempts: int = 5
     login_window_seconds: int = 900
+
+    #: SQLite journal mode. WAL is right on a local disk: it lets readers
+    #: proceed while a booking holds the write lock. It is NOT safe on an SMB
+    #: share, which is what Azure App Service's persistent /home is, so the
+    #: Azure deployment sets this to DELETE. See TD-01.
+    sqlite_journal_mode: str = "WAL"
 
     # Scheduling policy
     booking_horizon_days: int = 60        # FR-23
@@ -82,21 +88,29 @@ class Config:
         return self.env == "testing"
 
 
+def _journal_mode() -> str:
+    """Validated against a whitelist: this value is interpolated into a PRAGMA,
+    which cannot be parameterised, so it must never come straight from the
+    environment."""
+    requested = os.environ.get("TC_SQLITE_JOURNAL", "WAL").strip().upper()
+    return requested if requested in {"WAL", "DELETE", "TRUNCATE", "PERSIST"} else "WAL"
+
+
 def load_config(**overrides: object) -> Config:
     """Build configuration from the environment, then apply explicit overrides.
 
     Overrides exist so the test suite can construct an isolated app without
     mutating process-wide environment state.
     """
-    env = str(overrides.pop("env", os.environ.get("CQ_ENV", "development"))).lower()
+    env = str(overrides.pop("env", os.environ.get("TC_ENV", "development"))).lower()
     if env not in {"development", "testing", "production"}:
         env = "development"
 
-    secret = os.environ.get("CQ_SECRET_KEY", "").strip()
+    secret = os.environ.get("TC_SECRET_KEY", "").strip()
     if not secret:
         if env == "production":
             raise RuntimeError(
-                "CQ_SECRET_KEY must be set in production. Refusing to start with a "
+                "TC_SECRET_KEY must be set in production. Refusing to start with a "
                 "generated key: sessions would be invalidated on every restart and "
                 "would differ between workers."
             )
@@ -104,19 +118,20 @@ def load_config(**overrides: object) -> Config:
         # committed default that could reach production by accident.
         secret = secrets.token_urlsafe(48)
 
-    default_db = str(BASE_DIR / "data" / "clinicue.sqlite3")
-    db_path = os.environ.get("CQ_DATABASE_PATH", default_db).strip() or default_db
+    default_db = str(BASE_DIR / "data" / "theclinicue.sqlite3")
+    db_path = os.environ.get("TC_DATABASE_PATH", default_db).strip() or default_db
 
     config = Config(
         env=env,
         secret_key=secret,
         database_path=db_path,
-        session_hours=_int("CQ_SESSION_HOURS", 8),
-        cookie_secure=_flag("CQ_COOKIE_SECURE", env == "production"),
-        login_max_attempts=_int("CQ_LOGIN_MAX_ATTEMPTS", 5),
-        login_window_seconds=_int("CQ_LOGIN_WINDOW_SECONDS", 900),
-        booking_horizon_days=_int("CQ_BOOKING_HORIZON_DAYS", 60),
+        session_hours=_int("TC_SESSION_HOURS", 8),
+        cookie_secure=_flag("TC_COOKIE_SECURE", env == "production"),
+        login_max_attempts=_int("TC_LOGIN_MAX_ATTEMPTS", 5),
+        login_window_seconds=_int("TC_LOGIN_WINDOW_SECONDS", 900),
+        booking_horizon_days=_int("TC_BOOKING_HORIZON_DAYS", 60),
         password_hash_method=TESTING_HASH_METHOD if env == "testing" else PRODUCTION_HASH_METHOD,
+        sqlite_journal_mode=_journal_mode(),
     )
 
     if overrides:

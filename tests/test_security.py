@@ -86,7 +86,7 @@ class TestCsrf:
     def test_anonymous_login_is_exempt(self, anon):
         """An anonymous POST has no session to ride, so requiring a token would
         make sign-in impossible."""
-        assert anon.login("patient@clinicue.health", "Patient#2026").status_code == 200
+        assert anon.login("patient@theclinicue.com", "Patient#2026").status_code == 200
 
     def test_re_login_while_signed_in_still_needs_a_token(self, app, patient):
         """Once a session exists, /auth/login is a state-changing request like
@@ -94,7 +94,7 @@ class TestCsrf:
         silently signs the victim into an account the attacker controls."""
         response = patient._client.post(
             "/api/auth/login",
-            json={"email": "staff@clinicue.health", "password": "Staff#2026"},
+            json={"email": "staff@theclinicue.com", "password": "Staff#2026"},
         )
         assert response.status_code == 403
         assert response.get_json()["error"] == "CSRF_INVALID"
@@ -179,7 +179,7 @@ class TestInformationDisclosure:
 
         monkeypatch.setattr(reports, "daily_summary", boom)
         admin = type(patient)(app)
-        admin.login("admin@clinicue.health", "Admin#2026")
+        admin.login("admin@theclinicue.com", "Admin#2026")
         response = admin.get("/api/admin/reports/daily")
         assert response.status_code == 500
         assert response.get_json()["error"] == "INTERNAL_ERROR"

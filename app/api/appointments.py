@@ -28,7 +28,7 @@ def create():
     A patient may only book for themselves. Staff may name any patient — the
     branch below is the whole of that distinction, and it is server-side.
     """
-    config = current_app.config["CQ"]
+    config = current_app.config["TC"]
     user = current_user()
     if user is None:
         from ..errors import Unauthenticated
@@ -97,7 +97,7 @@ def mine():
 @require_staff
 def day_sheet():
     """FR-33. Staff only."""
-    config = current_app.config["CQ"]
+    config = current_app.config["TC"]
     args = request.args.to_dict()
     v = Validator(args)
     date_iso = v.date("date", required=False, default=today_iso()) or today_iso()

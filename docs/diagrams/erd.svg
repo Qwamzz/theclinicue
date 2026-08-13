@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 740" width="1020" height="740" font-family="Helvetica, Arial, sans-serif">
   <rect width="1020" height="740" fill="#ffffff"/>
-  <text x="510" y="28" text-anchor="middle" font-size="19" font-weight="bold" fill="#202124">Clinicue — Entity Relationship Diagram</text>
+  <text x="510" y="28" text-anchor="middle" font-size="19" font-weight="bold" fill="#202124">TheClinicue — Entity Relationship Diagram</text>
   <text x="510" y="48" text-anchor="middle" font-size="11" fill="#5f6368">7 relations · SQLite 3 · foreign keys enforced · PK = primary key, FK = foreign key, UK = unique</text>
 
   <!-- ============ relationship lines (under boxes) ============ -->

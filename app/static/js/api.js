@@ -13,7 +13,7 @@ export class ApiError extends Error {
 }
 
 function csrfFromCookie() {
-  const match = document.cookie.match(/(?:^|;\s*)cq_csrf=([^;]+)/);
+  const match = document.cookie.match(/(?:^|;\s*)tc_csrf=([^;]+)/);
   return match ? decodeURIComponent(match[1]) : '';
 }
 

@@ -1,6 +1,6 @@
 # System Analysis and Design
 
-## Clinicue — Outpatient Appointment & Queue Management System
+## TheClinicue — Outpatient Appointment & Queue Management System
 
 **Document version:** 1.0
 **Phase:** 2 (Analysis & Design), hours 7–12
@@ -20,7 +20,7 @@ The existing manual outpatient process was modelled before any design decision w
 | 2 | Patient travels to the clinic, not knowing whether a clinician is free | Wasted journeys; care avoidance | **Automate** | Slot discovery and booking before travel (UC-03, UC-04). |
 | 3 | Patient joins an undifferentiated physical queue | 3–5 h waits; disputes | **Automate** | Scheduled slots plus a digital ticketed queue (UC-09, UC-10). |
 | 4 | Reception arbitrates queue order manually | Staff time; conflict | **Automate** | Deterministic ticket ordering by check-in time (FR-35, FR-38). |
-| 5 | Reception locates the patient's paper record | Staff time | **Leave alone** | Records are out of scope (C-06). Clinicue holds no clinical data. |
+| 5 | Reception locates the patient's paper record | Staff time | **Leave alone** | Records are out of scope (C-06). TheClinicue holds no clinical data. |
 | 6 | Practitioner calls the next patient by shouting a name | Noise; missed calls; privacy loss | **Automate** | Ticket-number call with a shared live queue view (UC-11, NFR-LEG-03). |
 | 7 | Consultation | — | **Leave alone** | Clinical act; outside the boundary. |
 | 8 | Practitioner writes clinical notes | — | **Leave alone** | EMR territory; deliberately excluded. |
@@ -28,7 +28,7 @@ The existing manual outpatient process was modelled before any design decision w
 | 10 | Manager estimates attendance from memory | Bad staffing decisions | **Automate** | Daily summary and utilisation reports. |
 | 11 | Dispensing, billing, referral | — | **Leave alone** | Separate regulated domains. |
 
-Six steps are automated, five are left alone. The boundary that falls out of this table is exactly the boundary drawn in SRS §1.2: **Clinicue manages the patient's journey up to the consulting room door and the record that they walked through it — nothing inside the room.**
+Six steps are automated, five are left alone. The boundary that falls out of this table is exactly the boundary drawn in SRS §1.2: **TheClinicue manages the patient's journey up to the consulting room door and the record that they walked through it — nothing inside the room.**
 
 ### 1.2 Domain analysis — the two hard problems
 
@@ -66,7 +66,7 @@ Deletion is modelled as deactivation (`is_active = 0`) throughout. A service or 
 
 ### 2.1 Architectural style
 
-Clinicue uses a **layered (n-tier) architecture** deployed as a **client–server** application in a single process.
+TheClinicue uses a **layered (n-tier) architecture** deployed as a **client–server** application in a single process.
 
 | Layer | Responsibility | Rule enforced |
 |---|---|---|
@@ -261,7 +261,7 @@ This is workable but weakly typed — nothing at the database level stops a malf
 ### 4.1 Conventions
 
 - Base path `/api`. All payloads `application/json; charset=utf-8`.
-- Authentication by the `cq_session` HttpOnly cookie; state-changing verbs additionally require the `X-CSRF-Token` header matched against the `cq_csrf` cookie.
+- Authentication by the `tc_session` HttpOnly cookie; state-changing verbs additionally require the `X-CSRF-Token` header matched against the `tc_csrf` cookie.
 - Success responses return the resource or a `{"items": [...], "total": n}` envelope for collections.
 - **All** errors use one envelope (FR-54):
 

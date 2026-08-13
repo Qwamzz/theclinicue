@@ -443,7 +443,7 @@ class NumberedDoc(BaseDocTemplate):
         if doc.page > 1:
             canvas.setFont(BODY, 7.5)
             canvas.setFillColor(MUTED)
-            canvas.drawString(MARGIN, PAGE_H - MARGIN + 5, "Clinicue")
+            canvas.drawString(MARGIN, PAGE_H - MARGIN + 5, "TheClinicue")
             canvas.drawRightString(PAGE_W - MARGIN, PAGE_H - MARGIN + 5, self.doc_title)
             canvas.setStrokeColor(RULE)
             canvas.setLineWidth(0.4)
@@ -457,7 +457,7 @@ class NumberedDoc(BaseDocTemplate):
 def title_page(doc: Doc, student: str, student_id: str) -> list:
     return [
         Spacer(1, 58 * mm),
-        Paragraph("Clinicue", S["title"]),
+        Paragraph("TheClinicue", S["title"]),
         Paragraph(doc.subtitle or "Outpatient Appointment &amp; Queue Management System",
                   S["subtitle"]),
         HRFlowable(width="55%", thickness=1.1, color=ACCENT, spaceAfter=22, hAlign="CENTER"),

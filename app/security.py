@@ -43,7 +43,7 @@ def hash_password(plaintext: str, method: str | None = None) -> str:
     """
     if method is None:
         try:
-            method = current_app.config["CQ"].password_hash_method
+            method = current_app.config["TC"].password_hash_method
         except RuntimeError:
             method = PRODUCTION_HASH_METHOD
     return generate_password_hash(plaintext, method=method)
@@ -64,7 +64,7 @@ def verify_password(password_hash: str, plaintext: str) -> bool:
 # --------------------------------------------------------------------------
 
 def issue_token(user_id: int, role: str, csrf_token: str) -> str:
-    config = current_app.config["CQ"]
+    config = current_app.config["TC"]
     now = utc_now()
     payload = {
         "sub": str(user_id),
@@ -78,7 +78,7 @@ def issue_token(user_id: int, role: str, csrf_token: str) -> str:
 
 
 def decode_token(token: str) -> dict[str, Any] | None:
-    config = current_app.config["CQ"]
+    config = current_app.config["TC"]
     try:
         return jwt.decode(
             token,
@@ -100,7 +100,7 @@ def set_session_cookies(response, token: str, csrf_token: str):
     The session cookie is HttpOnly so script cannot read it; the CSRF cookie
     deliberately is not, because the client must echo it in a header.
     """
-    config = current_app.config["CQ"]
+    config = current_app.config["TC"]
     max_age = config.session_hours * 3600
     response.set_cookie(
         config.session_cookie,
@@ -124,7 +124,7 @@ def set_session_cookies(response, token: str, csrf_token: str):
 
 
 def clear_session_cookies(response):
-    config = current_app.config["CQ"]
+    config = current_app.config["TC"]
     response.delete_cookie(config.session_cookie, path="/")
     response.delete_cookie(config.csrf_cookie, path="/")
     return response
@@ -152,7 +152,7 @@ def current_user() -> dict[str, Any] | None:
     if "current_user" in g:
         return g.current_user or None
 
-    config = current_app.config["CQ"]
+    config = current_app.config["TC"]
     token = request.cookies.get(config.session_cookie, "")
     claims = decode_token(token) if token else None
     user = None
@@ -242,7 +242,7 @@ def verify_csrf() -> None:
     user = current_user()
     if user is None:
         return                      # anonymous POSTs (login, register) are exempt
-    config = current_app.config["CQ"]
+    config = current_app.config["TC"]
     supplied = request.headers.get(config.csrf_header, "")
     expected = user.get("_csrf", "")
     if not supplied or not expected or not hmac.compare_digest(supplied, expected):
@@ -330,7 +330,7 @@ def security_headers(response):
     response.headers.setdefault("X-Frame-Options", "DENY")
     response.headers.setdefault("Referrer-Policy", "no-referrer")
     response.headers.setdefault("Permissions-Policy", "geolocation=(), microphone=(), camera=()")
-    if current_app.config["CQ"].cookie_secure:
+    if current_app.config["TC"].cookie_secure:
         response.headers.setdefault(
             "Strict-Transport-Security", "max-age=31536000; includeSubDomains"
         )

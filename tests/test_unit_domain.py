@@ -159,6 +159,6 @@ class TestPresentationHelpers:
         codes = {new_appointment_code() for _ in range(500)}
         assert len(codes) > 490          # collisions should be vanishingly rare
         for code in codes:
-            assert code.startswith("CQ-")
+            assert code.startswith("TC-")
             assert len(code) == 9
             assert not set(code[3:]) & set("IO01")

@@ -7,6 +7,7 @@ is guaranteed: no caller ever builds a statement from user input.
 
 from __future__ import annotations
 
+import os
 import sqlite3
 from contextlib import contextmanager
 from pathlib import Path
@@ -36,10 +37,13 @@ def memory_uri(tag: str) -> str:
     database, provided at least one connection stays open — which is what the
     keep-alive connection in create_app() is for.
     """
-    return f"file:cq_{tag}?mode=memory&cache=shared"
+    return f"file:tc_{tag}?mode=memory&cache=shared"
 
 
-def _connect(database_path: str) -> sqlite3.Connection:
+VALID_JOURNAL_MODES = {"WAL", "DELETE", "TRUNCATE", "PERSIST"}
+
+
+def _connect(database_path: str, journal: str | None = None) -> sqlite3.Connection:
     uri = database_path.startswith("file:")
     if not is_memory(database_path) and not uri:
         Path(database_path).parent.mkdir(parents=True, exist_ok=True)
@@ -55,9 +59,14 @@ def _connect(database_path: str) -> sqlite3.Connection:
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA foreign_keys = ON")
     if not is_memory(database_path):
-        # WAL needs a real file; it is also what allows readers to proceed
-        # while a booking holds the write lock.
-        conn.execute("PRAGMA journal_mode = WAL")
+        # WAL needs a real file, and it is what lets readers proceed while a
+        # booking holds the write lock. It is unsafe on an SMB share, however,
+        # so deployments on network storage (Azure App Service's /home) select
+        # DELETE instead. Whitelisted because a PRAGMA cannot be parameterised.
+        mode = (journal or os.environ.get("TC_SQLITE_JOURNAL", "WAL")).strip().upper()
+        if mode not in VALID_JOURNAL_MODES:
+            mode = "WAL"
+        conn.execute(f"PRAGMA journal_mode = {mode}")
     conn.execute("PRAGMA synchronous = NORMAL")
     return conn
 
@@ -65,7 +74,8 @@ def _connect(database_path: str) -> sqlite3.Connection:
 def get_db() -> sqlite3.Connection:
     """Per-request connection, created lazily and closed by teardown."""
     if "db" not in g:
-        g.db = _connect(current_app.config["CQ"].database_path)
+        settings = current_app.config["TC"]
+        g.db = _connect(settings.database_path, settings.sqlite_journal_mode)
     return g.db
 
 

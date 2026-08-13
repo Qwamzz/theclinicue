@@ -38,17 +38,17 @@ def main() -> int:
 
     # --- login -----------------------------------------------------------
     status, body = call(patient, "post", "/api/auth/login",
-                        json={"email": "patient@clinicue.health", "password": "Patient#2026"})
+                        json={"email": "patient@theclinicue.com", "password": "Patient#2026"})
     check("patient login", status == 200, body)
     p_csrf = body["csrf_token"]
 
     status, body = call(staff, "post", "/api/auth/login",
-                        json={"email": "staff@clinicue.health", "password": "Staff#2026"})
+                        json={"email": "staff@theclinicue.com", "password": "Staff#2026"})
     check("staff login", status == 200, body)
     s_csrf = body["csrf_token"]
 
     status, body = call(admin, "post", "/api/auth/login",
-                        json={"email": "admin@clinicue.health", "password": "Admin#2026"})
+                        json={"email": "admin@theclinicue.com", "password": "Admin#2026"})
     check("admin login", status == 200, body)
     a_csrf = body["csrf_token"]
 
@@ -81,7 +81,7 @@ def main() -> int:
     status, booking = call(patient, "post", "/api/appointments", csrf=p_csrf,
                            json={"practitioner_id": 1, "service_id": 1,
                                  "date": target, "start_time": slot})
-    check("booking created", status == 201 and booking["code"].startswith("CQ-"), (status, booking))
+    check("booking created", status == 201 and booking["code"].startswith("TC-"), (status, booking))
 
     # slot must disappear
     status, body = call(patient, "get", f"/api/slots?practitioner_id=1&service_id=1&date={target}")

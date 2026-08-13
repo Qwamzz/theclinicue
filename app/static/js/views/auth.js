@@ -12,9 +12,9 @@ function demoCredentials() {
   return h('div', { class: 'demo-creds' },
     h('strong', { text: 'Demonstration accounts' }),
     h('br'),
-    h('code', { text: 'patient@clinicue.health / Patient#2026' }), h('br'),
-    h('code', { text: 'staff@clinicue.health / Staff#2026' }), h('br'),
-    h('code', { text: 'admin@clinicue.health / Admin#2026' }));
+    h('code', { text: 'patient@theclinicue.com / Patient#2026' }), h('br'),
+    h('code', { text: 'staff@theclinicue.com / Staff#2026' }), h('br'),
+    h('code', { text: 'admin@theclinicue.com / Admin#2026' }));
 }
 
 export function renderAuth(mode = 'login') {

@@ -106,11 +106,11 @@ def seed(conn: sqlite3.Connection, *, reset: bool = False, rng_seed: int = 20260
         return {"skipped": True, "reason": "database already contains users"}
 
     # -- accounts ----------------------------------------------------------
-    admin_id = _create_user(conn, "Adjoa Mensimah", "admin@clinicue.health",
+    admin_id = _create_user(conn, "Adjoa Mensimah", "admin@theclinicue.com",
                             "+233 30 100 2000", ROLE_ADMIN)
-    staff_id = _create_user(conn, "Ama Boakye", "staff@clinicue.health",
+    staff_id = _create_user(conn, "Ama Boakye", "staff@theclinicue.com",
                             "+233 30 100 2001", ROLE_STAFF)
-    demo_patient_id = _create_user(conn, "Kojo Mensah", "patient@clinicue.health",
+    demo_patient_id = _create_user(conn, "Kojo Mensah", "patient@theclinicue.com",
                                    "+233 24 000 1234", ROLE_PATIENT)
 
     patient_ids = [demo_patient_id]
@@ -260,7 +260,7 @@ def seed(conn: sqlite3.Connection, *, reset: bool = False, rng_seed: int = 20260
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Seed the Clinicue database.")
+    parser = argparse.ArgumentParser(description="Seed the TheClinicue database.")
     parser.add_argument("--reset", action="store_true", help="delete existing data first")
     parser.add_argument("--database", default=None, help="override the database path")
     args = parser.parse_args(argv)
@@ -280,9 +280,9 @@ def main(argv: list[str] | None = None) -> int:
     for key in ("users", "services", "practitioners", "appointments", "queue_entries"):
         print(f"  {key:<15} {summary[key]}")
     print("\nDemonstration accounts:")
-    print(f"  admin@clinicue.health    {DEMO_PASSWORD[ROLE_ADMIN]}")
-    print(f"  staff@clinicue.health    {DEMO_PASSWORD[ROLE_STAFF]}")
-    print(f"  patient@clinicue.health  {DEMO_PASSWORD[ROLE_PATIENT]}")
+    print(f"  admin@theclinicue.com    {DEMO_PASSWORD[ROLE_ADMIN]}")
+    print(f"  staff@theclinicue.com    {DEMO_PASSWORD[ROLE_STAFF]}")
+    print(f"  patient@theclinicue.com  {DEMO_PASSWORD[ROLE_PATIENT]}")
     return 0
 
 

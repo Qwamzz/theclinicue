@@ -1,8 +1,8 @@
-# Clinicue
+# TheClinicue
 
 **Outpatient appointment booking and patient queue management for community clinics.**
 
-Clinicue replaces the paper-and-shouting outpatient queue with real appointment slots, a digital
+TheClinicue replaces the paper-and-shouting outpatient queue with real appointment slots, a digital
 check-in with ticket numbers, and operational reporting the clinic manager can act on. It stores
 no clinical data — that boundary is deliberate.
 
@@ -25,8 +25,8 @@ no clinical data — that boundary is deliberate.
 ## Quick start
 
 ```bash
-git clone <repository-url> clinicue
-cd clinicue
+git clone <repository-url> theclinicue
+cd theclinicue
 
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
@@ -40,9 +40,9 @@ python wsgi.py                   # http://localhost:8000
 
 | Role | Email | Password |
 |---|---|---|
-| Patient | `patient@clinicue.health` | `Patient#2026` |
-| Reception staff | `staff@clinicue.health` | `Staff#2026` |
-| Administrator | `admin@clinicue.health` | `Admin#2026` |
+| Patient | `patient@theclinicue.com` | `Patient#2026` |
+| Reception staff | `staff@theclinicue.com` | `Staff#2026` |
+| Administrator | `admin@theclinicue.com` | `Admin#2026` |
 
 These are safe to publish precisely because the demonstration deployment holds no real patient data.
 
@@ -99,29 +99,44 @@ SQLite (WAL, foreign keys on)
 ### Docker
 
 ```bash
-docker build -t clinicue .
+docker build -t theclinicue .
 docker run -p 8000:8000 \
-  -e CQ_SECRET_KEY="$(python -c 'import secrets;print(secrets.token_urlsafe(48))')" \
-  -v clinicue-data:/data \
-  clinicue
+  -e TC_SECRET_KEY="$(python -c 'import secrets;print(secrets.token_urlsafe(48))')" \
+  -v theclinicue-data:/data \
+  theclinicue
 ```
 
 The `-v` is not optional for real use: without a mounted volume the database is destroyed on every
 restart (technical debt **TD-01**).
 
-### Render
+### Azure App Service
 
-Push the repository, then create a new **Blueprint** from `render.yaml`. It provisions the service,
-generates `CQ_SECRET_KEY`, and points the health check at `/api/health`.
+Production runs on Azure App Service (Linux, Python 3.12), served at
+**https://theclinicue.com**. Provision it in one command:
 
-> On Render's free tier the filesystem is ephemeral, so data is lost on each deploy and idle
-> spin-down. Uncomment the `disk:` block in `render.yaml` on a paid instance before using it with
-> real bookings.
+```bash
+az login
+bash azure-setup.sh
+```
+
+That creates the resource group, plan and web app; generates and stores `TC_SECRET_KEY`; sets the
+startup command, health check, HTTPS enforcement and logging; and prints the publish profile plus
+the DNS records for the custom domain.
+
+Push to `main` and GitHub Actions runs the full suite, the seven-day date matrix and the production
+configuration check — then deploys only if all three pass, and smoke-tests `/api/health` afterwards.
+
+Full walkthrough, including the custom domain and the free managed TLS certificate, is in
+[DEPLOY.md](DEPLOY.md).
+
+> Azure persists `/home`, so bookings survive restarts and redeploys. But `/home` is an SMB share,
+> where SQLite's WAL journal is unreliable — hence `TC_SQLITE_JOURNAL=DELETE`. That is a workaround;
+> the fix is **TD-01**, migrating to Azure Database for PostgreSQL.
 
 ### Configuration
 
 All configuration is environment variables — see [`.env.example`](.env.example). In production the
-application **refuses to start** without `CQ_SECRET_KEY`, rather than generating one that would
+application **refuses to start** without `TC_SECRET_KEY`, rather than generating one that would
 differ between workers and be discarded on restart.
 
 ---

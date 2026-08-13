@@ -1,12 +1,12 @@
-# Clinicue production image.
+# TheClinicue production image.
 FROM python:3.12-slim AS runtime
 
 # PYTHONUNBUFFERED keeps logs flowing to the container's stdout in real time,
 # which is the only log sink available on an ephemeral filesystem (TD-01).
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    CQ_ENV=production \
-    CQ_DATABASE_PATH=/data/clinicue.sqlite3 \
+    TC_ENV=production \
+    TC_DATABASE_PATH=/data/theclinicue.sqlite3 \
     PORT=8000
 
 WORKDIR /app
@@ -20,10 +20,10 @@ COPY wsgi.py .
 
 # Run as an unprivileged user: a container process that does not need root
 # should not have it.
-RUN useradd --create-home --uid 10001 clinicue \
+RUN useradd --create-home --uid 10001 theclinicue \
     && mkdir -p /data \
-    && chown -R clinicue:clinicue /app /data
-USER clinicue
+    && chown -R theclinicue:theclinicue /app /data
+USER theclinicue
 
 # /data is where the SQLite file lives. Mount a persistent volume here, or the
 # database is destroyed on every restart — see TD-01.

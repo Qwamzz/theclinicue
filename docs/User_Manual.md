@@ -1,6 +1,6 @@
 # User Manual
 
-## Clinicue — Outpatient Appointment & Queue Management System
+## TheClinicue — Outpatient Appointment & Queue Management System
 
 **Version:** 1.0
 **For:** Patients, reception staff and clinic administrators
@@ -10,13 +10,13 @@
 
 ## 1. Before You Start
 
-### 1.1 What Clinicue does
+### 1.1 What TheClinicue does
 
-Clinicue lets you book a clinic appointment before you travel, and gives you a ticket number when you arrive so you can see how long the wait really is. Staff use it to run the day's list and call patients in order. Managers use it to see attendance and waiting times.
+TheClinicue lets you book a clinic appointment before you travel, and gives you a ticket number when you arrive so you can see how long the wait really is. Staff use it to run the day's list and call patients in order. Managers use it to see attendance and waiting times.
 
-### 1.2 What Clinicue does not do
+### 1.2 What TheClinicue does not do
 
-**Clinicue holds no medical information.** No diagnoses, no prescriptions, no test results, no notes about your health. It stores only your name, email address and phone number, and the appointments you have booked. Your paper or electronic medical record is entirely separate.
+**TheClinicue holds no medical information.** No diagnoses, no prescriptions, no test results, no notes about your health. It stores only your name, email address and phone number, and the appointments you have booked. Your paper or electronic medical record is entirely separate.
 
 ### 1.3 What you need
 
@@ -26,15 +26,15 @@ Clinicue lets you book a clinic appointment before you travel, and gives you a t
 
 ### 1.4 Getting in
 
-Open the clinic's Clinicue address in your browser. You will see the sign-in page.
+Open the clinic's TheClinicue address in your browser. You will see the sign-in page.
 
 **Demonstration accounts** (for the assessed demonstration only):
 
 | Role | Email | Password |
 |---|---|---|
-| Patient | `patient@clinicue.health` | `Patient#2026` |
-| Reception staff | `staff@clinicue.health` | `Staff#2026` |
-| Administrator | `admin@clinicue.health` | `Admin#2026` |
+| Patient | `patient@theclinicue.com` | `Patient#2026` |
+| Reception staff | `staff@theclinicue.com` | `Staff#2026` |
+| Administrator | `admin@theclinicue.com` | `Admin#2026` |
 
 ---
 
@@ -61,7 +61,7 @@ Open the clinic's Clinicue address in your browser. You will see the sign-in pag
 5. **Available times** — the buttons show every time that is genuinely free. Tap one; it turns solid blue.
 6. Choose **Confirm booking**.
 
-You will see a green confirmation with your **booking code**, for example `CQ-6S24CU`. Write it down or take a screenshot — the front desk can find you faster with it.
+You will see a green confirmation with your **booking code**, for example `TC-6S24CU`. Write it down or take a screenshot — the front desk can find you faster with it.
 
 ### 3.1 If no times are shown
 
@@ -343,7 +343,7 @@ Statuses only move forwards: Booked → Checked in → In progress → Completed
 
 ## 17. Privacy and Your Data
 
-- Clinicue stores your **name, email address, phone number and appointments**. Nothing else.
+- TheClinicue stores your **name, email address, phone number and appointments**. Nothing else.
 - It stores **no medical information** of any kind.
 - Your password is stored only as a one-way cryptographic hash. Nobody — including clinic staff and the developer — can read it. If you forget it, an administrator must reset it; they cannot tell you what it was.
 - On the shared queue display your name is shortened, for example `Y. D****`.
@@ -353,7 +353,7 @@ Statuses only move forwards: Booked → Checked in → In progress → Completed
 ## 18. Getting Help
 
 1. Check Section 16 above — most messages explain themselves.
-2. Ask the clinic's Clinicue administrator.
+2. Ask the clinic's TheClinicue administrator.
 3. For faults, the administrator should record what was on screen, what was being attempted, the time, and the exact wording of any message, and check the audit log for the matching entry.
 
 *End of User Manual v1.0.*

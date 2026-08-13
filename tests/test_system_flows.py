@@ -36,7 +36,7 @@ class TestPatientJourney:
                 booking = response.get_json()
                 break
         assert booking is not None, "no bookable slot found"
-        assert booking["code"].startswith("CQ-")
+        assert booking["code"].startswith("TC-")
 
         mine = anon.get("/api/appointments/mine?scope=upcoming").get_json()["items"]
         assert booking["id"] in [a["id"] for a in mine]
@@ -146,13 +146,13 @@ class TestAdministratorJourney:
         from tests.conftest import Client
 
         leaver = Client(app)
-        assert leaver.login("staff@clinicue.health", "Staff#2026").status_code == 200
+        assert leaver.login("staff@theclinicue.com", "Staff#2026").status_code == 200
         assert leaver.get(f"/api/appointments?date={today_iso()}").status_code == 200
 
         admin.patch("/api/admin/users/2", {"is_active": False})
 
         assert leaver.get(f"/api/appointments?date={today_iso()}").status_code == 401
-        assert Client(app).login("staff@clinicue.health", "Staff#2026").status_code == 401
+        assert Client(app).login("staff@theclinicue.com", "Staff#2026").status_code == 401
 
 
 class TestDataIntegrity:
@@ -182,7 +182,7 @@ class TestDataIntegrity:
                     """INSERT INTO appointments (code, patient_id, practitioner_id, service_id,
                          appt_date, start_time, end_time, status, source, notes, created_by,
                          created_at, updated_at)
-                       VALUES ('CQ-ORPHAN', 99999, 1, 1, '2026-12-01', '09:00', '09:30',
+                       VALUES ('TC-ORPHAN', 99999, 1, 1, '2026-12-01', '09:00', '09:30',
                                'BOOKED', 'SELF', '', 1, '2026-01-01T00:00:00', '2026-01-01T00:00:00')""")
                 conn.commit()
                 raised = False
@@ -211,4 +211,4 @@ class TestDataIntegrity:
         for path in ["/", "/book", "/staff", "/admin/reports"]:
             response = anon.get(path)
             assert response.status_code == 200
-            assert b"<title>Clinicue" in response.data
+            assert b"<title>TheClinicue" in response.data

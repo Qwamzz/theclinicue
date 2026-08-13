@@ -2,7 +2,7 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "clinicue",
+      "name": "theclinicue",
       "runtimeExecutable": ".venv\\Scripts\\python.exe",
       "runtimeArgs": ["wsgi.py"],
       "port": 8000
