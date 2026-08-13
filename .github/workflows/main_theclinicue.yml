@@ -101,7 +101,7 @@ jobs:
       - name: Smoke-test the live deployment
         run: |
           set -e
-          URL="https://theclinicue.azurewebsites.net/api/health"
+          URL="${HEALTH_URL:-https://theclinicue.com/api/health}"
           echo "Checking $URL"
           for attempt in 1 2 3 4 5 6; do
             body=$(curl -fsS --max-time 30 "$URL") && break || {
