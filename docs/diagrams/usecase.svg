@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 860" width="1040" height="860" font-family="Helvetica, Arial, sans-serif">
+  <rect width="1040" height="860" fill="#ffffff"/>
+  <defs>
+    <symbol id="actor" viewBox="-20 -40 40 68" overflow="visible">
+      <circle cx="0" cy="-28" r="9" fill="#ffffff" stroke="#1A73E8" stroke-width="2"/>
+      <line x1="0" y1="-19" x2="0" y2="4" stroke="#1A73E8" stroke-width="2"/>
+      <line x1="-13" y1="-10" x2="13" y2="-10" stroke="#1A73E8" stroke-width="2"/>
+      <line x1="0" y1="4" x2="-10" y2="22" stroke="#1A73E8" stroke-width="2"/>
+      <line x1="0" y1="4" x2="10" y2="22" stroke="#1A73E8" stroke-width="2"/>
+    </symbol>
+    <symbol id="sysactor" viewBox="-20 -40 40 68" overflow="visible">
+      <rect x="-14" y="-30" width="28" height="34" rx="3" fill="#ffffff" stroke="#5F6368" stroke-width="2"/>
+      <line x1="-8" y1="-22" x2="8" y2="-22" stroke="#5F6368" stroke-width="1.5"/>
+      <line x1="-8" y1="-15" x2="8" y2="-15" stroke="#5F6368" stroke-width="1.5"/>
+      <line x1="-8" y1="-8" x2="2" y2="-8" stroke="#5F6368" stroke-width="1.5"/>
+      <line x1="0" y1="4" x2="0" y2="14" stroke="#5F6368" stroke-width="2"/>
+      <line x1="-10" y1="14" x2="10" y2="14" stroke="#5F6368" stroke-width="2"/>
+    </symbol>
+  </defs>
+
+  <text x="520" y="32" text-anchor="middle" font-size="19" font-weight="bold" fill="#202124">Clinicue — UML Use Case Diagram (v1.0 delivered scope)</text>
+  <text x="520" y="52" text-anchor="middle" font-size="11" fill="#5f6368">17 business-goal use cases · 4 actors · deferred use cases UC-18 to UC-23 are not shown</text>
+
+  <!-- system boundary -->
+  <rect x="230" y="85" width="580" height="700" rx="8" fill="#FAFBFC" stroke="#202124" stroke-width="2"/>
+  <text x="520" y="106" text-anchor="middle" font-size="13" font-weight="bold" fill="#202124">Clinicue System</text>
+
+  <!-- association lines (drawn first, under ovals) -->
+  <g stroke="#9AA0A6" stroke-width="1.3" fill="none">
+    <!-- Patient (95,330) -->
+    <line x1="118" y1="318" x2="415" y2="146"/>
+    <line x1="118" y1="322" x2="252" y2="212"/>
+    <line x1="118" y1="326" x2="252" y2="268"/>
+    <line x1="118" y1="330" x2="252" y2="330"/>
+    <line x1="118" y1="334" x2="252" y2="392"/>
+    <line x1="118" y1="338" x2="252" y2="452"/>
+    <line x1="118" y1="342" x2="252" y2="642"/>
+    <!-- Health monitor (95,530) -->
+    <line x1="118" y1="530" x2="252" y2="527"/>
+    <!-- Reception staff (945,280) -->
+    <line x1="922" y1="268" x2="625" y2="140"/>
+    <line x1="922" y1="272" x2="778" y2="204"/>
+    <line x1="922" y1="276" x2="778" y2="266"/>
+    <line x1="922" y1="280" x2="778" y2="330"/>
+    <line x1="922" y1="284" x2="778" y2="392"/>
+    <line x1="922" y1="288" x2="602" y2="212"/>
+    <line x1="922" y1="292" x2="428" y2="648"/>
+    <!-- Administrator (945,600) -->
+    <line x1="922" y1="588" x2="620" y2="146"/>
+    <line x1="922" y1="592" x2="778" y2="466"/>
+    <line x1="922" y1="596" x2="778" y2="527"/>
+    <line x1="922" y1="600" x2="778" y2="590"/>
+    <line x1="922" y1="604" x2="778" y2="653"/>
+    <line x1="922" y1="608" x2="778" y2="716"/>
+  </g>
+
+  <!-- ===== use case ovals ===== -->
+  <g>
+    <!-- shared: authenticate -->
+    <ellipse cx="520" cy="120" rx="110" ry="26" fill="#E8F0FE" stroke="#1A73E8" stroke-width="1.6"/>
+    <text x="520" y="117" text-anchor="middle" font-size="11" font-weight="bold" fill="#202124">UC-02 Authenticate and</text>
+    <text x="520" y="131" text-anchor="middle" font-size="11" font-weight="bold" fill="#202124">manage session</text>
+
+    <!-- column 1 : patient + shared -->
+    <ellipse cx="340" cy="200" rx="88" ry="22" fill="#E8F0FE" stroke="#1A73E8" stroke-width="1.4"/>
+    <text x="340" y="197" text-anchor="middle" font-size="10" fill="#202124">UC-01 Register as</text>
+    <text x="340" y="209" text-anchor="middle" font-size="10" fill="#202124">patient</text>
+
+    <ellipse cx="340" cy="265" rx="88" ry="22" fill="#E8F0FE" stroke="#1A73E8" stroke-width="1.4"/>
+    <text x="340" y="262" text-anchor="middle" font-size="10" fill="#202124">UC-03 Discover services,</text>
+    <text x="340" y="274" text-anchor="middle" font-size="10" fill="#202124">practitioners and slots</text>
+
+    <ellipse cx="340" cy="330" rx="88" ry="22" fill="#D2E3FC" stroke="#1A73E8" stroke-width="2"/>
+    <text x="340" y="327" text-anchor="middle" font-size="10" font-weight="bold" fill="#202124">UC-04 Book an</text>
+    <text x="340" y="339" text-anchor="middle" font-size="10" font-weight="bold" fill="#202124">appointment</text>
+
+    <ellipse cx="340" cy="395" rx="88" ry="22" fill="#E8F0FE" stroke="#1A73E8" stroke-width="1.4"/>
+    <text x="340" y="392" text-anchor="middle" font-size="10" fill="#202124">UC-05 Manage own</text>
+    <text x="340" y="404" text-anchor="middle" font-size="10" fill="#202124">appointments</text>
+
+    <ellipse cx="340" cy="460" rx="88" ry="22" fill="#E8F0FE" stroke="#1A73E8" stroke-width="1.4"/>
+    <text x="340" y="457" text-anchor="middle" font-size="10" fill="#202124">UC-06 Track own</text>
+    <text x="340" y="469" text-anchor="middle" font-size="10" fill="#202124">queue position</text>
+
+    <ellipse cx="340" cy="527" rx="88" ry="22" fill="#F1F3F4" stroke="#5F6368" stroke-width="1.4"/>
+    <text x="340" y="524" text-anchor="middle" font-size="10" fill="#202124">UC-17 Monitor</text>
+    <text x="340" y="536" text-anchor="middle" font-size="10" fill="#202124">service health</text>
+
+    <ellipse cx="340" cy="650" rx="88" ry="22" fill="#E8F0FE" stroke="#1A73E8" stroke-width="1.4"/>
+    <text x="340" y="647" text-anchor="middle" font-size="10" fill="#202124">UC-11 Monitor the</text>
+    <text x="340" y="659" text-anchor="middle" font-size="10" fill="#202124">live queue</text>
+
+    <!-- column 2 : staff + admin -->
+    <ellipse cx="690" cy="200" rx="88" ry="22" fill="#E6F4EA" stroke="#137333" stroke-width="1.4"/>
+    <text x="690" y="197" text-anchor="middle" font-size="10" fill="#202124">UC-07 Operate the</text>
+    <text x="690" y="209" text-anchor="middle" font-size="10" fill="#202124">day schedule</text>
+
+    <ellipse cx="690" cy="265" rx="88" ry="22" fill="#CEEAD6" stroke="#137333" stroke-width="2"/>
+    <text x="690" y="262" text-anchor="middle" font-size="10" font-weight="bold" fill="#202124">UC-08 Register walk-in /</text>
+    <text x="690" y="274" text-anchor="middle" font-size="10" font-weight="bold" fill="#202124">book on behalf</text>
+
+    <ellipse cx="690" cy="330" rx="88" ry="22" fill="#CEEAD6" stroke="#137333" stroke-width="2"/>
+    <text x="690" y="327" text-anchor="middle" font-size="10" font-weight="bold" fill="#202124">UC-09 Check a patient in</text>
+    <text x="690" y="339" text-anchor="middle" font-size="10" font-weight="bold" fill="#202124">and issue a ticket</text>
+
+    <ellipse cx="690" cy="395" rx="88" ry="22" fill="#CEEAD6" stroke="#137333" stroke-width="2"/>
+    <text x="690" y="392" text-anchor="middle" font-size="10" font-weight="bold" fill="#202124">UC-10 Run the</text>
+    <text x="690" y="404" text-anchor="middle" font-size="10" font-weight="bold" fill="#202124">consultation queue</text>
+
+    <ellipse cx="690" cy="460" rx="88" ry="22" fill="#FEF7E0" stroke="#B06000" stroke-width="1.4"/>
+    <text x="690" y="457" text-anchor="middle" font-size="10" fill="#202124">UC-12 Configure the</text>
+    <text x="690" y="469" text-anchor="middle" font-size="10" fill="#202124">clinic catalogue</text>
+
+    <ellipse cx="690" cy="527" rx="88" ry="22" fill="#FEF7E0" stroke="#B06000" stroke-width="1.4"/>
+    <text x="690" y="524" text-anchor="middle" font-size="10" fill="#202124">UC-13 Configure</text>
+    <text x="690" y="536" text-anchor="middle" font-size="10" fill="#202124">practitioner availability</text>
+
+    <ellipse cx="690" cy="590" rx="88" ry="22" fill="#FEF7E0" stroke="#B06000" stroke-width="1.4"/>
+    <text x="690" y="587" text-anchor="middle" font-size="10" fill="#202124">UC-14 Administer user</text>
+    <text x="690" y="599" text-anchor="middle" font-size="10" fill="#202124">accounts and roles</text>
+
+    <ellipse cx="690" cy="653" rx="88" ry="22" fill="#FEF7E0" stroke="#B06000" stroke-width="1.4"/>
+    <text x="690" y="650" text-anchor="middle" font-size="10" fill="#202124">UC-15 Review the</text>
+    <text x="690" y="662" text-anchor="middle" font-size="10" fill="#202124">audit log</text>
+
+    <ellipse cx="690" cy="716" rx="88" ry="22" fill="#FEF7E0" stroke="#B06000" stroke-width="1.4"/>
+    <text x="690" y="713" text-anchor="middle" font-size="10" fill="#202124">UC-16 Generate</text>
+    <text x="690" y="725" text-anchor="middle" font-size="10" fill="#202124">operational reports</text>
+  </g>
+
+  <!-- ===== actors ===== -->
+  <use href="#actor" x="95" y="330"/>
+  <text x="95" y="372" text-anchor="middle" font-size="12" font-weight="bold" fill="#202124">Patient</text>
+
+  <use href="#sysactor" x="95" y="530"/>
+  <text x="95" y="566" text-anchor="middle" font-size="11" fill="#3C4043">Platform Health</text>
+  <text x="95" y="580" text-anchor="middle" font-size="11" fill="#3C4043">Monitor</text>
+  <text x="95" y="594" text-anchor="middle" font-size="9" font-style="italic" fill="#5f6368">«system»</text>
+
+  <use href="#actor" x="945" y="280"/>
+  <text x="945" y="322" text-anchor="middle" font-size="12" font-weight="bold" fill="#202124">Reception</text>
+  <text x="945" y="336" text-anchor="middle" font-size="12" font-weight="bold" fill="#202124">Staff</text>
+
+  <use href="#actor" x="945" y="600"/>
+  <text x="945" y="642" text-anchor="middle" font-size="12" font-weight="bold" fill="#202124">Clinic</text>
+  <text x="945" y="656" text-anchor="middle" font-size="12" font-weight="bold" fill="#202124">Administrator</text>
+
+  <!-- legend -->
+  <rect x="30" y="700" width="180" height="126" rx="5" fill="#ffffff" stroke="#9AA0A6"/>
+  <text x="120" y="720" text-anchor="middle" font-size="11" font-weight="bold" fill="#202124">Legend</text>
+  <ellipse cx="48" cy="738" rx="12" ry="7" fill="#E8F0FE" stroke="#1A73E8"/>
+  <text x="66" y="742" font-size="9.5" fill="#3C4043">Patient-facing</text>
+  <ellipse cx="48" cy="758" rx="12" ry="7" fill="#E6F4EA" stroke="#137333"/>
+  <text x="66" y="762" font-size="9.5" fill="#3C4043">Front-desk</text>
+  <ellipse cx="48" cy="778" rx="12" ry="7" fill="#FEF7E0" stroke="#B06000"/>
+  <text x="66" y="782" font-size="9.5" fill="#3C4043">Administrative</text>
+  <ellipse cx="48" cy="798" rx="12" ry="7" fill="#D2E3FC" stroke="#1A73E8" stroke-width="2"/>
+  <text x="66" y="802" font-size="9.5" fill="#3C4043">Complex (15 UCP)</text>
+  <text x="40" y="818" font-size="9" font-style="italic" fill="#5f6368">Bold outline = highest cost tier</text>
+</svg>

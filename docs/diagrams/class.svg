@@ -1,0 +1,290 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 960" width="1080" height="960" font-family="Helvetica, Arial, sans-serif">
+  <rect width="1080" height="960" fill="#ffffff"/>
+  <defs>
+    <marker id="cd_arrow" markerWidth="11" markerHeight="9" refX="10" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3.5 L0,7" fill="none" stroke="#5F6368" stroke-width="1.2"/>
+    </marker>
+    <marker id="cd_solid" markerWidth="10" markerHeight="8" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#5F6368"/>
+    </marker>
+  </defs>
+
+  <text x="540" y="26" text-anchor="middle" font-size="19" font-weight="bold" fill="#202124">Clinicue — Design Class Diagram</text>
+  <text x="540" y="45" text-anchor="middle" font-size="11" fill="#5f6368">Service layer over a domain model over infrastructure. Column-level detail is in the ERD; this view shows behaviour and dependencies.</text>
+
+  <!-- ============ dependency lines (behind boxes) ============ -->
+  <g stroke="#5F6368" stroke-width="1.3" fill="none" stroke-dasharray="5 3">
+    <line x1="150" y1="235" x2="150" y2="284" marker-end="url(#cd_arrow)"/>
+    <line x1="250" y1="235" x2="400" y2="284" marker-end="url(#cd_arrow)"/>
+    <line x1="540" y1="235" x2="700" y2="284" marker-end="url(#cd_arrow)"/>
+    <line x1="470" y1="235" x2="440" y2="284" marker-end="url(#cd_arrow)"/>
+    <line x1="885" y1="200" x2="885" y2="584" marker-end="url(#cd_arrow)"/>
+  </g>
+  <g stroke="#5F6368" stroke-width="1.3" fill="none">
+    <!-- User to Appointment, one to many -->
+    <line x1="270" y1="350" x2="298" y2="350"/>
+    <!-- Appointment to QueueEntry, one to zero-or-one -->
+    <line x1="580" y1="350" x2="608" y2="350"/>
+    <!-- Practitioner to AvailabilityRule, one to many -->
+    <path d="M890,400 L870,400 L870,660 L582,660"/>
+    <!-- Service to Appointment, one to many -->
+    <path d="M270,640 L285,640 L285,470 L298,470"/>
+  </g>
+  <g font-size="10" font-weight="bold" fill="#C5221F">
+    <text x="274" y="345">1</text><text x="286" y="345">*</text>
+    <text x="584" y="345">1</text><text x="594" y="345">0..1</text>
+    <text x="874" y="416">1</text><text x="588" y="655">*</text>
+    <text x="274" y="634">1</text><text x="288" y="466">*</text>
+  </g>
+
+  <!-- ================= BAND 1 — SERVICE LAYER ================= -->
+  <text x="40" y="68" font-size="12" font-weight="bold" fill="#B06000">SERVICE LAYER — all business rules, framework-independent (NFR-MNT-01)</text>
+
+  <!-- SchedulingService -->
+  <rect x="40" y="75" width="320" height="160" fill="#FEF7E0" stroke="#B06000" stroke-width="1.8"/>
+  <rect x="40" y="75" width="320" height="24" fill="#B06000"/>
+  <text x="200" y="92" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">SchedulingService</text>
+  <line x1="40" y1="99" x2="360" y2="99" stroke="#B06000"/>
+  <g font-size="9.5" fill="#202124">
+    <text x="48" y="114">+ list_slots(pract, service, date) : Slot[ ]</text>
+    <text x="48" y="128">+ book(patient, pract, service, date, time) : Appointment</text>
+    <text x="48" y="142">+ cancel(actor, appointment_id) : Appointment</text>
+    <text x="48" y="156">+ list_for_patient(patient_id, scope) : Appointment[ ]</text>
+    <text x="48" y="170">+ list_for_date(date, filters) : Appointment[ ]</text>
+    <text x="48" y="184">+ get_for_actor(actor, appointment_id) : Appointment</text>
+    <text x="48" y="200" fill="#5f6368">− _windows_for(rules, duration) : Slot[ ]</text>
+    <text x="48" y="214" fill="#5f6368">− _overlaps(slot, booked) : bool</text>
+    <text x="48" y="228" fill="#5f6368">− _new_code() : str</text>
+  </g>
+
+  <!-- QueueService -->
+  <rect x="390" y="75" width="310" height="160" fill="#FEF7E0" stroke="#B06000" stroke-width="1.8"/>
+  <rect x="390" y="75" width="310" height="24" fill="#B06000"/>
+  <text x="545" y="92" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">QueueService</text>
+  <line x1="390" y1="99" x2="700" y2="99" stroke="#B06000"/>
+  <g font-size="9.5" fill="#202124">
+    <text x="398" y="114">+ check_in(actor, appointment_id) : QueueEntry</text>
+    <text x="398" y="128">+ call_next(actor, practitioner_id) : QueueEntry?</text>
+    <text x="398" y="142">+ complete(actor, appointment_id) : Appointment</text>
+    <text x="398" y="156">+ mark_no_show(actor, appointment_id) : Appointment</text>
+    <text x="398" y="170">+ live_queue(practitioner_id, date) : QueueView[ ]</text>
+    <text x="398" y="184">+ position_for(patient_id) : Position?</text>
+    <text x="398" y="200" fill="#5f6368">− _next_ticket(pract, date) : int</text>
+    <text x="398" y="214" fill="#5f6368">− _assert_transition(from, to) : None</text>
+    <text x="398" y="228" fill="#5f6368">− _mask(name) : str</text>
+  </g>
+
+  <!-- ReportService -->
+  <rect x="730" y="75" width="310" height="125" fill="#FEF7E0" stroke="#B06000" stroke-width="1.8"/>
+  <rect x="730" y="75" width="310" height="24" fill="#B06000"/>
+  <text x="885" y="92" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">ReportService</text>
+  <line x1="730" y1="99" x2="1040" y2="99" stroke="#B06000"/>
+  <g font-size="9.5" fill="#202124">
+    <text x="738" y="114">+ daily_summary(date) : Summary</text>
+    <text x="738" y="128">+ utilisation(from_date, to_date) : Row[ ]</text>
+    <text x="738" y="142">+ mean_wait_minutes(date) : float?</text>
+    <text x="738" y="158" fill="#5f6368">− _counts_by_status(date) : dict</text>
+    <text x="738" y="172" fill="#5f6368">− _slots_offered(pract, from, to) : int</text>
+    <text x="738" y="192" font-style="italic" fill="#B06000">Read-only: never mutates state</text>
+  </g>
+
+  <!-- ================= BAND 2 — DOMAIN ================= -->
+  <text x="40" y="278" font-size="12" font-weight="bold" fill="#1A73E8">DOMAIN MODEL — entities carrying invariants and behaviour</text>
+
+  <!-- User -->
+  <rect x="40" y="285" width="230" height="230" fill="#E8F0FE" stroke="#1A73E8" stroke-width="1.8"/>
+  <rect x="40" y="285" width="230" height="24" fill="#1A73E8"/>
+  <text x="155" y="302" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">User</text>
+  <line x1="40" y1="309" x2="270" y2="309" stroke="#1A73E8"/>
+  <g font-size="9.5" fill="#202124">
+    <text x="48" y="324">− id : int</text>
+    <text x="48" y="338">− full_name : str</text>
+    <text x="48" y="352">− email : str  «unique»</text>
+    <text x="48" y="366">− phone : str</text>
+    <text x="48" y="380">− password_hash : str</text>
+    <text x="48" y="394">− role : Role</text>
+    <text x="48" y="408">− is_active : bool</text>
+    <text x="48" y="422">− created_at : datetime</text>
+  </g>
+  <line x1="40" y1="432" x2="270" y2="432" stroke="#1A73E8"/>
+  <g font-size="9.5" fill="#202124">
+    <text x="48" y="447">+ is_staff() : bool</text>
+    <text x="48" y="461">+ is_admin() : bool</text>
+    <text x="48" y="475">+ can_manage_users() : bool</text>
+    <text x="48" y="489">+ public_view() : dict</text>
+    <text x="48" y="505" font-style="italic" fill="#1A73E8">password_hash never serialised</text>
+  </g>
+
+  <!-- Appointment -->
+  <rect x="300" y="285" width="280" height="270" fill="#E6F4EA" stroke="#137333" stroke-width="2.2"/>
+  <rect x="300" y="285" width="280" height="24" fill="#137333"/>
+  <text x="440" y="302" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">Appointment</text>
+  <line x1="300" y1="309" x2="580" y2="309" stroke="#137333"/>
+  <g font-size="9.5" fill="#202124">
+    <text x="308" y="324">− id : int</text>
+    <text x="308" y="338">− code : str  «CQ-XXXXXX, unique»</text>
+    <text x="308" y="352">− patient_id : int</text>
+    <text x="308" y="366">− practitioner_id : int</text>
+    <text x="308" y="380">− service_id : int</text>
+    <text x="308" y="394">− appt_date : date</text>
+    <text x="308" y="408">− start_time / end_time : time</text>
+    <text x="308" y="422">− status : AppointmentStatus</text>
+    <text x="308" y="436">− source : str  «SELF | STAFF | WALK_IN»</text>
+    <text x="308" y="450">− created_by : int</text>
+  </g>
+  <line x1="300" y1="460" x2="580" y2="460" stroke="#137333"/>
+  <g font-size="9.5" fill="#202124">
+    <text x="308" y="475">+ can_transition_to(s : Status) : bool</text>
+    <text x="308" y="489">+ assert_owned_by(actor : User) : None</text>
+    <text x="308" y="503">+ is_open() : bool</text>
+    <text x="308" y="517">+ occupies_slot() : bool</text>
+    <text x="308" y="533" font-style="italic" fill="#137333">TRANSITIONS : dict[Status, set[Status]]</text>
+    <text x="308" y="547" font-style="italic" fill="#137333">is the single source of truth for FR-43</text>
+  </g>
+
+  <!-- QueueEntry -->
+  <rect x="610" y="285" width="250" height="240" fill="#F3E8FD" stroke="#7B1FA2" stroke-width="1.8"/>
+  <rect x="610" y="285" width="250" height="24" fill="#7B1FA2"/>
+  <text x="735" y="302" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">QueueEntry</text>
+  <line x1="610" y1="309" x2="860" y2="309" stroke="#7B1FA2"/>
+  <g font-size="9.5" fill="#202124">
+    <text x="618" y="324">− id : int</text>
+    <text x="618" y="338">− appointment_id : int «unique»</text>
+    <text x="618" y="352">− practitioner_id : int</text>
+    <text x="618" y="366">− queue_date : date</text>
+    <text x="618" y="380">− ticket_no : int</text>
+    <text x="618" y="394">− status : QueueStatus</text>
+    <text x="618" y="408">− checked_in_at : datetime</text>
+    <text x="618" y="422">− called_at : datetime?</text>
+    <text x="618" y="436">− completed_at : datetime?</text>
+  </g>
+  <line x1="610" y1="446" x2="860" y2="446" stroke="#7B1FA2"/>
+  <g font-size="9.5" fill="#202124">
+    <text x="618" y="461">+ wait_minutes() : float?</text>
+    <text x="618" y="475">+ ticket_label() : str</text>
+    <text x="618" y="491" font-style="italic" fill="#7B1FA2">ticket_no is sequential within</text>
+    <text x="618" y="503" font-style="italic" fill="#7B1FA2">(practitioner, date) — FR-35</text>
+  </g>
+
+  <!-- Practitioner -->
+  <rect x="890" y="285" width="150" height="130" fill="#FCE8E6" stroke="#C5221F" stroke-width="1.8"/>
+  <rect x="890" y="285" width="150" height="24" fill="#C5221F"/>
+  <text x="965" y="302" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">Practitioner</text>
+  <line x1="890" y1="309" x2="1040" y2="309" stroke="#C5221F"/>
+  <g font-size="9.5" fill="#202124">
+    <text x="898" y="324">− id : int</text>
+    <text x="898" y="338">− full_name : str</text>
+    <text x="898" y="352">− specialty : str</text>
+    <text x="898" y="366">− room : str</text>
+    <text x="898" y="380">− is_active : bool</text>
+  </g>
+  <line x1="890" y1="390" x2="1040" y2="390" stroke="#C5221F"/>
+  <text x="898" y="405" font-size="9.5" fill="#202124">+ label() : str</text>
+
+  <!-- ================= BAND 3 ================= -->
+  <!-- Service entity -->
+  <rect x="40" y="585" width="230" height="150" fill="#FEF7E0" stroke="#B06000" stroke-width="1.8"/>
+  <rect x="40" y="585" width="230" height="24" fill="#B06000"/>
+  <text x="155" y="602" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">Service «entity»</text>
+  <line x1="40" y1="609" x2="270" y2="609" stroke="#B06000"/>
+  <g font-size="9.5" fill="#202124">
+    <text x="48" y="624">− id : int</text>
+    <text x="48" y="638">− name : str «unique»</text>
+    <text x="48" y="652">− description : str</text>
+    <text x="48" y="666">− duration_min : int</text>
+    <text x="48" y="680">− is_active : bool</text>
+  </g>
+  <line x1="40" y1="690" x2="270" y2="690" stroke="#B06000"/>
+  <text x="48" y="705" font-size="9.5" fill="#202124">+ end_time_from(start) : time</text>
+  <text x="48" y="722" font-size="9" font-style="italic" fill="#B06000">duration_min sets the slot width</text>
+
+  <!-- AvailabilityRule -->
+  <rect x="300" y="585" width="280" height="150" fill="#E6F4EA" stroke="#0B8043" stroke-width="1.8"/>
+  <rect x="300" y="585" width="280" height="24" fill="#0B8043"/>
+  <text x="440" y="602" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">AvailabilityRule</text>
+  <line x1="300" y1="609" x2="580" y2="609" stroke="#0B8043"/>
+  <g font-size="9.5" fill="#202124">
+    <text x="308" y="624">− id : int</text>
+    <text x="308" y="638">− practitioner_id : int</text>
+    <text x="308" y="652">− weekday : int  «0 = Monday … 6 = Sunday»</text>
+    <text x="308" y="666">− start_time / end_time : time</text>
+    <text x="308" y="680">− is_active : bool</text>
+  </g>
+  <line x1="300" y1="690" x2="580" y2="690" stroke="#0B8043"/>
+  <text x="308" y="705" font-size="9.5" fill="#202124">+ iter_slots(duration_min) : Iterator[time]</text>
+  <text x="308" y="722" font-size="9" font-style="italic" fill="#0B8043">invariant: start_time &lt; end_time (FR-18)</text>
+
+  <!-- Database -->
+  <rect x="610" y="585" width="250" height="150" fill="#F1F3F4" stroke="#5F6368" stroke-width="1.8"/>
+  <rect x="610" y="585" width="250" height="24" fill="#5F6368"/>
+  <text x="735" y="602" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">Database «infrastructure»</text>
+  <line x1="610" y1="609" x2="860" y2="609" stroke="#5F6368"/>
+  <g font-size="9.5" fill="#202124">
+    <text x="618" y="624">+ query(sql, params) : Row[ ]</text>
+    <text x="618" y="638">+ query_one(sql, params) : Row?</text>
+    <text x="618" y="652">+ execute(sql, params) : int</text>
+    <text x="618" y="666">+ transaction() : ContextManager</text>
+    <text x="618" y="680">+ write_audit(actor, action, …) : None</text>
+    <text x="618" y="694">+ init_schema() : None</text>
+  </g>
+  <text x="618" y="714" font-size="9" font-style="italic" fill="#C5221F">Parameterised SQL only (FR-56).</text>
+  <text x="618" y="726" font-size="9" font-style="italic" fill="#C5221F">Sole seam for the TD-01 PostgreSQL move.</text>
+
+  <!-- Security -->
+  <rect x="890" y="585" width="150" height="150" fill="#F1F3F4" stroke="#5F6368" stroke-width="1.8"/>
+  <rect x="890" y="585" width="150" height="24" fill="#5F6368"/>
+  <text x="965" y="602" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">Security</text>
+  <line x1="890" y1="609" x2="1040" y2="609" stroke="#5F6368"/>
+  <g font-size="9.5" fill="#202124">
+    <text x="898" y="624">+ hash_password()</text>
+    <text x="898" y="638">+ verify_password()</text>
+    <text x="898" y="652">+ issue_token()</text>
+    <text x="898" y="666">+ decode_token()</text>
+    <text x="898" y="680">+ require_auth()</text>
+    <text x="898" y="694">+ require_role()</text>
+    <text x="898" y="708">+ require_csrf()</text>
+    <text x="898" y="722">+ check_rate_limit()</text>
+  </g>
+
+  <!-- ================= ENUMS ================= -->
+  <text x="40" y="778" font-size="12" font-weight="bold" fill="#5F6368">ENUMERATIONS</text>
+
+  <rect x="40" y="785" width="230" height="105" fill="#ffffff" stroke="#5F6368" stroke-width="1.6"/>
+  <rect x="40" y="785" width="230" height="34" fill="#F1F3F4" stroke="#5F6368"/>
+  <text x="155" y="798" text-anchor="middle" font-size="9" font-style="italic" fill="#5f6368">«enumeration»</text>
+  <text x="155" y="812" text-anchor="middle" font-size="12" font-weight="bold" fill="#202124">Role</text>
+  <g font-size="10" fill="#202124">
+    <text x="52" y="838">PATIENT</text>
+    <text x="52" y="856">STAFF</text>
+    <text x="52" y="874">ADMIN</text>
+  </g>
+
+  <rect x="300" y="785" width="280" height="105" fill="#ffffff" stroke="#5F6368" stroke-width="1.6"/>
+  <rect x="300" y="785" width="280" height="34" fill="#F1F3F4" stroke="#5F6368"/>
+  <text x="440" y="798" text-anchor="middle" font-size="9" font-style="italic" fill="#5f6368">«enumeration»</text>
+  <text x="440" y="812" text-anchor="middle" font-size="12" font-weight="bold" fill="#202124">AppointmentStatus</text>
+  <g font-size="10" fill="#202124">
+    <text x="312" y="838">BOOKED          CHECKED_IN</text>
+    <text x="312" y="856">IN_PROGRESS     COMPLETED</text>
+    <text x="312" y="874">CANCELLED       NO_SHOW</text>
+  </g>
+
+  <rect x="610" y="785" width="250" height="105" fill="#ffffff" stroke="#5F6368" stroke-width="1.6"/>
+  <rect x="610" y="785" width="250" height="34" fill="#F1F3F4" stroke="#5F6368"/>
+  <text x="735" y="798" text-anchor="middle" font-size="9" font-style="italic" fill="#5f6368">«enumeration»</text>
+  <text x="735" y="812" text-anchor="middle" font-size="12" font-weight="bold" fill="#202124">QueueStatus</text>
+  <g font-size="10" fill="#202124">
+    <text x="622" y="838">WAITING         CALLED</text>
+    <text x="622" y="856">DONE            SKIPPED</text>
+  </g>
+
+  <!-- legend -->
+  <rect x="890" y="785" width="150" height="105" rx="4" fill="#F8F9FA" stroke="#9AA0A6"/>
+  <text x="965" y="803" text-anchor="middle" font-size="10" font-weight="bold" fill="#202124">Notation</text>
+  <text x="898" y="820" font-size="9" fill="#3C4043">+ public   − private</text>
+  <line x1="898" y1="832" x2="938" y2="832" stroke="#5F6368" stroke-width="1.3" stroke-dasharray="5 3" marker-end="url(#cd_arrow)"/>
+  <text x="946" y="835" font-size="9" fill="#3C4043">depends on</text>
+  <line x1="898" y1="850" x2="938" y2="850" stroke="#5F6368" stroke-width="1.3"/>
+  <text x="946" y="853" font-size="9" fill="#3C4043">association</text>
+  <text x="898" y="872" font-size="9" fill="#3C4043">1, *, 0..1 = multiplicity</text>
+</svg>

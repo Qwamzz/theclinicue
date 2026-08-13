@@ -1,0 +1,11 @@
+# Development and test dependencies. Not installed in the production image.
+-r requirements.txt
+
+pytest==9.1.1
+pytest-cov==7.1.0
+
+# Used only by tools/svg_preview.py, which renders the design diagrams to PNG
+# and validates their XML. Not needed to run or test the application.
+reportlab==5.0.0
+svglib==2.1.0
+rlPyCairo==0.3.0

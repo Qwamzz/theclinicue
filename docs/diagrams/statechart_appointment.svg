@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 500" width="920" height="500" font-family="Helvetica, Arial, sans-serif">
+  <rect width="920" height="500" fill="#ffffff"/>
+  <defs>
+    <marker id="sm" markerWidth="10" markerHeight="8" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#202124"/>
+    </marker>
+  </defs>
+
+  <text x="460" y="26" text-anchor="middle" font-size="19" font-weight="bold" fill="#202124">Appointment Lifecycle — UML State Machine (FR-43)</text>
+  <text x="460" y="45" text-anchor="middle" font-size="11" fill="#5f6368">Any transition not drawn here is rejected by the service layer with 409 INVALID_TRANSITION</text>
+
+  <!-- initial pseudostate -->
+  <circle cx="70" cy="127" r="9" fill="#202124"/>
+  <line x1="79" y1="127" x2="163" y2="127" stroke="#202124" stroke-width="1.6" marker-end="url(#sm)"/>
+  <text x="76" y="118" font-size="9.5" fill="#3C4043">book()</text>
+  <text x="76" y="146" font-size="8.5" fill="#5f6368">/ assign CQ- code</text>
+
+  <!-- ===== states ===== -->
+  <rect x="170" y="100" width="140" height="54" rx="14" fill="#E8F0FE" stroke="#1A73E8" stroke-width="2"/>
+  <text x="240" y="122" text-anchor="middle" font-size="13" font-weight="bold" fill="#202124">BOOKED</text>
+  <text x="240" y="140" text-anchor="middle" font-size="8.5" fill="#5f6368">slot is reserved</text>
+
+  <rect x="400" y="100" width="140" height="54" rx="14" fill="#E6F4EA" stroke="#137333" stroke-width="2"/>
+  <text x="470" y="122" text-anchor="middle" font-size="13" font-weight="bold" fill="#202124">CHECKED_IN</text>
+  <text x="470" y="140" text-anchor="middle" font-size="8.5" fill="#5f6368">in queue, has a ticket</text>
+
+  <rect x="630" y="100" width="140" height="54" rx="14" fill="#FEF7E0" stroke="#B06000" stroke-width="2"/>
+  <text x="700" y="122" text-anchor="middle" font-size="13" font-weight="bold" fill="#202124">IN_PROGRESS</text>
+  <text x="700" y="140" text-anchor="middle" font-size="8.5" fill="#5f6368">with the practitioner</text>
+
+  <rect x="630" y="290" width="140" height="54" rx="14" fill="#CEEAD6" stroke="#0B8043" stroke-width="2"/>
+  <text x="700" y="312" text-anchor="middle" font-size="13" font-weight="bold" fill="#202124">COMPLETED</text>
+  <text x="700" y="330" text-anchor="middle" font-size="8.5" fill="#5f6368">terminal</text>
+
+  <rect x="400" y="290" width="140" height="54" rx="14" fill="#FCE8E6" stroke="#C5221F" stroke-width="2"/>
+  <text x="470" y="312" text-anchor="middle" font-size="13" font-weight="bold" fill="#202124">NO_SHOW</text>
+  <text x="470" y="330" text-anchor="middle" font-size="8.5" fill="#5f6368">terminal</text>
+
+  <rect x="170" y="290" width="140" height="54" rx="14" fill="#F1F3F4" stroke="#5F6368" stroke-width="2"/>
+  <text x="240" y="312" text-anchor="middle" font-size="13" font-weight="bold" fill="#202124">CANCELLED</text>
+  <text x="240" y="330" text-anchor="middle" font-size="8.5" fill="#5f6368">terminal, slot released</text>
+
+  <!-- ===== transitions ===== -->
+  <!-- BOOKED -> CHECKED_IN -->
+  <line x1="310" y1="127" x2="393" y2="127" stroke="#202124" stroke-width="1.6" marker-end="url(#sm)"/>
+  <text x="352" y="106" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#202124">check_in()</text>
+  <text x="352" y="94" text-anchor="middle" font-size="8.5" fill="#C5221F">[date = today]</text>
+  <text x="352" y="146" text-anchor="middle" font-size="8.5" fill="#5f6368">/ create queue entry</text>
+  <text x="352" y="157" text-anchor="middle" font-size="8.5" fill="#5f6368">/ assign next ticket_no</text>
+
+  <!-- CHECKED_IN -> IN_PROGRESS -->
+  <line x1="540" y1="127" x2="623" y2="127" stroke="#202124" stroke-width="1.6" marker-end="url(#sm)"/>
+  <text x="582" y="106" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#202124">call_next()</text>
+  <text x="582" y="94" text-anchor="middle" font-size="8.5" fill="#C5221F">[earliest WAITING]</text>
+  <text x="582" y="146" text-anchor="middle" font-size="8.5" fill="#5f6368">/ queue = CALLED</text>
+  <text x="582" y="157" text-anchor="middle" font-size="8.5" fill="#5f6368">/ record called_at</text>
+
+  <!-- IN_PROGRESS -> COMPLETED -->
+  <line x1="700" y1="154" x2="700" y2="283" stroke="#202124" stroke-width="1.6" marker-end="url(#sm)"/>
+  <text x="710" y="200" font-size="9.5" font-weight="bold" fill="#202124">complete()</text>
+  <text x="710" y="214" font-size="8.5" fill="#5f6368">/ queue = DONE</text>
+  <text x="710" y="226" font-size="8.5" fill="#5f6368">/ record completed_at</text>
+
+  <!-- BOOKED -> CANCELLED -->
+  <line x1="240" y1="154" x2="240" y2="283" stroke="#202124" stroke-width="1.6" marker-end="url(#sm)"/>
+  <text x="60" y="200" font-size="9.5" font-weight="bold" fill="#202124">cancel()</text>
+  <text x="42" y="214" font-size="8.5" fill="#C5221F">[actor owns the</text>
+  <text x="42" y="226" font-size="8.5" fill="#C5221F">appointment or is staff]</text>
+  <text x="60" y="242" font-size="8.5" fill="#5f6368">/ slot returns to</text>
+  <text x="60" y="254" font-size="8.5" fill="#5f6368">the free pool</text>
+
+  <!-- BOOKED -> NO_SHOW -->
+  <line x1="290" y1="154" x2="424" y2="283" stroke="#202124" stroke-width="1.6" marker-end="url(#sm)"/>
+  <text x="300" y="212" font-size="9.5" font-weight="bold" fill="#202124">mark_no_show()</text>
+  <text x="300" y="226" font-size="8.5" fill="#5f6368">never arrived</text>
+
+  <!-- CHECKED_IN -> NO_SHOW -->
+  <line x1="470" y1="154" x2="470" y2="283" stroke="#202124" stroke-width="1.6" marker-end="url(#sm)"/>
+  <text x="480" y="205" font-size="9.5" font-weight="bold" fill="#202124">mark_no_show()</text>
+  <text x="480" y="219" font-size="8.5" fill="#5f6368">left before being called</text>
+
+  <!-- ===== final states ===== -->
+  <g>
+    <circle cx="240" cy="392" r="11" fill="none" stroke="#202124" stroke-width="1.6"/>
+    <circle cx="240" cy="392" r="6.5" fill="#202124"/>
+    <line x1="240" y1="344" x2="240" y2="379" stroke="#202124" stroke-width="1.6" marker-end="url(#sm)"/>
+
+    <circle cx="470" cy="392" r="11" fill="none" stroke="#202124" stroke-width="1.6"/>
+    <circle cx="470" cy="392" r="6.5" fill="#202124"/>
+    <line x1="470" y1="344" x2="470" y2="379" stroke="#202124" stroke-width="1.6" marker-end="url(#sm)"/>
+
+    <circle cx="700" cy="392" r="11" fill="none" stroke="#202124" stroke-width="1.6"/>
+    <circle cx="700" cy="392" r="6.5" fill="#202124"/>
+    <line x1="700" y1="344" x2="700" y2="379" stroke="#202124" stroke-width="1.6" marker-end="url(#sm)"/>
+  </g>
+
+  <!-- ===== transition table ===== -->
+  <rect x="40" y="420" width="840" height="66" rx="5" fill="#F8F9FA" stroke="#9AA0A6"/>
+  <text x="52" y="438" font-size="11" font-weight="bold" fill="#202124">Permitted transitions (the complete set — everything else is rejected)</text>
+  <text x="52" y="456" font-size="9.5" fill="#3C4043">BOOKED → CHECKED_IN · BOOKED → CANCELLED · BOOKED → NO_SHOW · CHECKED_IN → IN_PROGRESS · CHECKED_IN → NO_SHOW · IN_PROGRESS → COMPLETED</text>
+  <text x="52" y="472" font-size="9.5" fill="#C5221F">Rejected examples: COMPLETED → CANCELLED (FR-31) · CANCELLED → CHECKED_IN · BOOKED → IN_PROGRESS (must be checked in first) · CHECKED_IN → CHECKED_IN (FR-36)</text>
+</svg>

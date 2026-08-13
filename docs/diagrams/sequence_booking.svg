@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 830" width="1000" height="830" font-family="Helvetica, Arial, sans-serif">
+  <rect width="1000" height="830" fill="#ffffff"/>
+  <defs>
+    <marker id="solid" markerWidth="10" markerHeight="8" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#202124"/>
+    </marker>
+    <marker id="open" markerWidth="10" markerHeight="8" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L9,3 L0,6" fill="none" stroke="#5f6368" stroke-width="1.2"/>
+    </marker>
+  </defs>
+
+  <text x="500" y="26" text-anchor="middle" font-size="19" font-weight="bold" fill="#202124">UC-04 Book an Appointment — UML Sequence Diagram</text>
+  <text x="500" y="45" text-anchor="middle" font-size="11" fill="#5f6368">Covers FR-20 to FR-26. The alt fragment is the time-of-check-to-time-of-use race required by FR-26.</text>
+
+  <!-- lifeline heads -->
+  <g>
+    <rect x="30" y="60" width="120" height="34" rx="4" fill="#E8F0FE" stroke="#1A73E8" stroke-width="1.6"/>
+    <text x="90" y="76" text-anchor="middle" font-size="11" font-weight="bold" fill="#202124">:Patient</text>
+    <text x="90" y="88" text-anchor="middle" font-size="10" fill="#5f6368">Browser</text>
+
+    <rect x="216" y="60" width="128" height="34" rx="4" fill="#E6F4EA" stroke="#137333" stroke-width="1.6"/>
+    <text x="280" y="76" text-anchor="middle" font-size="11" font-weight="bold" fill="#202124">:API</text>
+    <text x="280" y="88" text-anchor="middle" font-size="10" fill="#5f6368">appointments.py</text>
+
+    <rect x="404" y="60" width="132" height="34" rx="4" fill="#F1F3F4" stroke="#5F6368" stroke-width="1.6"/>
+    <text x="470" y="76" text-anchor="middle" font-size="11" font-weight="bold" fill="#202124">:RequestPipeline</text>
+    <text x="470" y="88" text-anchor="middle" font-size="10" fill="#5f6368">security · validators</text>
+
+    <rect x="592" y="60" width="136" height="34" rx="4" fill="#FEF7E0" stroke="#B06000" stroke-width="1.6"/>
+    <text x="660" y="76" text-anchor="middle" font-size="11" font-weight="bold" fill="#202124">:SchedulingService</text>
+    <text x="660" y="88" text-anchor="middle" font-size="10" fill="#5f6368">scheduling.py</text>
+
+    <rect x="812" y="60" width="136" height="34" rx="4" fill="#FCE8E6" stroke="#C5221F" stroke-width="1.6"/>
+    <text x="880" y="76" text-anchor="middle" font-size="11" font-weight="bold" fill="#202124">:Database</text>
+    <text x="880" y="88" text-anchor="middle" font-size="10" fill="#5f6368">db.py · SQLite</text>
+  </g>
+
+  <!-- lifelines -->
+  <g stroke="#9AA0A6" stroke-width="1" stroke-dasharray="5 4">
+    <line x1="90" y1="94" x2="90" y2="800"/>
+    <line x1="280" y1="94" x2="280" y2="800"/>
+    <line x1="470" y1="94" x2="470" y2="800"/>
+    <line x1="660" y1="94" x2="660" y2="800"/>
+    <line x1="880" y1="94" x2="880" y2="800"/>
+  </g>
+
+  <!-- activation bars -->
+  <g fill="#DADCE0" stroke="#5F6368" stroke-width="0.8">
+    <rect x="274" y="128" width="12" height="235"/>
+    <rect x="464" y="152" width="12" height="30"/>
+    <rect x="654" y="198" width="12" height="145"/>
+    <rect x="274" y="386" width="12" height="382"/>
+    <rect x="464" y="410" width="12" height="38"/>
+    <rect x="654" y="462" width="12" height="290"/>
+  </g>
+
+  <!-- ============ PHASE 1: list slots ============ -->
+  <rect x="30" y="106" width="360" height="16" rx="3" fill="#E8F0FE" stroke="#1A73E8" stroke-width="0.8"/>
+  <text x="38" y="118" font-size="9.5" font-weight="bold" fill="#1A73E8">PHASE 1 — Discover available slots (FR-20 … FR-23)</text>
+
+  <line x1="90" y1="134" x2="272" y2="134" stroke="#202124" stroke-width="1.4" marker-end="url(#solid)"/>
+  <text x="96" y="130" font-size="9.5" fill="#202124">1: GET /api/slots?practitioner_id=3&amp;service_id=1&amp;date=2026-08-14</text>
+
+  <line x1="286" y1="158" x2="462" y2="158" stroke="#202124" stroke-width="1.4" marker-end="url(#solid)"/>
+  <text x="292" y="154" font-size="9.5" fill="#202124">2: require_auth(session cookie)</text>
+
+  <line x1="462" y1="178" x2="288" y2="178" stroke="#5f6368" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#open)"/>
+  <text x="300" y="174" font-size="9.5" fill="#5f6368">3: user{id, role}</text>
+
+  <line x1="286" y1="204" x2="652" y2="204" stroke="#202124" stroke-width="1.4" marker-end="url(#solid)"/>
+  <text x="292" y="200" font-size="9.5" fill="#202124">4: list_slots(practitioner_id, service_id, date)</text>
+
+  <line x1="666" y1="226" x2="878" y2="226" stroke="#202124" stroke-width="1.4" marker-end="url(#solid)"/>
+  <text x="672" y="222" font-size="9.5" fill="#202124">5: SELECT availability_rules WHERE practitioner AND weekday</text>
+
+  <line x1="878" y1="246" x2="668" y2="246" stroke="#5f6368" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#open)"/>
+  <text x="700" y="242" font-size="9.5" fill="#5f6368">6: rules[ ]</text>
+
+  <line x1="666" y1="268" x2="878" y2="268" stroke="#202124" stroke-width="1.4" marker-end="url(#solid)"/>
+  <text x="672" y="264" font-size="9.5" fill="#202124">7: SELECT appointments WHERE practitioner AND date AND status ≠ CANCELLED</text>
+
+  <line x1="878" y1="288" x2="668" y2="288" stroke="#5f6368" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#open)"/>
+  <text x="700" y="284" font-size="9.5" fill="#5f6368">8: booked[ ]</text>
+
+  <!-- self message -->
+  <path d="M666,306 L714,306 L714,330 L668,330" fill="none" stroke="#202124" stroke-width="1.4" marker-end="url(#solid)"/>
+  <text x="722" y="310" font-size="9.5" fill="#202124">9: partition each window into service.duration_min intervals;</text>
+  <text x="722" y="322" font-size="9.5" fill="#202124">     drop overlaps with booked[ ]; drop elapsed slots</text>
+
+  <line x1="652" y1="352" x2="288" y2="352" stroke="#5f6368" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#open)"/>
+  <text x="360" y="348" font-size="9.5" fill="#5f6368">10: free_slots[ ]</text>
+
+  <line x1="272" y1="372" x2="92" y2="372" stroke="#5f6368" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#open)"/>
+  <text x="98" y="368" font-size="9.5" fill="#5f6368">11: 200 OK { slots: ["09:00", "09:30", …] }</text>
+
+  <!-- ============ PHASE 2: book ============ -->
+  <rect x="30" y="378" width="360" height="16" rx="3" fill="#E6F4EA" stroke="#137333" stroke-width="0.8"/>
+  <text x="38" y="390" font-size="9.5" font-weight="bold" fill="#137333">PHASE 2 — Commit the booking (FR-24 … FR-27)</text>
+
+  <line x1="90" y1="404" x2="272" y2="404" stroke="#202124" stroke-width="1.4" marker-end="url(#solid)"/>
+  <text x="96" y="400" font-size="9.5" fill="#202124">12: POST /api/appointments  { practitioner_id, service_id, date, start_time }  + X-CSRF-Token</text>
+
+  <line x1="286" y1="418" x2="462" y2="418" stroke="#202124" stroke-width="1.4" marker-end="url(#solid)"/>
+  <text x="292" y="414" font-size="9.5" fill="#202124">13: require_auth · require_csrf · validate(payload)</text>
+
+  <line x1="462" y1="442" x2="288" y2="442" stroke="#5f6368" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#open)"/>
+  <text x="296" y="438" font-size="9.5" fill="#5f6368">14: ok   [ else → 400 VALIDATION_ERROR / 403 CSRF_INVALID ]</text>
+
+  <line x1="286" y1="468" x2="652" y2="468" stroke="#202124" stroke-width="1.4" marker-end="url(#solid)"/>
+  <text x="292" y="464" font-size="9.5" fill="#202124">15: book_appointment(patient_id, practitioner_id, service_id, date, start_time)</text>
+
+  <line x1="666" y1="490" x2="878" y2="490" stroke="#202124" stroke-width="1.4" marker-end="url(#solid)"/>
+  <text x="672" y="486" font-size="9.5" fill="#202124">16: BEGIN IMMEDIATE  — acquire write lock</text>
+
+  <line x1="666" y1="512" x2="878" y2="512" stroke="#202124" stroke-width="1.4" marker-end="url(#solid)"/>
+  <text x="672" y="508" font-size="9.5" fill="#202124">17: re-verify slot is within availability AND still unbooked  (FR-26)</text>
+
+  <!-- ============ ALT FRAGMENT ============ -->
+  <rect x="46" y="528" width="906" height="250" fill="none" stroke="#202124" stroke-width="1.6"/>
+  <path d="M46,528 L112,528 L112,542 L100,552 L46,552 Z" fill="#F1F3F4" stroke="#202124" stroke-width="1.6"/>
+  <text x="56" y="544" font-size="11" font-weight="bold" fill="#202124">alt</text>
+
+  <text x="122" y="545" font-size="10" font-weight="bold" fill="#137333">[ slot still free ]</text>
+
+  <line x1="666" y1="570" x2="878" y2="570" stroke="#202124" stroke-width="1.4" marker-end="url(#solid)"/>
+  <text x="672" y="566" font-size="9.5" fill="#202124">18: INSERT INTO appointments (…, code = 'CQ-' || random6, status = 'BOOKED')</text>
+
+  <line x1="878" y1="590" x2="668" y2="590" stroke="#5f6368" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#open)"/>
+  <text x="700" y="586" font-size="9.5" fill="#5f6368">19: appointment_id</text>
+
+  <line x1="666" y1="612" x2="878" y2="612" stroke="#202124" stroke-width="1.4" marker-end="url(#solid)"/>
+  <text x="672" y="608" font-size="9.5" fill="#202124">20: INSERT INTO audit_log (BOOK_APPOINTMENT, actor, entity_id, ip)   (FR-48)</text>
+
+  <line x1="666" y1="634" x2="878" y2="634" stroke="#202124" stroke-width="1.4" marker-end="url(#solid)"/>
+  <text x="672" y="630" font-size="9.5" fill="#202124">21: COMMIT</text>
+
+  <line x1="652" y1="654" x2="288" y2="654" stroke="#5f6368" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#open)"/>
+  <text x="380" y="650" font-size="9.5" fill="#5f6368">22: Appointment</text>
+
+  <line x1="272" y1="674" x2="92" y2="674" stroke="#5f6368" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#open)"/>
+  <text x="98" y="670" font-size="9.5" fill="#137333" font-weight="bold">23: 201 Created { code: "CQ-7F3A21", date, start_time, status: "BOOKED" }</text>
+
+  <!-- else divider -->
+  <line x1="46" y1="690" x2="952" y2="690" stroke="#202124" stroke-width="1.2" stroke-dasharray="7 4"/>
+  <text x="56" y="706" font-size="10" font-weight="bold" fill="#C5221F">[ else — slot taken by a concurrent booking since step 11 ]</text>
+
+  <line x1="666" y1="726" x2="878" y2="726" stroke="#202124" stroke-width="1.4" marker-end="url(#solid)"/>
+  <text x="672" y="722" font-size="9.5" fill="#202124">24: ROLLBACK  — no partial record is left  (NFR-REL-02)</text>
+
+  <line x1="652" y1="748" x2="288" y2="748" stroke="#5f6368" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#open)"/>
+  <text x="360" y="744" font-size="9.5" fill="#5f6368">25: raise SlotUnavailable</text>
+
+  <line x1="272" y1="768" x2="92" y2="768" stroke="#5f6368" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#open)"/>
+  <text x="98" y="764" font-size="9.5" fill="#C5221F" font-weight="bold">26: 409 Conflict { error: "SLOT_TAKEN", message: "That time was just booked. Please pick another." }</text>
+
+  <!-- note -->
+  <rect x="46" y="788" width="906" height="34" rx="4" fill="#FEF7E0" stroke="#B06000" stroke-width="1"/>
+  <text x="56" y="803" font-size="9.5" fill="#3C4043"><tspan font-weight="bold">Note —</tspan> Steps 16, 17 and the partial unique index on (practitioner_id, appt_date, start_time) WHERE status ≠ 'CANCELLED' form a defence in depth:</text>
+  <text x="56" y="816" font-size="9.5" fill="#3C4043">the application check is fast and gives a friendly message; the database constraint is the guarantee. If the index fires, the IntegrityError is caught and mapped to the same 409.</text>
+</svg>

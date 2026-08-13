@@ -1,0 +1,43 @@
+# Render blueprint. Deploy with: New > Blueprint, pointed at this repository.
+#
+# IMPORTANT: on Render's free tier the filesystem is ephemeral, so the SQLite
+# database is destroyed on every deploy and on every idle spin-down. That is
+# acceptable for a demonstration and is NOT acceptable for real patient data.
+# The `disk` block below is commented out because it requires a paid instance;
+# uncommenting it is the first half of repaying technical debt item TD-01.
+
+services:
+  - type: web
+    name: clinicue
+    runtime: python
+    plan: free
+    region: frankfurt          # closest available region to West Africa
+    branch: main
+
+    buildCommand: pip install -r requirements.txt
+    startCommand: >
+      python -m app.seed &&
+      gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 30
+      --access-logfile - --error-logfile - wsgi:app
+
+    healthCheckPath: /api/health
+
+    envVars:
+      - key: CQ_ENV
+        value: production
+      - key: CQ_SECRET_KEY
+        generateValue: true    # Render generates and stores it; never committed
+      - key: CQ_DATABASE_PATH
+        value: /var/data/clinicue.sqlite3
+      - key: CQ_COOKIE_SECURE
+        value: "true"
+      - key: CQ_SESSION_HOURS
+        value: "8"
+      - key: PYTHON_VERSION
+        value: "3.12.6"
+
+    # Uncomment on a paid instance to make the database survive deploys (TD-01).
+    # disk:
+    #   name: clinicue-data
+    #   mountPath: /var/data
+    #   sizeGB: 1

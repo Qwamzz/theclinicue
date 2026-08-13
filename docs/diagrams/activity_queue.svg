@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1090" width="1000" height="1090" font-family="Helvetica, Arial, sans-serif">
+  <rect width="1000" height="1090" fill="#ffffff"/>
+  <defs>
+    <marker id="av" markerWidth="10" markerHeight="8" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#202124"/>
+    </marker>
+  </defs>
+
+  <text x="500" y="26" text-anchor="middle" font-size="19" font-weight="bold" fill="#202124">UC-09 / UC-10 Check-in and Consultation Queue — UML Activity Diagram with Swimlanes</text>
+  <text x="500" y="45" text-anchor="middle" font-size="11" fill="#5f6368">Covers FR-34 to FR-43. The loop is what replaces the physical queue at the front desk.</text>
+
+  <!-- ===== swimlanes ===== -->
+  <g stroke="#5F6368" stroke-width="1.4" fill="none">
+    <rect x="30" y="60" width="240" height="1000"/>
+    <rect x="270" y="60" width="250" height="1000"/>
+    <rect x="520" y="60" width="270" height="1000"/>
+    <rect x="790" y="60" width="180" height="1000"/>
+  </g>
+  <rect x="30" y="60" width="240" height="32" fill="#E8F0FE" stroke="#5F6368" stroke-width="1.4"/>
+  <rect x="270" y="60" width="250" height="32" fill="#E6F4EA" stroke="#5F6368" stroke-width="1.4"/>
+  <rect x="520" y="60" width="270" height="32" fill="#FEF7E0" stroke="#5F6368" stroke-width="1.4"/>
+  <rect x="790" y="60" width="180" height="32" fill="#FCE8E6" stroke="#5F6368" stroke-width="1.4"/>
+  <text x="150" y="81" text-anchor="middle" font-size="13" font-weight="bold" fill="#202124">Patient</text>
+  <text x="395" y="81" text-anchor="middle" font-size="13" font-weight="bold" fill="#202124">Reception Staff</text>
+  <text x="655" y="81" text-anchor="middle" font-size="13" font-weight="bold" fill="#202124">Clinicue System</text>
+  <text x="880" y="81" text-anchor="middle" font-size="13" font-weight="bold" fill="#202124">Practitioner</text>
+
+  <!-- ===== flow ===== -->
+  <circle cx="150" cy="118" r="11" fill="#202124"/>
+  <line x1="150" y1="129" x2="150" y2="148" stroke="#202124" stroke-width="1.6" marker-end="url(#av)"/>
+  <rect x="55" y="155" width="190" height="46" rx="10" fill="#ffffff" stroke="#1A73E8" stroke-width="1.6"/>
+  <text x="150" y="174" text-anchor="middle" font-size="10.5" fill="#202124">Arrive at the clinic and give</text>
+  <text x="150" y="189" text-anchor="middle" font-size="10.5" fill="#202124">booking code or full name</text>
+
+  <path d="M245,178 L275,178 L275,222 L295,222" fill="none" stroke="#202124" stroke-width="1.6" marker-end="url(#av)"/>
+  <rect x="300" y="199" width="190" height="46" rx="10" fill="#ffffff" stroke="#137333" stroke-width="1.6"/>
+  <text x="395" y="218" text-anchor="middle" font-size="10.5" fill="#202124">Find the appointment on</text>
+  <text x="395" y="233" text-anchor="middle" font-size="10.5" fill="#202124">today's schedule (UC-07)</text>
+
+  <path d="M490,222 L510,222 L510,285 L537,285" fill="none" stroke="#202124" stroke-width="1.6" marker-end="url(#av)"/>
+
+  <!-- decision 1 -->
+  <polygon points="655,237 770,285 655,333 540,285" fill="#FEF7E0" stroke="#B06000" stroke-width="1.8"/>
+  <text x="655" y="278" text-anchor="middle" font-size="10" font-weight="bold" fill="#202124">Found, status BOOKED,</text>
+  <text x="655" y="292" text-anchor="middle" font-size="10" font-weight="bold" fill="#202124">and dated today?</text>
+
+  <!-- no branch -->
+  <path d="M540,285 L515,285 L515,330 L395,330 L395,352" fill="none" stroke="#C5221F" stroke-width="1.6" marker-end="url(#av)"/>
+  <text x="418" y="324" font-size="10" font-weight="bold" fill="#C5221F">[no]</text>
+  <rect x="300" y="359" width="190" height="46" rx="10" fill="#ffffff" stroke="#137333" stroke-width="1.6"/>
+  <text x="395" y="378" text-anchor="middle" font-size="10.5" fill="#202124">Register as a walk-in and</text>
+  <text x="395" y="393" text-anchor="middle" font-size="10.5" fill="#202124">book on their behalf (UC-08)</text>
+  <path d="M490,382 L545,382" fill="none" stroke="#202124" stroke-width="1.6" marker-end="url(#av)"/>
+
+  <!-- yes branch -->
+  <path d="M655,333 L655,352" fill="none" stroke="#137333" stroke-width="1.6" marker-end="url(#av)"/>
+  <text x="664" y="348" font-size="10" font-weight="bold" fill="#137333">[yes]</text>
+
+  <rect x="550" y="359" width="210" height="62" rx="10" fill="#FEF7E0" stroke="#B06000" stroke-width="1.8"/>
+  <text x="655" y="377" text-anchor="middle" font-size="10.5" fill="#202124">Create queue entry · assign the</text>
+  <text x="655" y="391" text-anchor="middle" font-size="10.5" fill="#202124">next ticket_no for (practitioner,</text>
+  <text x="655" y="405" text-anchor="middle" font-size="10.5" fill="#202124">today) · set CHECKED_IN · audit</text>
+  <text x="655" y="417" text-anchor="middle" font-size="8.5" font-style="italic" fill="#B06000">FR-34, FR-35, FR-36, FR-37</text>
+
+  <path d="M550,390 L520,390 L520,455 L250,455 L250,462" fill="none" stroke="#202124" stroke-width="1.6" marker-end="url(#av)"/>
+  <rect x="55" y="469" width="190" height="46" rx="10" fill="#ffffff" stroke="#1A73E8" stroke-width="1.6"/>
+  <text x="150" y="488" text-anchor="middle" font-size="10.5" fill="#202124">Receive ticket (e.g. B-07) and</text>
+  <text x="150" y="503" text-anchor="middle" font-size="10.5" fill="#202124">watch live position (FR-44)</text>
+
+  <!-- practitioner ready -->
+  <rect x="800" y="469" width="160" height="46" rx="10" fill="#ffffff" stroke="#C5221F" stroke-width="1.6"/>
+  <text x="880" y="488" text-anchor="middle" font-size="10.5" fill="#202124">Signal ready for</text>
+  <text x="880" y="503" text-anchor="middle" font-size="10.5" fill="#202124">the next patient</text>
+  <path d="M800,492 L770,492 L770,560 L495,560" fill="none" stroke="#202124" stroke-width="1.6" marker-end="url(#av)"/>
+
+  <rect x="300" y="537" width="190" height="46" rx="10" fill="#ffffff" stroke="#137333" stroke-width="1.6"/>
+  <text x="395" y="556" text-anchor="middle" font-size="10.5" fill="#202124">Press "Call Next" for</text>
+  <text x="395" y="571" text-anchor="middle" font-size="10.5" fill="#202124">that practitioner</text>
+
+  <path d="M490,560 L510,560 L510,620 L545,620" fill="none" stroke="#202124" stroke-width="1.6" marker-end="url(#av)"/>
+
+  <rect x="550" y="591" width="210" height="62" rx="10" fill="#FEF7E0" stroke="#B06000" stroke-width="1.8"/>
+  <text x="655" y="609" text-anchor="middle" font-size="10.5" fill="#202124">Take the earliest WAITING entry</text>
+  <text x="655" y="623" text-anchor="middle" font-size="10.5" fill="#202124">→ CALLED; appointment →</text>
+  <text x="655" y="637" text-anchor="middle" font-size="10.5" fill="#202124">IN_PROGRESS; record called_at</text>
+  <text x="655" y="649" text-anchor="middle" font-size="8.5" font-style="italic" fill="#B06000">FR-38, FR-39</text>
+
+  <path d="M550,622 L520,622 L520,690 L250,690 L250,697" fill="none" stroke="#202124" stroke-width="1.6" marker-end="url(#av)"/>
+  <rect x="55" y="704" width="190" height="46" rx="10" fill="#ffffff" stroke="#1A73E8" stroke-width="1.6"/>
+  <text x="150" y="723" text-anchor="middle" font-size="10.5" fill="#202124">See own ticket called; go</text>
+  <text x="150" y="738" text-anchor="middle" font-size="10.5" fill="#202124">to the consulting room</text>
+
+  <path d="M245,727 L790,727" fill="none" stroke="#202124" stroke-width="1.6" marker-end="url(#av)"/>
+  <rect x="800" y="704" width="160" height="46" rx="10" fill="#ffffff" stroke="#C5221F" stroke-width="1.6"/>
+  <text x="880" y="723" text-anchor="middle" font-size="10.5" fill="#202124">Conduct the</text>
+  <text x="880" y="738" text-anchor="middle" font-size="10.5" fill="#202124">consultation</text>
+
+  <path d="M880,750 L880,790 L495,790" fill="none" stroke="#202124" stroke-width="1.6" marker-end="url(#av)"/>
+  <rect x="300" y="767" width="190" height="46" rx="10" fill="#ffffff" stroke="#137333" stroke-width="1.6"/>
+  <text x="395" y="786" text-anchor="middle" font-size="10.5" fill="#202124">Mark the consultation</text>
+  <text x="395" y="801" text-anchor="middle" font-size="10.5" fill="#202124">complete</text>
+
+  <path d="M490,790 L510,790 L510,850 L545,850" fill="none" stroke="#202124" stroke-width="1.6" marker-end="url(#av)"/>
+
+  <rect x="550" y="821" width="210" height="62" rx="10" fill="#FEF7E0" stroke="#B06000" stroke-width="1.8"/>
+  <text x="655" y="839" text-anchor="middle" font-size="10.5" fill="#202124">queue → DONE; appointment →</text>
+  <text x="655" y="853" text-anchor="middle" font-size="10.5" fill="#202124">COMPLETED; record completed_at;</text>
+  <text x="655" y="867" text-anchor="middle" font-size="10.5" fill="#202124">write audit record</text>
+  <text x="655" y="879" text-anchor="middle" font-size="8.5" font-style="italic" fill="#B06000">FR-40, FR-48</text>
+
+  <path d="M655,883 L655,905" fill="none" stroke="#202124" stroke-width="1.6" marker-end="url(#av)"/>
+
+  <!-- decision 2 -->
+  <polygon points="655,908 768,950 655,992 542,950" fill="#FEF7E0" stroke="#B06000" stroke-width="1.8"/>
+  <text x="655" y="946" text-anchor="middle" font-size="10" font-weight="bold" fill="#202124">More patients still</text>
+  <text x="655" y="960" text-anchor="middle" font-size="10" font-weight="bold" fill="#202124">WAITING?</text>
+
+  <!-- loop back -->
+  <path d="M542,950 L508,950 L508,583 L495,583" fill="none" stroke="#137333" stroke-width="1.6" stroke-dasharray="6 3" marker-end="url(#av)"/>
+  <text x="460" y="944" font-size="10" font-weight="bold" fill="#137333">[yes] — call the next ticket</text>
+
+  <!-- end -->
+  <path d="M655,992 L655,1012" fill="none" stroke="#202124" stroke-width="1.6" marker-end="url(#av)"/>
+  <text x="664" y="1008" font-size="10" font-weight="bold" fill="#C5221F">[no]</text>
+  <circle cx="655" cy="1030" r="12" fill="none" stroke="#202124" stroke-width="1.8"/>
+  <circle cx="655" cy="1030" r="7" fill="#202124"/>
+
+  <!-- exception note -->
+  <rect x="45" y="820" width="230" height="120" rx="6" fill="#FCE8E6" stroke="#C5221F" stroke-width="1.2"/>
+  <text x="57" y="839" font-size="10.5" font-weight="bold" fill="#C5221F">Exception path — no-show (FR-41)</text>
+  <text x="57" y="857" font-size="9" fill="#3C4043">At any point while the appointment is</text>
+  <text x="57" y="870" font-size="9" fill="#3C4043">BOOKED or CHECKED_IN, staff may mark</text>
+  <text x="57" y="883" font-size="9" fill="#3C4043">it NO_SHOW. The queue entry becomes</text>
+  <text x="57" y="896" font-size="9" fill="#3C4043">SKIPPED, the flow terminates for that</text>
+  <text x="57" y="909" font-size="9" fill="#3C4043">patient, and the event is counted in the</text>
+  <text x="57" y="922" font-size="9" fill="#3C4043">daily no-show rate (FR-50).</text>
+  <text x="57" y="935" font-size="8.5" font-style="italic" fill="#C5221F">See the state machine diagram.</text>
+</svg>

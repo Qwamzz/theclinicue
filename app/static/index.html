@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Clinicue — outpatient appointment booking and patient queue management for community clinics.">
+  <meta name="theme-color" content="#1a73e8">
+  <title>Clinicue — Clinic Appointments &amp; Queue</title>
+  <link rel="stylesheet" href="/static/css/app.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231a73e8'/><path d='M9 16h4l2-5 3 10 2-5h4' stroke='white' stroke-width='2.4' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <header class="topbar" id="topbar" hidden>
+    <div class="topbar-inner">
+      <a class="brand" href="#/">
+        <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true">
+          <rect width="32" height="32" rx="7" fill="currentColor"></rect>
+          <path d="M9 16h4l2-5 3 10 2-5h4" stroke="#fff" stroke-width="2.4" fill="none"
+                stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <span>Clinicue</span>
+      </a>
+
+      <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="primary-nav">
+        <span class="sr-only">Menu</span>
+        <span aria-hidden="true">&#9776;</span>
+      </button>
+
+      <nav class="nav" id="primary-nav" aria-label="Primary"></nav>
+
+      <div class="topbar-user">
+        <span class="who" id="who"></span>
+        <button class="btn btn-ghost btn-sm" id="signout">Sign out</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="main" tabindex="-1">
+    <div class="loading" id="boot">Loading&hellip;</div>
+  </main>
+
+  <footer class="footer" id="footer" hidden>
+    <p>Clinicue v1.0 &middot; a prototype outpatient scheduling system.
+       No clinical records are stored.</p>
+  </footer>
+
+  <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+  <div class="modal-backdrop" id="modal-backdrop" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <h2 id="modal-title">Confirm</h2>
+      <p id="modal-body"></p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="modal-cancel">Cancel</button>
+        <button class="btn btn-danger" id="modal-confirm">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/static/js/app.js"></script>
+</body>
+</html>

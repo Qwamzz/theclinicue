@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 740" width="1020" height="740" font-family="Helvetica, Arial, sans-serif">
+  <rect width="1020" height="740" fill="#ffffff"/>
+  <text x="510" y="28" text-anchor="middle" font-size="19" font-weight="bold" fill="#202124">Clinicue — Entity Relationship Diagram</text>
+  <text x="510" y="48" text-anchor="middle" font-size="11" fill="#5f6368">7 relations · SQLite 3 · foreign keys enforced · PK = primary key, FK = foreign key, UK = unique</text>
+
+  <!-- ============ relationship lines (under boxes) ============ -->
+  <g stroke="#5F6368" stroke-width="1.5" fill="none">
+    <path d="M270,150 L390,180"/>
+    <path d="M270,196 L330,196 L330,300 L390,300"/>
+    <path d="M155,222 L155,270"/>
+    <path d="M270,510 L340,510 L340,325 L390,325"/>
+    <path d="M740,140 L620,180"/>
+    <path d="M855,192 L855,280"/>
+    <path d="M505,337 L505,430"/>
+    <path d="M755,192 L700,240 L640,300 L640,470 L620,470"/>
+  </g>
+  <g font-size="11" font-weight="bold" fill="#C5221F">
+    <text x="278" y="146">1</text><text x="374" y="176">N</text>
+    <text x="278" y="192">1</text><text x="374" y="296">N</text>
+    <text x="160" y="236">1</text><text x="160" y="266">N</text>
+    <text x="278" y="506">1</text><text x="374" y="321">N</text>
+    <text x="726" y="136">1</text><text x="626" y="176">N</text>
+    <text x="860" y="208">1</text><text x="860" y="276">N</text>
+    <text x="512" y="353">1</text><text x="512" y="424">0..1</text>
+    <text x="628" y="462">N</text>
+  </g>
+  <g font-size="9" font-style="italic" fill="#5f6368">
+    <text x="298" y="177">books</text>
+    <text x="336" y="250">created by</text>
+    <text x="166" y="252">performs</text>
+    <text x="288" y="498">categorises</text>
+    <text x="634" y="206">is scheduled with</text>
+    <text x="864" y="240">is available</text>
+    <text x="520" y="392">enters the queue as</text>
+  </g>
+
+  <!-- ============ USERS ============ -->
+  <rect x="40" y="70" width="230" height="152" rx="4" fill="#ffffff" stroke="#1A73E8" stroke-width="1.8"/>
+  <rect x="40" y="70" width="230" height="26" rx="4" fill="#1A73E8"/>
+  <rect x="40" y="88" width="230" height="8" fill="#1A73E8"/>
+  <text x="155" y="88" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#ffffff">users</text>
+  <g font-size="10" fill="#202124">
+    <text x="50" y="112"><tspan font-weight="bold" fill="#C5221F">PK</tspan>  id            INTEGER</text>
+    <text x="50" y="127">      full_name     TEXT</text>
+    <text x="50" y="142"><tspan font-weight="bold" fill="#B06000">UK</tspan>  email         TEXT</text>
+    <text x="50" y="157">      phone         TEXT</text>
+    <text x="50" y="172">      password_hash TEXT</text>
+    <text x="50" y="187">      role          TEXT</text>
+    <text x="50" y="202">      is_active     INTEGER</text>
+    <text x="50" y="217">      created_at    TEXT</text>
+  </g>
+  <text x="50" y="238" font-size="8.5" font-style="italic" fill="#5f6368">role ∈ {PATIENT, STAFF, ADMIN}</text>
+
+  <!-- ============ AUDIT_LOG ============ -->
+  <rect x="40" y="270" width="230" height="152" rx="4" fill="#ffffff" stroke="#5F6368" stroke-width="1.8"/>
+  <rect x="40" y="270" width="230" height="26" rx="4" fill="#5F6368"/>
+  <rect x="40" y="288" width="230" height="8" fill="#5F6368"/>
+  <text x="155" y="288" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#ffffff">audit_log</text>
+  <g font-size="10" fill="#202124">
+    <text x="50" y="312"><tspan font-weight="bold" fill="#C5221F">PK</tspan>  id          INTEGER</text>
+    <text x="50" y="327"><tspan font-weight="bold" fill="#1A73E8">FK</tspan>  actor_id    INTEGER</text>
+    <text x="50" y="342">      action      TEXT</text>
+    <text x="50" y="357">      entity      TEXT</text>
+    <text x="50" y="372">      entity_id   INTEGER</text>
+    <text x="50" y="387">      details     TEXT</text>
+    <text x="50" y="402">      ip_address  TEXT</text>
+    <text x="50" y="417">      created_at  TEXT</text>
+  </g>
+  <text x="50" y="438" font-size="8.5" font-style="italic" fill="#5f6368">append-only; actor_id NULL for anonymous</text>
+
+  <!-- ============ SERVICES ============ -->
+  <rect x="40" y="480" width="230" height="122" rx="4" fill="#ffffff" stroke="#B06000" stroke-width="1.8"/>
+  <rect x="40" y="480" width="230" height="26" rx="4" fill="#B06000"/>
+  <rect x="40" y="498" width="230" height="8" fill="#B06000"/>
+  <text x="155" y="498" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#ffffff">services</text>
+  <g font-size="10" fill="#202124">
+    <text x="50" y="522"><tspan font-weight="bold" fill="#C5221F">PK</tspan>  id           INTEGER</text>
+    <text x="50" y="537"><tspan font-weight="bold" fill="#B06000">UK</tspan>  name         TEXT</text>
+    <text x="50" y="552">      description  TEXT</text>
+    <text x="50" y="567">      duration_min INTEGER</text>
+    <text x="50" y="582">      is_active    INTEGER</text>
+    <text x="50" y="597">      created_at   TEXT</text>
+  </g>
+  <text x="50" y="618" font-size="8.5" font-style="italic" fill="#5f6368">duration_min drives slot width (FR-20)</text>
+
+  <!-- ============ APPOINTMENTS ============ -->
+  <rect x="390" y="110" width="230" height="227" rx="4" fill="#ffffff" stroke="#137333" stroke-width="2.4"/>
+  <rect x="390" y="110" width="230" height="26" rx="4" fill="#137333"/>
+  <rect x="390" y="128" width="230" height="8" fill="#137333"/>
+  <text x="505" y="128" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#ffffff">appointments</text>
+  <g font-size="10" fill="#202124">
+    <text x="400" y="152"><tspan font-weight="bold" fill="#C5221F">PK</tspan>  id             INTEGER</text>
+    <text x="400" y="167"><tspan font-weight="bold" fill="#B06000">UK</tspan>  code           TEXT</text>
+    <text x="400" y="182"><tspan font-weight="bold" fill="#1A73E8">FK</tspan>  patient_id     INTEGER</text>
+    <text x="400" y="197"><tspan font-weight="bold" fill="#1A73E8">FK</tspan>  practitioner_id INTEGER</text>
+    <text x="400" y="212"><tspan font-weight="bold" fill="#1A73E8">FK</tspan>  service_id     INTEGER</text>
+    <text x="400" y="227">      appt_date      TEXT</text>
+    <text x="400" y="242">      start_time     TEXT</text>
+    <text x="400" y="257">      end_time       TEXT</text>
+    <text x="400" y="272">      status         TEXT</text>
+    <text x="400" y="287">      source         TEXT</text>
+    <text x="400" y="302">      notes          TEXT</text>
+    <text x="400" y="317"><tspan font-weight="bold" fill="#1A73E8">FK</tspan>  created_by     INTEGER</text>
+    <text x="400" y="332">      created_at     TEXT</text>
+  </g>
+  <!-- ============ QUEUE_ENTRIES ============ -->
+  <rect x="390" y="430" width="230" height="167" rx="4" fill="#ffffff" stroke="#7B1FA2" stroke-width="1.8"/>
+  <rect x="390" y="430" width="230" height="26" rx="4" fill="#7B1FA2"/>
+  <rect x="390" y="448" width="230" height="8" fill="#7B1FA2"/>
+  <text x="505" y="448" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#ffffff">queue_entries</text>
+  <g font-size="10" fill="#202124">
+    <text x="400" y="472"><tspan font-weight="bold" fill="#C5221F">PK</tspan>  id             INTEGER</text>
+    <text x="400" y="487"><tspan font-weight="bold" fill="#1A73E8">FK</tspan><tspan font-weight="bold" fill="#B06000">/UK</tspan> appointment_id</text>
+    <text x="400" y="502"><tspan font-weight="bold" fill="#1A73E8">FK</tspan>  practitioner_id INTEGER</text>
+    <text x="400" y="517">      queue_date     TEXT</text>
+    <text x="400" y="532">      ticket_no      INTEGER</text>
+    <text x="400" y="547">      status         TEXT</text>
+    <text x="400" y="562">      checked_in_at  TEXT</text>
+    <text x="400" y="577">      called_at      TEXT</text>
+    <text x="400" y="592">      completed_at   TEXT</text>
+  </g>
+  <!-- ============ PRACTITIONERS ============ -->
+  <rect x="740" y="70" width="230" height="122" rx="4" fill="#ffffff" stroke="#C5221F" stroke-width="1.8"/>
+  <rect x="740" y="70" width="230" height="26" rx="4" fill="#C5221F"/>
+  <rect x="740" y="88" width="230" height="8" fill="#C5221F"/>
+  <text x="855" y="88" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#ffffff">practitioners</text>
+  <g font-size="10" fill="#202124">
+    <text x="750" y="112"><tspan font-weight="bold" fill="#C5221F">PK</tspan>  id          INTEGER</text>
+    <text x="750" y="127">      full_name   TEXT</text>
+    <text x="750" y="142">      specialty   TEXT</text>
+    <text x="750" y="157">      room        TEXT</text>
+    <text x="750" y="172">      is_active   INTEGER</text>
+    <text x="750" y="187">      created_at  TEXT</text>
+  </g>
+
+  <!-- ============ AVAILABILITY_RULES ============ -->
+  <rect x="740" y="280" width="230" height="137" rx="4" fill="#ffffff" stroke="#0B8043" stroke-width="1.8"/>
+  <rect x="740" y="280" width="230" height="26" rx="4" fill="#0B8043"/>
+  <rect x="740" y="298" width="230" height="8" fill="#0B8043"/>
+  <text x="855" y="298" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#ffffff">availability_rules</text>
+  <g font-size="10" fill="#202124">
+    <text x="750" y="322"><tspan font-weight="bold" fill="#C5221F">PK</tspan>  id             INTEGER</text>
+    <text x="750" y="337"><tspan font-weight="bold" fill="#1A73E8">FK</tspan>  practitioner_id INTEGER</text>
+    <text x="750" y="352">      weekday        INTEGER</text>
+    <text x="750" y="367">      start_time     TEXT</text>
+    <text x="750" y="382">      end_time       TEXT</text>
+    <text x="750" y="397">      is_active      INTEGER</text>
+    <text x="750" y="412">      created_at     TEXT</text>
+  </g>
+  <text x="750" y="433" font-size="8.5" font-style="italic" fill="#5f6368">weekday: 0 = Monday … 6 = Sunday</text>
+  <text x="750" y="446" font-size="8.5" font-style="italic" fill="#5f6368">CHECK (start_time &lt; end_time)  — FR-18</text>
+
+  <!-- ============ notes ============ -->
+  <rect x="655" y="455" width="340" height="118" rx="5" fill="#FCE8E6" stroke="#C5221F" stroke-width="1.2"/>
+  <text x="667" y="474" font-size="11" font-weight="bold" fill="#C5221F">Uniqueness constraints — the correctness guarantees</text>
+  <text x="667" y="493" font-size="9" font-weight="bold" fill="#3C4043">Partial unique index on appointments (FR-21, FR-26):</text>
+  <text x="667" y="507" font-size="9" fill="#3C4043">   (practitioner_id, appt_date, start_time) WHERE status &lt;&gt; 'CANCELLED'</text>
+  <text x="667" y="521" font-size="8.5" font-style="italic" fill="#5f6368">   Makes double-booking impossible even under a concurrent write.</text>
+  <text x="667" y="540" font-size="9" font-weight="bold" fill="#3C4043">Unique index on queue_entries (FR-35):</text>
+  <text x="667" y="554" font-size="9" fill="#3C4043">   (practitioner_id, queue_date, ticket_no)</text>
+  <text x="667" y="568" font-size="8.5" font-style="italic" fill="#5f6368">   Guarantees one ticket number per practitioner per day.</text>
+
+  <rect x="655" y="583" width="340" height="130" rx="5" fill="#F8F9FA" stroke="#9AA0A6"/>
+  <text x="667" y="602" font-size="11" font-weight="bold" fill="#202124">Design notes</text>
+  <text x="667" y="620" font-size="9" fill="#3C4043">• Times stored as ISO 'HH:MM' text; dates as ISO 'YYYY-MM-DD'.</text>
+  <text x="667" y="633" font-size="9" fill="#3C4043">   SQLite has no native date type — see TD-04.</text>
+  <text x="667" y="649" font-size="9" fill="#3C4043">• appointments.status ∈ {BOOKED, CHECKED_IN, IN_PROGRESS,</text>
+  <text x="667" y="662" font-size="9" fill="#3C4043">   COMPLETED, CANCELLED, NO_SHOW} — enforced by CHECK and by</text>
+  <text x="667" y="675" font-size="9" fill="#3C4043">   the service-layer state machine (FR-43).</text>
+  <text x="667" y="691" font-size="9" fill="#3C4043">• Deactivation (is_active = 0) replaces deletion everywhere, so</text>
+  <text x="667" y="704" font-size="9" fill="#3C4043">   historical appointments never lose their referent.</text>
+
+  <!-- legend -->
+  <rect x="40" y="650" width="595" height="62" rx="5" fill="#F8F9FA" stroke="#9AA0A6"/>
+  <text x="52" y="669" font-size="10" fill="#3C4043"><tspan font-weight="bold" fill="#C5221F">PK</tspan> primary key       <tspan font-weight="bold" fill="#1A73E8">FK</tspan> foreign key       <tspan font-weight="bold" fill="#B06000">UK</tspan> unique constraint</text>
+  <text x="52" y="687" font-size="10" fill="#3C4043">Cardinality at each line end: <tspan font-weight="bold" fill="#C5221F">1</tspan> = exactly one, <tspan font-weight="bold" fill="#C5221F">N</tspan> = zero or more, <tspan font-weight="bold" fill="#C5221F">0..1</tspan> = optional one.</text>
+  <text x="52" y="704" font-size="10" fill="#3C4043">An appointment gains a queue entry only on check-in, hence the 1 : 0..1 relationship.</text>
+
+  <text x="40" y="726" font-size="9" fill="#3C4043">Indexes: appointments(appt_date) · appointments(patient_id) · appointments(practitioner_id, appt_date) · queue_entries(practitioner_id, queue_date, status) · audit_log(created_at)</text>
+</svg>

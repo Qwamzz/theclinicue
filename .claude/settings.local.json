@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(node -v)",
+      "PowerShell(npm -v)",
+      "PowerShell(python --version)",
+      "PowerShell(\"---\")",
+      "PowerShell($ProgressPreference='SilentlyContinue'; try { \\(Invoke-WebRequest -Uri https://registry.npmjs.org/-/ping -UseBasicParsing -TimeoutSec 15\\).StatusCode } catch { \"NPM-FAIL: $\\($_.Exception.Message\\)\" }; try { python -c \"import reportlab; print\\('reportlab ok'\\)\" } catch { \"no reportlab\" }; try { pandoc --version | Select-Object -First 1 } catch { \"no pandoc\" })",
+      "PowerShell(& C:\\\\Users\\\\Administrator\\\\Downloads\\\\App\\\\.venv\\\\Scripts\\\\python.exe -m pip install --quiet rlPyCairo)",
+      "PowerShell(if \\($?\\) { \"rlPyCairo installed\" })",
+      "PowerShell(& C:\\\\Users\\\\Administrator\\\\Downloads\\\\App\\\\.venv\\\\Scripts\\\\python.exe C:\\\\Users\\\\Administrator\\\\Downloads\\\\App\\\\tools\\\\svg_preview.py)",
+      "PowerShell(Set-Location C:\\\\Users\\\\Administrator\\\\Downloads\\\\App; $env:PYTHONUNBUFFERED='1'; & .\\\\.venv\\\\Scripts\\\\python.exe -m pytest -q -x --timeout=0 2>&1 | Select-Object -Last 45)",
+      "PowerShell(Set-Location C:\\\\Users\\\\Administrator\\\\Downloads\\\\App; $env:PYTHONUNBUFFERED='1'; & .\\\\.venv\\\\Scripts\\\\python.exe -m pytest -q 2>&1 | Select-Object -Last 50)",
+      "PowerShell(Set-Location C:\\\\Users\\\\Administrator\\\\Downloads\\\\App; $out = & .\\\\.venv\\\\Scripts\\\\python.exe -m pytest -q --no-header -W \"ignore::ResourceWarning\" 2>&1; $out | Select-Object -Last 6; \"EXIT=$LASTEXITCODE\")"
+    ]
+  }
+}
