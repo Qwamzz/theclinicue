@@ -62,7 +62,7 @@ Deletion is modelled as deactivation (`is_active = 0`) throughout. A service or 
 
 ## 2. Architecture
 
-> **See:** `diagrams/architecture.svg`
+![Figure 1 — Layered system architecture, showing the five layers and the cross-cutting concerns.](diagrams/architecture.svg)
 
 ### 2.1 Architectural style
 
@@ -114,7 +114,7 @@ Every rejection above is a real trade-off with a recorded cost, not a preference
 
 ## 3. Database Design
 
-> **See:** `diagrams/erd.svg`
+![Figure 3 — Entity relationship diagram: seven relations, keys, cardinality and the constraints that carry correctness.](diagrams/erd.svg)
 
 ### 3.1 Schema (authoritative DDL)
 
@@ -362,7 +362,7 @@ No single layer is trusted. A patient attempting `POST /api/queue/check-in` is s
 
 ## 6. Interface Design
 
-> **See:** `diagrams/wireframes.svg`
+![Figure 8 — Interface wireframes: mobile patient views at 360 px, desktop staff and admin consoles at 1280 px.](diagrams/wireframes.svg)
 
 ### 6.1 Principles applied
 
@@ -417,5 +417,19 @@ Six items were foreseen **before** implementation began and accepted knowingly. 
 | TD-05 | No frontend component model | Mitigation M1 |
 | TD-06 | PBKDF2 rather than a memory-hard KDF | Mitigation M3 |
 | TD-07 | In-process rate-limit state, lost on restart and not shared between workers | Simplicity under time pressure |
+
+---
+
+## 9. Figures
+
+![Figure 2 — UML use case diagram: 17 business-goal use cases across four actors. Bold outlines mark the four Complex use cases that account for 35% of functional size.](diagrams/usecase.svg)
+
+![Figure 4 — Design class diagram: the service layer over the domain model over infrastructure.](diagrams/class.svg)
+
+![Figure 5 — UC-04 Book an Appointment. The alt fragment is the time-of-check-to-time-of-use race required by FR-26.](diagrams/sequence_booking.svg)
+
+![Figure 6 — Appointment lifecycle state machine. Any transition not drawn here is rejected with 409 INVALID_TRANSITION (FR-43).](diagrams/statechart_appointment.svg)
+
+![Figure 7 — Check-in and consultation queue, as an activity diagram with swimlanes across four roles (FR-34 to FR-43).](diagrams/activity_queue.svg)
 
 *End of System Analysis and Design v1.0.*

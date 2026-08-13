@@ -28,7 +28,9 @@ services:
       - key: CQ_SECRET_KEY
         generateValue: true    # Render generates and stores it; never committed
       - key: CQ_DATABASE_PATH
-        value: /var/data/clinicue.sqlite3
+        # /tmp is writable on the free tier, which has no mounted disk.
+        # When you attach the disk below, change this to /var/data/clinicue.sqlite3.
+        value: /tmp/clinicue.sqlite3
       - key: CQ_COOKIE_SECURE
         value: "true"
       - key: CQ_SESSION_HOURS
