@@ -26,6 +26,9 @@ test-results.xml
 docs/diagrams/_preview/
 docs/diagrams/_contact_sheet.html
 
+# Written at build time so /api/health can report the running commit
+app/_build_info.json
+
 # Build output
 Submission/
 *.zip

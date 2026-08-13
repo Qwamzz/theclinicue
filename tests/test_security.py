@@ -275,4 +275,12 @@ class TestHealthEndpoint:
         assert response.status_code == 200
         body = response.get_json()
         assert body["status"] == "ok"
-        assert set(body) == {"service", "version", "status", "database", "environment", "time"}
+        assert set(body) == {"service", "version", "status", "database",
+                             "environment", "build", "time"}
+        # The build stamp is a short commit hash and a timestamp. Deliberately
+        # public: it is what lets anyone confirm which code is actually serving,
+        # and it discloses nothing an attacker cannot read in the public repo.
+        assert set(body["build"]) == {"commit", "built_at"}
+        assert len(body["build"]["commit"]) <= 12
+        for leak in ("password", "secret", "key", "token", "/home/"):
+            assert leak not in str(body).lower()
