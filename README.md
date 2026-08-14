@@ -6,8 +6,8 @@ TheClinicue replaces the paper-and-shouting outpatient queue with real appointme
 check-in with ticket numbers, and operational reporting the clinic manager can act on. It stores
 no clinical data — that boundary is deliberate.
 
-[![tests](https://img.shields.io/badge/tests-312%20passing-brightgreen)]()
-[![coverage](https://img.shields.io/badge/coverage-93%25-brightgreen)]()
+[![tests](https://img.shields.io/badge/tests-334%20passing-brightgreen)]()
+[![coverage](https://img.shields.io/badge/coverage-92%25-brightgreen)]()
 [![python](https://img.shields.io/badge/python-3.11%2B-blue)]()
 
 ---
@@ -51,8 +51,8 @@ These are safe to publish precisely because the demonstration deployment holds n
 ## Tests
 
 ```bash
-python -m pytest                                  # 312 tests, ~33 s
-python -m pytest --cov=app --cov-report=term      # with coverage (93%)
+python -m pytest                                  # 334 tests, ~33 s
+python -m pytest --cov=app --cov-report=term      # with coverage (92%)
 python tools/perf_check.py                        # performance budgets
 python tools/smoke.py                             # end-to-end smoke run
 ```

@@ -52,7 +52,7 @@ The whole delivered system took 48 hours. The register says that making it produ
 | **Impact** | **Downgraded from catastrophic to serious by the move to Azure**, and the change is worth stating precisely. The original plan put SQLite on an ephemeral filesystem, where every redeploy destroyed all data silently — that was a data-loss defect. On App Service the data persists, so the remaining exposure is *reliability under concurrency*, not loss: writes serialise, contention surfaces as `503 SERVICE_BUSY`, and SMB locking makes the failure mode harder to predict than local disk. The mitigation in place is `TC_SQLITE_JOURNAL=DELETE`, which selects the rollback journal because WAL is unsafe here. That is a workaround chosen to avoid a known corruption risk, not a solution. |
 | **Interest** | Rises with concurrent front-desk activity. One receptionist: negligible. Three checking patients in during a morning rush: noticeable. |
 | **Priority** | **CRITICAL** |
-| **Trigger** | Any deployment intended to hold real patient bookings. |
+| **Trigger** | Any deployment intended to hold real patient bookings. **Already tripped in production:** on first deployment the database defaulted to a package-relative path outside the platform's persistent directory, and every deploy destroyed it silently. A user account created minutes earlier had ceased to exist (defect D-16). Mitigated by writing to the persistent path; the underlying single-writer and SMB-locking exposure remains until this item is repaid. |
 | **Resolution** | Migrate to **Azure Database for PostgreSQL Flexible Server** (Burstable B1ms is sufficient and sits in the same resource group). The data access layer (`app/db.py`) is the only module that touches SQLite, which is precisely why it was written that way: the change is bounded to one module plus connection setup. Steps: (1) add `psycopg`; (2) parameter-style shim (`?` → `%s`); (3) the two partial unique indexes port unchanged — PostgreSQL supports partial unique indexes with identical syntax; (4) `BEGIN IMMEDIATE` → `SELECT … FOR UPDATE` or serialisable isolation; (5) replace `TC_DATABASE_PATH` with `DATABASE_URL`, injected from Azure Key Vault or an app setting. |
 | **Principal** | 10 h |
 | **Verification** | Full suite green against PostgreSQL; concurrent-booking test still yields exactly one winner; the 30-reader concurrency check passes with zero `503`s. |
@@ -212,7 +212,7 @@ The whole delivered system took 48 hours. The register says that making it produ
 |---|---|
 | **Debt** | Tests run when the developer remembers. Nothing prevents a commit with failing tests, and nothing enforces the 80% coverage requirement (NFR-MNT-02). |
 | **Cause** | Not in the 48-hour scope. |
-| **Impact** | The 312-test suite is a real asset whose value depends entirely on being run. A suite that is not run automatically decays. |
+| **Impact** | The 334-test suite is a real asset whose value depends entirely on being run. A suite that is not run automatically decays. |
 | **Interest** | Grows with contributor count and time since the last manual run. |
 | **Priority** | SCHEDULED — **v1.1** |
 | **Trigger** | The second contributor, or the first "it worked on my machine". |
@@ -294,7 +294,7 @@ Three things could be mistaken for debt and are not:
 
 - **The deferred use cases (FR-59 to FR-67).** Rescheduling, reminders, multi-tenancy and the rest are *unbuilt features*, recorded in the evolution roadmap. Calling missing functionality "debt" inflates the register and hides the real items.
 - **The absence of an EMR.** A deliberate scope boundary (constraint C-06), not a shortfall.
-- **The 93% coverage figure rather than 100%.** The uncovered lines are defensive branches and error paths whose cost of testing exceeds their risk. Chasing 100% would be theatre.
+- **The 92% coverage figure rather than 100%.** The uncovered lines are defensive branches and error paths whose cost of testing exceeds their risk. Chasing 100% would be theatre.
 
 ---
 

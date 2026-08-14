@@ -126,7 +126,7 @@ Refresh your repository page. You should see `app/`, `docs/`, `tests/`,
 
 Click the **Actions** tab. A workflow named **Test and deploy to Azure** should be running.
 
-The `test` job will pass (it runs the 312 tests, the seven-day date matrix and the production config check). The `deploy` job will **fail** — that is expected and correct at this point, because you have not yet created the Azure app or added the publish profile. You fix that in Part 2 and Part 3.
+The `test` job will pass (it runs the 334 tests, the seven-day date matrix and the production config check). The `deploy` job will **fail** — that is expected and correct at this point, because you have not yet created the Azure app or added the publish profile. You fix that in Part 2 and Part 3.
 
 ---
 
@@ -316,7 +316,7 @@ bash azure-deploy-direct.sh  # every time you want to ship
 ```
 
 `azure-deploy-direct.sh` enforces the **same quality gate** the CI workflow
-does — the full 312-test suite, the seven-day date matrix and the production
+does — the full 334-test suite, the seven-day date matrix and the production
 configuration check — and abandons the deployment if any of them fail. It then
 packages only the runtime files, zip-deploys them, waits for the restart and
 smoke-tests the live `/api/health`. Only the machine running the gate changes;
@@ -334,7 +334,7 @@ git push
 
 Watch **Actions** in GitHub. You will see:
 
-1. **test** — ~4 minutes. Runs 312 tests with an 80% coverage floor, the seven-day date matrix, and the production configuration check.
+1. **test** — ~4 minutes. Runs 334 tests with an 80% coverage floor, the seven-day date matrix, and the production configuration check.
 2. **deploy** — ~2 minutes. Only starts if `test` passed. Ends by curling the live `/api/health` and asserting `"status":"ok"`.
 
 **If `test` fails, nothing is deployed.** That gate is the point of having the suite.
@@ -527,8 +527,8 @@ python wsgi.py                  # http://localhost:8000
 
 | Command | What it does |
 |---|---|
-| `python -m pytest` | 312 tests, ~33 s |
-| `python -m pytest --cov=app` | with coverage (93%) |
+| `python -m pytest` | 334 tests, ~33 s |
+| `python -m pytest --cov=app` | with coverage (92%) |
 | `python tools/date_matrix.py` | runs the suite across 7 weekdays |
 | `python tools/perf_check.py` | performance budgets |
 | `python tools/prod_check.py` | production configuration |

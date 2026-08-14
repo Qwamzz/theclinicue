@@ -82,7 +82,7 @@ To design, build, test and deploy a functional web application that replaces the
 | O2 | Estimate effort using a justified technique and let the result drive scope | Use Case Points, cross-checked with COCOMO II and PERT; six use cases deferred, four shortcuts adopted, all recorded |
 | O3 | Produce design artefacts that genuinely communicate the system | Eight diagrams: architecture, use case, ERD, class, sequence, state machine, activity, wireframes |
 | O4 | Implement a working, deployable application with front end, back end, database, authentication, authorisation, validation, error handling and security controls | Delivered; 1,566 statements of application code plus an 82 KB client |
-| O5 | Test at unit, integration, system, security, performance and acceptance levels | 312 automated tests, 93% coverage, 12 defects found and closed |
+| O5 | Test at unit, integration, system, security, performance and acceptance levels | 334 automated tests, 92% coverage, 12 defects found and closed |
 | O6 | Identify, prioritise and plan the repayment of technical debt | 18 items registered with cause, impact, priority, resolution and a costed schedule |
 | O7 | Deploy the application and make it accessible online | Containerised, platform-configured, production settings verified |
 | O8 | Document the whole lifecycle, and plan maintenance and evolution | Seven documents, this one consolidating them |
@@ -235,7 +235,7 @@ A **layered (n-tier) architecture** deployed as a client–server application in
 | 4. Data access (`db.py`) | Connections, transactions, parameterised SQL, audit writes |
 | 5. Persistence (SQLite) | Storage, referential integrity, uniqueness constraints |
 
-**The load-bearing rule:** *no Flask object crosses into the domain layer, and no SQL appears above the data access layer.* This single rule delivers most of the quality attributes claimed — service logic testable without a web request (hence 93% coverage inside the testing budget), SQLite confined to one module (hence TD-01 is a bounded change rather than a rewrite), and the state machine in exactly one place (hence FR-43 cannot be circumvented by adding an endpoint).
+**The load-bearing rule:** *no Flask object crosses into the domain layer, and no SQL appears above the data access layer.* This single rule delivers most of the quality attributes claimed — service logic testable without a web request (hence 92% coverage inside the testing budget), SQLite confined to one module (hence TD-01 is a bounded change rather than a rewrite), and the state machine in exactly one place (hence FR-43 cannot be circumvented by adding an endpoint).
 
 Microservices were rejected outright; server-rendered MVC was genuinely viable and was rejected because the live queue needs frequent partial refreshes on a low-bandwidth link, and because the JSON API is the seam through which the deferred display board and any future mobile client arrive.
 
@@ -306,7 +306,7 @@ app/
   services/            scheduling.py · queue.py · reports.py
   api/                 auth · catalog · appointments · queue · admin · health
   static/              index.html · css/app.css · js/*.js
-tests/                 10 suites, 312 tests
+tests/                 10 suites, 334 tests
 tools/                 smoke · perf_check · prod_check · date_matrix · svg_preview
 ```
 
@@ -346,9 +346,9 @@ Full detail in `Testing_Report.pdf`. Summary:
 
 | Measure | Result |
 |---|---|
-| Automated tests | **312**, all passing |
+| Automated tests | **334**, all passing |
 | Execution time | 32 seconds |
-| Line coverage of `app/` | **93%** (requirement: 80%) |
+| Line coverage of `app/` | **92%** (requirement: 80%) |
 | Unit / integration / security / system | 119 / 116 / 55 / 22 |
 | Defects found and closed | **12** (0 open at Medium or above) |
 | Read latency, p95 | **17.4 ms** against a 200 ms budget |
@@ -457,7 +457,7 @@ az login
 bash azure-setup.sh
 ```
 
-This provisions everything and prints the publish profile and DNS records. Pushing to `main` then triggers GitHub Actions, which runs the 312-test suite, the seven-day date matrix and the production configuration check, deploys only if all three pass, and smoke-tests the live `/api/health` endpoint afterwards. **The deployment gate is the test suite** — a red build cannot reach the clinic.
+This provisions everything and prints the publish profile and DNS records. Pushing to `main` then triggers GitHub Actions, which runs the 334-test suite, the seven-day date matrix and the production configuration check, deploys only if all three pass, and smoke-tests the live `/api/health` endpoint afterwards. **The deployment gate is the test suite** — a red build cannot reach the clinic.
 
 The custom domain `theclinicue.com` is bound with a free App Service managed certificate; the full procedure is in `DEPLOY.md`.
 
@@ -498,7 +498,7 @@ Maintenance is not an afterthought here; roughly 60–70% of a system's lifetime
 | **Triage** | **P1** — data loss, security breach, or the clinic cannot operate: respond immediately. **P2** — a core journey is broken for some users: same day. **P3** — a workaround exists: next release. **P4** — cosmetic: backlog. |
 | **Diagnosis** | Reproduce against a seeded local instance first. The audit log gives actor, action, entity and timestamp; the error envelope gives a stable machine-readable code. |
 | **Fix discipline** | Every fix ships with a regression test that fails before it and passes after. No exceptions — this is what stops the same defect returning. |
-| **Verification** | Full suite (312 tests) plus `tools/date_matrix.py` before release. |
+| **Verification** | Full suite (334 tests) plus `tools/date_matrix.py` before release. |
 
 ## 15.2 Adaptive maintenance — keeping up with the environment
 
@@ -540,7 +540,7 @@ Driven by evidence, not opinion:
 | Medium | Next scheduled release |
 | Low | Next major release |
 
-Security patches bypass the normal release train. The 312-test suite is what makes an emergency dependency bump safe to ship quickly — without it, a rushed security patch is its own risk.
+Security patches bypass the normal release train. The 334-test suite is what makes an emergency dependency bump safe to ship quickly — without it, a rushed security patch is its own risk.
 
 ## 15.6 Scalability plan
 
@@ -635,7 +635,7 @@ Stated plainly, because a limitation that is documented is a known risk and one 
 
 # 18. Conclusion
 
-TheClinicue delivers a working, deployable outpatient appointment and queue management system: three roles, 39 API routes, seven relations, a responsive 82 KB client, and 312 automated tests at 93% coverage. Every Must-have requirement in the SRS is implemented and verified.
+TheClinicue delivers a working, deployable outpatient appointment and queue management system: three roles, 39 API routes, seven relations, a responsive 82 KB client, and 334 automated tests at 92% coverage. Every Must-have requirement in the SRS is implemented and verified.
 
 The more important claim is about method rather than output. The project set out to demonstrate that a full engineering lifecycle can be executed under a hard 48-hour constraint without either abandoning rigour or pretending the constraint does not exist. Three things are offered as evidence:
 

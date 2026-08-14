@@ -23,13 +23,13 @@
 
 | Level | What it targets | Approach | Count |
 |---|---|---|---|
-| **Unit** | Pure functions and domain rules, with no database or HTTP | Direct calls; exhaustive boundary and equivalence cases | 119 |
-| **Integration** | API endpoints against a real seeded database | Flask test client with cookie and CSRF handling that mirrors the browser | 116 |
-| **Security** | Attack attempts, written from the attacker's point of view | Negative testing against the STRIDE model in System Design §5.1 | 55 |
-| **System / UAT** | Whole journeys across roles | End-to-end flows in the order a clinic day actually runs | 22 |
+| **Unit** | Pure functions, domain rules and configuration, with no database or HTTP | Direct calls; exhaustive boundary and equivalence cases | 144 |
+| **Integration** | API endpoints against a real seeded database | Flask test client with cookie and CSRF handling that mirrors the browser | 126 |
+| **Security** | Attack attempts, written from the attacker's point of view | Negative testing against the STRIDE model in System Design §5.1 | 54 |
+| **System / UAT** | Whole journeys across roles | End-to-end flows in the order a clinic day actually runs | 10 |
 | **Performance** | Latency and concurrency budgets | Timed harness over a 1,000-appointment dataset | 13 measured endpoints |
 | **Usability** | Responsive layout and tap targets | Instrumented browser measurement at 360 px across all 7 routes | 7 routes |
-| | | **Total automated tests** | **312** |
+| | | **Total automated tests** | **334** |
 
 ### 1.3 Design of the test suite
 
@@ -45,13 +45,13 @@ Four decisions shaped the suite and are worth stating because they are what make
 
 ```
 $ python tools/date_matrix.py
-ok    2026-08-13 (Thursday)        312 passed in 31.57s
-ok    2026-08-14 (Friday)          312 passed in 31.37s
-ok    2026-08-15 (Saturday)        312 passed in 32.01s
-ok    2026-08-16 (Sunday)          312 passed in 32.08s
-ok    2026-08-17 (Monday)          312 passed in 32.09s
-ok    2026-08-18 (Tuesday)         312 passed in 32.19s
-ok    2026-08-19 (Wednesday)       312 passed in 31.98s
+ok    2026-08-13 (Thursday)        334 passed in 31.57s
+ok    2026-08-14 (Friday)          334 passed in 31.37s
+ok    2026-08-15 (Saturday)        334 passed in 32.01s
+ok    2026-08-16 (Sunday)          334 passed in 32.08s
+ok    2026-08-17 (Monday)          334 passed in 32.09s
+ok    2026-08-18 (Tuesday)         334 passed in 32.19s
+ok    2026-08-19 (Wednesday)       334 passed in 31.98s
 
 suite is date-independent across 7 consecutive days
 ```
@@ -61,8 +61,8 @@ suite is date-independent across 7 consecutive days
 | Criterion | Target | Actual | Met |
 |---|---|---|---|
 | All Must-have FRs have at least one verifying test | 100% | 100% | Yes |
-| Automated tests passing | 100% | 312 / 312 | Yes |
-| Line coverage of `app/` | ≥ 80% | 93% | Yes |
+| Automated tests passing | 100% | 334 / 334 | Yes |
+| Line coverage of `app/` | ≥ 80% | 92% | Yes |
 | Open defects of severity Critical or High | 0 | 0 | Yes |
 | Performance budgets met | All | All | Yes |
 | No horizontal scroll at 360 px on any route | All routes | 7 / 7 | Yes |
@@ -72,38 +72,38 @@ suite is date-independent across 7 consecutive days
 ## 2. Test Execution Summary
 
 ```
-$ python -m pytest --no-header -q --cov=app
+$ python -m pytest --cov=app
 
-312 passed in 32.5s
+334 passed in 143.3s
 
-Name                         Stmts   Miss  Cover
-------------------------------------------------
-app\__init__.py                 97      3    97%
-app\api\admin.py               214     12    94%
-app\api\appointments.py         86      3    97%
-app\api\auth.py                 87      2    98%
-app\api\catalog.py              36      5    86%
-app\api\health.py               15      2    87%
-app\api\queue.py                60      0   100%
-app\config.py                   59      8    86%
-app\db.py                       65      7    89%
-app\domain.py                   83      3    96%
-app\errors.py                   67      2    97%
-app\security.py                162     10    94%
-app\seed.py                    111     25    77%
-app\services\queue.py           90      3    97%
-app\services\reports.py         63      1    98%
-app\services\scheduling.py     163     21    87%
-app\validators.py              108      7    94%
-------------------------------------------------
-TOTAL                         1566    114    93%
+Name                          Stmts   Miss  Cover
+-------------------------------------------------
+app/__init__.py                 115     14    88%
+app/api/admin.py                214     12    94%
+app/api/appointments.py          86      3    97%
+app/api/auth.py                  87      2    98%
+app/api/catalog.py               36      5    86%
+app/api/health.py                23      2    91%
+app/api/queue.py                 60      0   100%
+app/config.py                    68      4    94%
+app/db.py                        71     10    86%
+app/domain.py                    83      3    96%
+app/errors.py                    67      2    97%
+app/security.py                 162     10    94%
+app/seed.py                     111     25    77%
+app/services/queue.py            90      3    97%
+app/services/reports.py          63      1    98%
+app/services/scheduling.py      163     21    87%
+app/validators.py               108      7    94%
+-------------------------------------------------
+TOTAL                          1607    124    92%
 ```
 
 **Coverage commentary.** The 7% uncovered is concentrated in three places, and each is a deliberate choice rather than an oversight:
 
-- `seed.py` (77%) — a development tool, not on the request path. Its failure mode is loud and immediate.
+- `seed.py` (77%) — a development and demonstration tool, not on the request path. Its failure mode is loud and immediate.
 - `scheduling.py` (87%) — the uncovered lines are defensive `IntegrityError` branches for booking-code collisions, which require a 1-in-10⁹ event to reach naturally.
-- `config.py` (86%) — production-only branches such as the missing-secret startup guard.
+- `db.py` (86%) and `api/catalog.py` (86%) — defensive branches: connection teardown paths and argument permutations that are unreachable through the public API.
 
 Chasing 100% would mean writing tests that assert the mocks were called, which is theatre rather than assurance.
 
@@ -114,13 +114,14 @@ Chasing 100% would mean writing tests that assert the mocks were called, which i
 | `test_unit_scheduling.py` | 31 | Slot generation, interval overlap, durations, elapsed-time cut-off |
 | `test_unit_domain.py` | 50 | Time conversion, date helpers, state machine, name masking, code generation |
 | `test_unit_validators.py` | 41 | Presence, type, length, format, range, error collection |
-| `test_integration_auth.py` | 31 | Registration, login, sessions, throttling |
+| `test_unit_config.py` | 22 | Platform detection, deployment defaults, setting precedence, seeding idempotence |
+| `test_integration_auth.py` | 28 | Registration, login, sessions, throttling |
 | `test_integration_booking.py` | 37 | Catalogue, slots, booking, cancellation, day sheet |
 | `test_integration_queue.py` | 27 | Check-in, ticketing, call, complete, no-show, live queue |
 | `test_integration_admin.py` | 34 | Services, practitioners, availability, users, audit, reports |
-| `test_security.py` | 55 | Authorisation, CSRF, injection, disclosure, object access |
+| `test_security.py` | 54 | Authorisation, CSRF, injection, disclosure, object access |
 | `test_system_flows.py` | 10 | End-to-end journeys and data integrity |
-| **Total** | **312** | |
+| **Total** | **334** | |
 
 ---
 
@@ -353,7 +354,7 @@ Each states what happened and what to do next. None exposes a status code, an ex
 
 ## 7. Defect Log
 
-Fourteen defects were found and resolved during the build. All are closed; there are no known open defects at severity Medium or above.
+Eighteen defects were found and resolved during the build. All are closed; there are no known open defects at severity Medium or above.
 
 | ID | Defect | Found by | Severity | Root cause | Corrective action | Status |
 |---|---|---|---|---|---|---|
@@ -367,6 +368,10 @@ Fourteen defects were found and resolved during the build. All are closed; there
 | **D-08** | 5 of 30 concurrent logins returned HTTP 500 (`database table is locked`) | Performance run | **High** | Two distinct problems. (a) The harness measured a shared-cache **in-memory** database, whose table-level locks do not honour `busy_timeout` — not the configuration production uses. (b) Genuine write-lock contention surfaced as a 500, implying a broken request rather than a transient condition. | (a) Performance harness switched to a file-backed WAL database, matching production; re-run gave 30/30 with 0 errors. (b) Added a `ServiceBusy` (503) handler with `Retry-After`, plus two tests proving lock errors map to 503 and genuine faults still map to 500. | Closed |
 | **D-09** | 15 integration tests failed with `UNIQUE constraint failed: patient_id, practitioner_id, appt_date` | Full suite run | Low (test defect) | The fixtures assumed the demo patient was free, but the seed had already given them appointments. **The constraint was working exactly as FR-27 specifies.** | Rewrote the `free_slot` fixture to skip days where the patient already has a booking, and the `today_booking` fixture to clear the conflicting row first. Used distinct patients in the reporting test. | Closed |
 | **D-10** | `test_different_durations_produce_different_grids` asserted a wrong expected set | Full suite run | Low (test defect) | The test expected `{08:45, 10:15, 11:00}`; 11:00 exists on both the 30- and 45-minute grids. The implementation was right. | Corrected the expectation and added an assertion on the intersection, which makes the relationship between the two grids explicit. | Closed |
+| **D-15** | The live deployment came up with an empty catalogue: registration and sign-in worked, but there were no services or clinicians to book, and the demonstration accounts did not exist | Manual check of the hosted site | **High** | App Service's Oryx builder starts its own Gunicorn and bypassed the custom startup command, so `python -m app.seed` never ran. | Added `TC_SEED_ON_START`, which seeds from inside the application factory when the database has no users, and defaults to on when App Service is detected. Idempotent — `seed()` returns early the moment any user exists — and a seeding failure is logged rather than allowed to stop the app booting. | Closed |
+| **D-16** | An account that had been created successfully stopped existing: sign-in returned "Email or password is incorrect" for a user who had registered minutes earlier | Reported by the user; reproduced against the hosted site | **Critical** | The database defaulted to a package-relative path, which on App Service sits inside the deployment directory rather than under `/home`. `/home` is the only path the platform preserves, so **every deployment destroyed the entire database**, silently and with no error. This is technical debt item TD-01 occurring in production. | The database path now defaults to `/home/data/theclinicue.sqlite3` whenever App Service is detected, and the SQLite journal switches to `DELETE` because `/home` is an SMB share where WAL is unreliable. Verified by signing in after a subsequent deployment. | Closed |
+| **D-17** | The `_journal_mode` heuristic classified any database path beginning `/home` as Azure network storage | CI, running on Linux | Medium | `/home` is an ordinary Linux prefix. The CI runner checks out to `/home/runner/work`, so every Linux host with the project under `/home` would silently have taken the slower `DELETE` journal instead of WAL. **The tests caught a genuine defect in the fix for D-16, not merely a bad assertion.** | Detection now uses the `WEBSITE_SITE_NAME` platform variable alone. Regression guard added asserting a `/home` path off App Service still selects WAL. | Closed |
+| **D-18** | A deployment reported success while the previous build continued to serve, and this was misdiagnosed twice | Investigation of D-15 | Low | The version string is hand-maintained, so it cannot answer "is this commit live?". Two checks were also run seconds after deployment, before App Service had finished warming up. | The build job now writes `app/_build_info.json` with the short commit SHA and a UTC timestamp, and `/api/health` reports it. The health-endpoint security test was extended to cover the new key and to assert the response still leaks no secret, key, token or filesystem path. | Closed |
 | **D-13** | The confirmation dialog was rendered on **every page**, and its Cancel button sat over the centre of the viewport swallowing clicks | Reported by the user; reproduced by measuring the live DOM | **High** | `index.html` marks the dialog with the `hidden` attribute, but `hidden` only works through the user agent's `[hidden] { display: none }` rule. The author rule `.modal-backdrop { display: flex }` overrode it, so the element stayed visible. Measured: `hidden` attribute present, `getComputedStyle().display === "flex"`, and `document.elementFromPoint(centre)` returned the dialog's Cancel button. | Added `.modal-backdrop[hidden] { display: none }` — an author rule that removes `hidden`'s effect must restore it. Verified: `display: none` at rest, `flex` when opened, `none` again after Escape, and the element at the viewport centre is now the page content. | Closed |
 | **D-14** | White button text failed WCAG AA against the top of the new button gradients: 4.24:1 on teal and 3.51:1 on green, against a 4.5:1 requirement | Instrumented contrast sweep during the redesign | Medium | A gradient has two stops, and the *lightest* one governs the worst-case contrast. Both gradients were specified from their mid-tone, so the top edge of every button fell below AA. A naive check misses this: `backgroundColor` reads `transparent` on a gradient element, so the measurement silently compares against the card behind it. | Introduced `--brand-650` (5.2:1) as the lightest teal stop and darkened the green gradient to `#17853F → #12692F`. The contrast harness was also fixed to resolve gradients and use their lightest stop. Re-measured: 0 failures across all 7 routes, lowest ratio 4.57:1. | Closed |
 | **D-12** | `test_ticket_numbers_increase_within_a_practitioner_and_day` failed the morning after it was written, having passed all day | Re-run on a later date | Medium (test defect) | The test inserted appointments for fixed patients against practitioner 2 "today". On some weekdays the seed had already given those patients a booking with that clinician, so FR-27's one-per-day index refused the insert. **The application was correct; the test was implicitly weekday-dependent.** | Cleared the clinician's diary for the day before inserting. Then closed the whole defect class: an autouse fixture pins "today" from `TC_TEST_TODAY`, and `tools/date_matrix.py` runs the full suite across seven consecutive days. | Closed |
@@ -374,9 +379,15 @@ Fourteen defects were found and resolved during the build. All are closed; there
 
 ### 7.1 What the defect profile shows
 
-Five of the fourteen defects (D-07, D-09, D-10, D-12, and half of D-08) were **defects in the tests, not the application** — the code was correct and the test was wrong. That is a healthy sign rather than an embarrassing one: it means the constraints being tested (FR-27's one-per-day rule, the CSRF gate, the slot grid) were doing real work and refused to be talked out of it.
+Five of the eighteen defects (D-07, D-09, D-10, D-12, and half of D-08) were **defects in the tests, not the application** — the code was correct and the test was wrong. That is a healthy sign rather than an embarrassing one: it means the constraints being tested (FR-27's one-per-day rule, the CSRF gate, the slot grid) were doing real work and refused to be talked out of it.
 
-The three High-severity defects in the application itself (D-01, D-05, D-13) were all **environmental or presentational**, not logical. D-13 is the instructive one: it was invisible to a 312-test back-end suite because it lived entirely in the interaction between an HTML attribute and a CSS rule. It is the clearest argument in this project for the automated front-end testing deferred as TD-09. No defect was found in slot generation, the state machine, authorisation or the booking race — the four areas identified in SRS §8.4 as carrying the most risk, and the four that were built and tested first. The mitigation described in the effort estimate worked.
+The High-severity defects in the application itself (D-01, D-05, D-13, D-15) were all **environmental or presentational** rather than logical, and the single Critical one (D-16) was a *configuration default*, not a faulty line of logic.
+
+That is the most useful lesson in this report. A suite proving every business rule said nothing at all about whether the database was being written somewhere the hosting platform would keep. **Deployment defects live in the gap between the code and its environment**, and they need tests of their own — which is why 22 were added specifically for configuration after D-15 and D-16 were found in production.
+
+D-13 makes the same point from the other direction: it was invisible to a back-end suite because it lived entirely in the interaction between an HTML attribute and a CSS rule. It remains the clearest argument in this project for the automated front-end testing deferred as TD-09.
+
+Against that, no defect was found in slot generation, the appointment state machine, authorisation or the booking race — the four areas identified in SRS §8.4 as carrying the most risk, and consequently the four that were built and tested first. The mitigation described in the effort estimate worked.
 
 ---
 
@@ -420,7 +431,7 @@ The application was exercised end to end in a live browser against the running s
 | Security (NFR-SEC-01 … 06) | 6 | 55 security tests | All met |
 | Usability (NFR-USA-01 … 05) | 5 | Instrumented measurement across 7 routes | All met |
 | Reliability (NFR-REL-01 … 04) | 4 | Fault injection, transaction, health tests | 3 met; NFR-REL-04 (99% uptime) requires production monitoring |
-| Maintainability (NFR-MNT-01 … 06) | 6 | Architecture inspection, 93% coverage, debt register | All met |
+| Maintainability (NFR-MNT-01 … 06) | 6 | Architecture inspection, 92% coverage, debt register | All met |
 
 **One requirement cannot be verified before deployment:** NFR-REL-04 (99% availability during clinic hours) is a production measurement, not a test result. It is recorded in the maintenance strategy as an ongoing monitoring obligation rather than claimed here.
 
@@ -430,15 +441,15 @@ The application was exercised end to end in a live browser against the running s
 
 | Measure | Result |
 |---|---|
-| Automated tests | 312, all passing |
-| Execution time | 32.5 s |
-| Line coverage | 93% (requirement: 80%) |
-| Defects found | 14 |
-| Defects closed | 14 |
+| Automated tests | 334, all passing |
+| Execution time | 143 s |
+| Line coverage | 92% (requirement: 80%) |
+| Defects found | 18 |
+| Defects closed | 18 |
 | Open defects, Medium or above | 0 |
 | Performance budgets | All met, with an order of magnitude of headroom on reads |
 | Acceptance scenarios | 6 of 6 accepted |
 
-The suite's real value is forward-looking. The Technical Debt Register commits to migrating the datastore to PostgreSQL, replacing the KDF, and introducing a frontend component model — three changes that touch nearly every layer. Those are only safe to attempt because 312 tests will say immediately if any of them breaks the behaviour this report has verified.
+The suite's real value is forward-looking. The Technical Debt Register commits to migrating the datastore to PostgreSQL, replacing the KDF, and introducing a frontend component model — three changes that touch nearly every layer. Those are only safe to attempt because 334 tests will say immediately if any of them breaks the behaviour this report has verified.
 
 *End of Testing and Quality Assurance Report v1.0.*
