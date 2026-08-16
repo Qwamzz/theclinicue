@@ -1,6 +1,6 @@
 # Software Requirements Specification (SRS)
 
-## TheClinicue — Outpatient Appointment & Queue Management System
+## TheClinicue: Outpatient Appointment & Queue Management System
 
 **Document version:** 1.0
 **Status:** Baselined (end of Phase 1)
@@ -70,7 +70,7 @@ Section 2 gives the overall product description and problem context. Section 3 i
 
 ### 2.1 Problem Statement
 
-Community clinics across much of West Africa — and in resource-constrained primary care generally — operate an essentially undigitised outpatient flow. A patient who needs to see a clinician typically:
+Community clinics across much of West Africa (and in resource-constrained primary care generally) operate an essentially undigitised outpatient flow. A patient who needs to see a clinician typically:
 
 1. Travels to the clinic without knowing whether the clinician is available that day.
 2. Joins an undifferentiated physical queue on a first-come-first-served basis.
@@ -79,7 +79,7 @@ Community clinics across much of West Africa — and in resource-constrained pri
 
 The consequences are concrete and measurable:
 
-- **Patient cost.** Lost wages, transport spent on wasted journeys, and — critically — care avoidance. Patients with non-acute but progressive conditions defer visits because the time cost is unpredictable.
+- **Patient cost.** Lost wages, transport spent on wasted journeys, and (critically) care avoidance. Patients with non-acute but progressive conditions defer visits because the time cost is unpredictable.
 - **Clinic cost.** Reception staff spend a large fraction of the working day on manual queue arbitration and dispute resolution rather than on clinical support. Practitioner idle gaps sit alongside overflowing waiting rooms because arrival is unsmoothed.
 - **Data blindness.** Clinic managers have no reliable figures for daily attendance, no-show rates, practitioner utilisation or waiting time, so they cannot justify staffing changes or identify bottlenecks.
 - **Crowding risk.** Dense, long-duration waiting rooms are an infection-control hazard, a lesson reinforced across the sector since 2020.
@@ -88,7 +88,7 @@ Existing commercial practice-management suites do address this, but they are pri
 
 ### 2.2 Product Perspective
 
-TheClinicue is a new, self-contained system. It has no mandatory integration with existing clinic software, which is the correct architectural decision for the target market — most target clinics have no existing software to integrate with. It is designed to be deployable by a single non-specialist administrator onto a low-cost cloud host, and to be usable on the low-end Android devices that dominate the patient population.
+TheClinicue is a new, self-contained system. It has no mandatory integration with existing clinic software, which is the correct architectural decision for the target market - most target clinics have no existing software to integrate with. It is designed to be deployable by a single non-specialist administrator onto a low-cost cloud host, and to be usable on the low-end Android devices that dominate the patient population.
 
 The system replaces a manual process rather than an incumbent system. This means adoption risk, not migration risk, is the dominant deployment concern, and it is addressed through deliberate design choices recorded in NFR-USA-01 through NFR-USA-04.
 
@@ -128,9 +128,9 @@ The system replaces a manual process rather than an incumbent system. This means
 | # | Stakeholder | Type | Interest in the system | Influence | Key success criterion |
 |---|---|---|---|---|---|
 | S1 | Patient | Primary user | Reduce time wasted; know when to arrive; avoid futile journeys. | Low individually, decisive collectively (adoption). | Can book in under 90 seconds on a phone. |
-| S2 | Reception / records staff | Primary user | Remove manual queue arbitration; reduce conflict at the desk. | High — they are the daily operators; non-adoption kills the system. | Check-in a patient in under 15 seconds. |
-| S3 | Practitioner (doctor / nurse) | Primary user (indirect) | Predictable, smoothed patient flow; fewer interruptions. | High — controls availability. | Accurate view of who is next. |
-| S4 | Clinic administrator / manager | Primary user, sponsor | Operational visibility; staffing justification; cost control. | Decisive — approves procurement. | Reliable daily no-show and utilisation figures. |
+| S2 | Reception / records staff | Primary user | Remove manual queue arbitration; reduce conflict at the desk. | High - they are the daily operators; non-adoption kills the system. | Check-in a patient in under 15 seconds. |
+| S3 | Practitioner (doctor / nurse) | Primary user (indirect) | Predictable, smoothed patient flow; fewer interruptions. | High - controls availability. | Accurate view of who is next. |
+| S4 | Clinic administrator / manager | Primary user, sponsor | Operational visibility; staffing justification; cost control. | Decisive - approves procurement. | Reliable daily no-show and utilisation figures. |
 | S5 | Clinic owner / board | Sponsor | Return on a small investment; reputation. | Decisive (budget). | Measurable reduction in average wait. |
 | S6 | Ministry / district health directorate | Regulator, external | Service-quality reporting; data protection compliance. | Medium (compliance constraints). | No unlawful processing of health data. |
 | S7 | System maintainer | Internal | Maintainable, debuggable, cheaply hostable code. | Medium (post-delivery cost). | Can diagnose a production fault from logs and audit trail. |
@@ -151,7 +151,7 @@ Because a 48-hour project window does not permit a full field study, requirement
 
 ### 4.1 Notation
 
-Each requirement carries an identifier, a statement, a MoSCoW priority, a rationale and a verification method. Priorities were assigned by scoring each candidate requirement on two axes — **stakeholder value** (does removing it break the core value proposition?) and **implementation cost** (estimated person-hours) — and are the direct input to the scope decision in Section 8.
+Each requirement carries an identifier, a statement, a MoSCoW priority, a rationale and a verification method. Priorities were assigned by scoring each candidate requirement on two axes (**stakeholder value** (does removing it break the core value proposition?) and **implementation cost** (estimated person-hours)) and are the direct input to the scope decision in Section 8.
 
 Verification methods: **T** = automated test, **D** = demonstration, **I** = inspection, **A** = analysis.
 
@@ -284,7 +284,7 @@ Verification methods: **T** = automated test, **D** = demonstration, **I** = ins
 | NFR-REL-01 | An unhandled server exception shall return a generic HTTP 500 envelope and shall not terminate the worker process. | Must | Fault injection test. |
 | NFR-REL-02 | Booking and check-in shall be transactional: a failure shall leave no partial record. | Must | Transaction rollback test. |
 | NFR-REL-03 | The system shall expose an unauthenticated health endpoint reporting service and database status. | Must | Endpoint test; used by the platform health check. |
-| NFR-REL-04 | Target availability during clinic hours (07:00–18:00) shall be 99%. | Should | Platform uptime monitoring. |
+| NFR-REL-04 | Target availability during clinic hours (07:00-18:00) shall be 99%. | Should | Platform uptime monitoring. |
 
 ### 5.5 Maintainability and Portability
 
@@ -355,7 +355,7 @@ HTTPS on port 443 in production (TLS terminated by the hosting platform); HTTP o
 | A-02 | A nominal fixed duration per service is an acceptable approximation of consultation length. | Systematic schedule drift through the day. | Measure actual consultation durations during pilot. |
 | A-03 | At least one member of reception staff is available to operate the console during clinic hours. | Queue state would go stale and the system would be actively misleading. | Confirm staffing model; otherwise a patient self-check-in kiosk is required. |
 | A-04 | Enough patients have smartphone access for self-service booking to reduce desk load materially. | Value proposition weakens to staff-mediated booking only, which is still useful but smaller. | Sample patient device ownership at pilot site. |
-| A-05 | Clinic premises have sufficiently reliable internet for the staff console during opening hours. | An offline-first architecture would be required — a substantial redesign. | Site survey; recorded as the largest single architectural risk. |
+| A-05 | Clinic premises have sufficiently reliable internet for the staff console during opening hours. | An offline-first architecture would be required - a substantial redesign. | Site survey; recorded as the largest single architectural risk. |
 | A-06 | Patients accept a masked-name public queue display as sufficient privacy. | Would require ticket-number-only display. | Confirm with clinic and patients. |
 
 ---
@@ -364,14 +364,14 @@ HTTPS on port 443 in production (TLS terminated by the hosting platform); HTTP o
 
 ### 8.1 Method
 
-Requirements were ordered by MoSCoW priority and costed during estimation (see the Software Effort Estimation section of the consolidated documentation). Use Case Points sized the full elicited requirement set at **191.7 UCP**, and COCOMO II independently sized it at approximately **199 function points** — both models placing a production-grade build in the range of **1,800 to 2,700 person-hours**, between 37 and 56 times the available window. Scope was therefore cut deliberately and explicitly rather than by drift.
+Requirements were ordered by MoSCoW priority and costed during estimation (see the Software Effort Estimation section of the consolidated documentation). Use Case Points sized the full elicited requirement set at **191.7 UCP**, and COCOMO II independently sized it at approximately **199 function points** - both models placing a production-grade build in the range of **1,800 to 2,700 person-hours**, between 37 and 56 times the available window. Scope was therefore cut deliberately and explicitly rather than by drift.
 
 Two cut rules were applied:
 
 1. **Functional cut.** Every Must-have is in scope; a Should-have is in scope only if it costs under two hours and touches code already being written; every Could-have and Won't-have is out. This removed six use cases representing 31% of functional size (SRS §8.3).
-2. **Quality-level cut.** v1.0 is delivered explicitly as a **prototype-grade vertical slice**, not a productised system. Production hardening — WCAG conformance testing, internationalisation, load and soak testing, disaster recovery, observability, database migration tooling and high availability — is deferred. This deferral is not concealed: every item is enumerated in the Technical Debt Register with a cause, impact, priority and resolution, and scheduled in the Future Evolution roadmap.
+2. **Quality-level cut.** v1.0 is delivered explicitly as a **prototype-grade vertical slice**, not a productised system. Production hardening (WCAG conformance testing, internationalisation, load and soak testing, disaster recovery, observability, database migration tooling and high availability) is deferred. This deferral is not concealed: every item is enumerated in the Technical Debt Register with a cause, impact, priority and resolution, and scheduled in the Future Evolution roadmap.
 
-The bottom-up PERT estimate for the resulting scope came to 55.6 person-hours — still 7.6 hours over budget. Six specific mitigations (a zero-build frontend, direct SQLite rather than an ORM, reuse of Werkzeug's PBKDF2, mechanical documentation generation, shared seed/test fixtures, and manual rather than automated usability testing) recovered 7.75 hours and brought the plan to **47.85 person-hours** against the 48-hour budget. Four of those six mitigations deliberately purchase schedule with technical debt, and each is recorded as such.
+The bottom-up PERT estimate for the resulting scope came to 55.6 person-hours - still 7.6 hours over budget. Six specific mitigations (a zero-build frontend, direct SQLite rather than an ORM, reuse of Werkzeug's PBKDF2, mechanical documentation generation, shared seed/test fixtures, and manual rather than automated usability testing) recovered 7.75 hours and brought the plan to **47.85 person-hours** against the 48-hour budget. Four of those six mitigations deliberately purchase schedule with technical debt, and each is recorded as such.
 
 ### 8.2 In Scope (v1.0, this delivery)
 
@@ -406,21 +406,21 @@ The matrix links each requirement group to the design element that realises it, 
 
 | Requirement | Design element | Implementation module | Verifying tests |
 |---|---|---|---|
-| FR-01 – FR-04 | Registration sequence; User entity | `app/api/auth.py`, `app/security.py`, `app/validators.py` | TC-U-01…04, TC-I-01…04 |
-| FR-05 – FR-09 | Authentication sequence; session design | `app/api/auth.py`, `app/security.py` | TC-U-05…07, TC-I-05…09, TC-S-05 |
-| FR-10 – FR-13 | RBAC component | `app/security.py` (`require_auth`, `require_role`) | TC-I-10…13, TC-SEC-01…04 |
-| FR-14 – FR-19 | Catalogue component; ERD services/practitioners | `app/api/catalog.py`, `app/api/admin.py` | TC-I-14…19 |
-| FR-20 – FR-23 | Slot generation algorithm | `app/services/scheduling.py` | TC-U-08…16 |
-| FR-24 – FR-32 | Booking sequence; appointment state machine | `app/services/scheduling.py`, `app/api/appointments.py` | TC-U-17…20, TC-I-20…28, TC-S-01 |
-| FR-33 – FR-44 | Queue activity model; queue component | `app/services/queue.py`, `app/api/queue.py` | TC-U-21…26, TC-I-29…38, TC-S-02, TC-S-03 |
-| FR-45 – FR-49 | Admin component; audit log entity | `app/api/admin.py`, `app/db.py` (`write_audit`) | TC-I-39…44, TC-S-04 |
-| FR-50 – FR-52 | Reporting component | `app/services/reports.py`, `app/api/admin.py` | TC-U-27…29, TC-I-45…47 |
-| FR-53 – FR-58 | Validation layer; error envelope | `app/validators.py`, `app/errors.py`, `app/db.py` | TC-U-30…36, TC-SEC-05…10 |
-| NFR-PER-01…04 | Architecture; index design | `app/schema.sql` | TC-P-01…03 |
-| NFR-SEC-01…06 | Security design | `app/security.py`, `app/__init__.py` | TC-SEC-01…12 |
-| NFR-USA-01…05 | Wireframes; responsive CSS | `app/static/css/app.css` | TC-USA-01…05 |
-| NFR-REL-01…04 | Error handling; health endpoint | `app/errors.py`, `app/api/health.py` | TC-I-48…50 |
-| NFR-MNT-01…06 | Layered architecture | Whole package; `tests/` | TC-Q-01…03 |
+| FR-01 - FR-04 | Registration sequence; User entity | `app/api/auth.py`, `app/security.py`, `app/validators.py` | TC-U-01 to 04, TC-I-01 to 04 |
+| FR-05 - FR-09 | Authentication sequence; session design | `app/api/auth.py`, `app/security.py` | TC-U-05 to 07, TC-I-05 to 09, TC-S-05 |
+| FR-10 - FR-13 | RBAC component | `app/security.py` (`require_auth`, `require_role`) | TC-I-10 to 13, TC-SEC-01 to 04 |
+| FR-14 - FR-19 | Catalogue component; ERD services/practitioners | `app/api/catalog.py`, `app/api/admin.py` | TC-I-14 to 19 |
+| FR-20 - FR-23 | Slot generation algorithm | `app/services/scheduling.py` | TC-U-08 to 16 |
+| FR-24 - FR-32 | Booking sequence; appointment state machine | `app/services/scheduling.py`, `app/api/appointments.py` | TC-U-17 to 20, TC-I-20 to 28, TC-S-01 |
+| FR-33 - FR-44 | Queue activity model; queue component | `app/services/queue.py`, `app/api/queue.py` | TC-U-21 to 26, TC-I-29 to 38, TC-S-02, TC-S-03 |
+| FR-45 - FR-49 | Admin component; audit log entity | `app/api/admin.py`, `app/db.py` (`write_audit`) | TC-I-39 to 44, TC-S-04 |
+| FR-50 - FR-52 | Reporting component | `app/services/reports.py`, `app/api/admin.py` | TC-U-27 to 29, TC-I-45 to 47 |
+| FR-53 - FR-58 | Validation layer; error envelope | `app/validators.py`, `app/errors.py`, `app/db.py` | TC-U-30 to 36, TC-SEC-05 to 10 |
+| NFR-PER-01 to 04 | Architecture; index design | `app/schema.sql` | TC-P-01 to 03 |
+| NFR-SEC-01 to 06 | Security design | `app/security.py`, `app/__init__.py` | TC-SEC-01 to 12 |
+| NFR-USA-01 to 05 | Wireframes; responsive CSS | `app/static/css/app.css` | TC-USA-01 to 05 |
+| NFR-REL-01 to 04 | Error handling; health endpoint | `app/errors.py`, `app/api/health.py` | TC-I-48 to 50 |
+| NFR-MNT-01 to 06 | Layered architecture | Whole package; `tests/` | TC-Q-01 to 03 |
 
 ---
 

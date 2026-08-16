@@ -1,4 +1,4 @@
-/* TheClinicue — single stylesheet, no framework, no build step.
+/* TheClinicue - single stylesheet, no framework, no build step.
    Mobile-first: base rules target 360 px, media queries enhance upward
    (NFR-USA-01). Touch targets are >= 44 px (NFR-USA-03).
 
@@ -9,7 +9,7 @@
    WCAG AA (4.5:1), and status is never carried by colour alone (NFR-USA-05). */
 
 :root {
-  /* Brand — teal */
+  /* Brand - teal */
   --brand-900: #06403A;
   --brand-800: #08544C;
   --brand-700: #0B6B61;   /* primary: 5.9:1 on white */
@@ -19,7 +19,7 @@
   --brand-100: #D5EFEB;
   --brand-50:  #EFF9F7;
 
-  /* Accent — warm sand */
+  /* Accent - warm sand */
   --sand-700: #9A5B08;
   --sand-500: #D98A17;
   --sand-100: #FBEBCF;
@@ -35,7 +35,7 @@
   --ink:      #16211F;
   --ink-2:    #33413E;
   --muted:    #5C6B68;
-  --faint:    #667471;   /* 4.9:1 on white — WCAG AA at small sizes */
+  --faint:    #667471;   /* 4.9:1 on white - WCAG AA at small sizes */
   --line:     #DDE6E4;
   --line-soft:#EBF1F0;
   --surface:  #FFFFFF;
@@ -222,7 +222,7 @@ input[aria-invalid="true"], select[aria-invalid="true"] {
 
 .btn-block { width: 100%; }
 /* Compact only where a precise pointer is available. On touch the rule below
-   restores the full 44 px target (NFR-USA-03) — dense tables are a desktop
+   restores the full 44 px target (NFR-USA-03) - dense tables are a desktop
    affordance, not something to inflict on a thumb. */
 .btn-sm { min-height: 34px; padding: .28rem .72rem; font-size: .83rem; border-radius: var(--radius-xs); }
 @media (pointer: coarse) { .btn-sm { min-height: var(--tap); } }

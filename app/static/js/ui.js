@@ -178,7 +178,7 @@ export function select(name, options, attrs = {}) {
 export async function withBusy(button, action) {
   const original = button.textContent;
   button.disabled = true;
-  button.textContent = 'Working…';
+  button.textContent = 'Working...';
   try {
     return await action();
   } finally {

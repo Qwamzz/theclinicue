@@ -26,7 +26,7 @@ RUN useradd --create-home --uid 10001 theclinicue \
 USER theclinicue
 
 # /data is where the SQLite file lives. Mount a persistent volume here, or the
-# database is destroyed on every restart — see TD-01.
+# database is destroyed on every restart: see TD-01.
 VOLUME ["/data"]
 
 EXPOSE 8000

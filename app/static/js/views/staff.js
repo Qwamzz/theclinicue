@@ -62,7 +62,7 @@ export async function renderStaffConsole() {
   page.append(layout);
 
   async function reloadSheet() {
-    sheetSlot.replaceChildren(h('p', { class: 'hint', text: 'Loading…' }));
+    sheetSlot.replaceChildren(h('p', { class: 'hint', text: 'Loading...' }));
     try {
       const result = await api.daySheet({
         date: dateInput.value || todayISO(),
@@ -77,7 +77,7 @@ export async function renderStaffConsole() {
   }
 
   async function reloadQueue() {
-    queueSlot.replaceChildren(h('p', { class: 'hint', text: 'Loading…' }));
+    queueSlot.replaceChildren(h('p', { class: 'hint', text: 'Loading...' }));
     try {
       const queue = await api.liveQueue(queueSelect.value, todayISO());
       queueSlot.replaceChildren(queuePanel(queue, reloadSheet, reloadQueue));
@@ -132,7 +132,7 @@ function daySheetTable(result, reloadSheet, reloadQueue) {
         },
       }));
     }
-    if (!actions.childElementCount) actions.append(h('span', { class: 'hint', text: '—' }));
+    if (!actions.childElementCount) actions.append(h('span', { class: 'hint', text: '-' }));
 
     return h('tr', null,
       h('td', null, h('strong', { text: appointment.start_time })),
@@ -185,7 +185,7 @@ function queuePanel(queue, reloadSheet, reloadQueue) {
       h('span', { text: 'Now serving' }),
       h('strong', { text: queue.now_serving.ticket }))
     : h('div', { class: 'now-serving' },
-      h('span', { text: 'Now serving' }), h('strong', { text: '—' })));
+      h('span', { text: 'Now serving' }), h('strong', { text: '-' })));
 
   if (queue.waiting.length) {
     parts.push(h('ul', { class: 'queue-list' }, queue.waiting.map((entry) =>
@@ -205,7 +205,7 @@ function queuePanel(queue, reloadSheet, reloadQueue) {
       await withBusy(event.target, async () => {
         try {
           const result = await api.callNext(queue.practitioner_id);
-          toast(result.called ? `Calling ${result.called.ticket} — ${result.called.patient_name}.`
+          toast(result.called ? `Calling ${result.called.ticket} - ${result.called.patient_name}.`
             : result.message, result.called ? 'success' : '');
           await reloadQueue();
           await reloadSheet();
@@ -263,7 +263,7 @@ function walkInCard(onBooked) {
 }
 
 async function showWalkInForm(patient, slot, onBooked) {
-  slot.replaceChildren(h('p', { class: 'hint', text: 'Loading options…' }));
+  slot.replaceChildren(h('p', { class: 'hint', text: 'Loading options...' }));
   try {
     const [services, practitioners] = await Promise.all([
       api.services().then((r) => r.items),
@@ -279,7 +279,7 @@ async function showWalkInForm(patient, slot, onBooked) {
     const submit = h('button', { class: 'btn btn-block', type: 'submit', text: `Book for ${patient.full_name}` });
 
     async function loadTimes() {
-      slotSelect.replaceChildren(h('option', { value: '', text: 'Loading…' }));
+      slotSelect.replaceChildren(h('option', { value: '', text: 'Loading...' }));
       try {
         const result = await api.slots(practitionerSelect.value, serviceSelect.value, dateInput.value);
         slotSelect.replaceChildren(
@@ -312,7 +312,7 @@ async function showWalkInForm(patient, slot, onBooked) {
           });
           toast(`Booked ${booking.code} for ${patient.full_name}.`, 'success');
           slot.replaceChildren(notice('success',
-            `${patient.full_name} — ${relativeDay(booking.date)} at ${booking.start_time}, code ${booking.code}.`));
+            `${patient.full_name} - ${relativeDay(booking.date)} at ${booking.start_time}, code ${booking.code}.`));
           await onBooked();
         } catch (err) {
           toast(err.message, 'error');

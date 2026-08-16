@@ -3,7 +3,7 @@
 Every field crossing the API boundary is checked for presence, type, length,
 format and permitted range *before* it reaches business logic. Failures are
 collected rather than raised one at a time, so the client can highlight every
-bad field in a single round trip — which matters on the slow connections this
+bad field in a single round trip - which matters on the slow connections this
 system targets.
 """
 

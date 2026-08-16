@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 #: NFR-SEC-02. PBKDF2-HMAC-SHA256 at 600,000 iterations, per OWASP guidance.
 PRODUCTION_HASH_METHOD = "pbkdf2:sha256:600000"
 
-#: Same algorithm, fewer rounds — used only when env == "testing".
+#: Same algorithm, fewer rounds - used only when env == "testing".
 TESTING_HASH_METHOD = "pbkdf2:sha256:10000"
 
 
@@ -115,7 +115,7 @@ def _journal_mode() -> str:
 
     Detection is by platform variable only. An earlier version also treated any
     path under /home as network storage, which is wrong: /home is an ordinary
-    Linux prefix. CI caught it — the runner checks out to /home/runner/work,
+    Linux prefix. CI caught it - the runner checks out to /home/runner/work,
     so every Linux host with the app under /home would silently have taken the
     slower journal.
     """

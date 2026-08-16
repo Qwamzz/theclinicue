@@ -1,8 +1,8 @@
 """The single error vocabulary of the application.
 
 Every failure the API can express is an ApiError subclass. Handlers convert
-them to one JSON envelope (FR-54). Nothing internal — stack traces, SQL
-fragments, file paths — ever reaches a response body (FR-55).
+them to one JSON envelope (FR-54). Nothing internal - stack traces, SQL
+fragments, file paths - ever reaches a response body (FR-55).
 """
 
 from __future__ import annotations

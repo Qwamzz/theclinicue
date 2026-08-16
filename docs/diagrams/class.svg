@@ -9,7 +9,7 @@
     </marker>
   </defs>
 
-  <text x="540" y="26" text-anchor="middle" font-size="19" font-weight="bold" fill="#202124">TheClinicue — Design Class Diagram</text>
+  <text x="540" y="26" text-anchor="middle" font-size="19" font-weight="bold" fill="#202124">TheClinicue - Design Class Diagram</text>
   <text x="540" y="45" text-anchor="middle" font-size="11" fill="#5f6368">Service layer over a domain model over infrastructure. Column-level detail is in the ERD; this view shows behaviour and dependencies.</text>
 
   <!-- ============ dependency lines (behind boxes) ============ -->
@@ -37,8 +37,8 @@
     <text x="274" y="634">1</text><text x="288" y="466">*</text>
   </g>
 
-  <!-- ================= BAND 1 — SERVICE LAYER ================= -->
-  <text x="40" y="68" font-size="12" font-weight="bold" fill="#B06000">SERVICE LAYER — all business rules, framework-independent (NFR-MNT-01)</text>
+  <!-- ================= BAND 1 - SERVICE LAYER ================= -->
+  <text x="40" y="68" font-size="12" font-weight="bold" fill="#B06000">SERVICE LAYER - all business rules, framework-independent (NFR-MNT-01)</text>
 
   <!-- SchedulingService -->
   <rect x="40" y="75" width="320" height="160" fill="#FEF7E0" stroke="#B06000" stroke-width="1.8"/>
@@ -88,8 +88,8 @@
     <text x="738" y="192" font-style="italic" fill="#B06000">Read-only: never mutates state</text>
   </g>
 
-  <!-- ================= BAND 2 — DOMAIN ================= -->
-  <text x="40" y="278" font-size="12" font-weight="bold" fill="#1A73E8">DOMAIN MODEL — entities carrying invariants and behaviour</text>
+  <!-- ================= BAND 2 - DOMAIN ================= -->
+  <text x="40" y="278" font-size="12" font-weight="bold" fill="#1A73E8">DOMAIN MODEL - entities carrying invariants and behaviour</text>
 
   <!-- User -->
   <rect x="40" y="285" width="230" height="230" fill="#E8F0FE" stroke="#1A73E8" stroke-width="1.8"/>
@@ -163,7 +163,7 @@
     <text x="618" y="461">+ wait_minutes() : float?</text>
     <text x="618" y="475">+ ticket_label() : str</text>
     <text x="618" y="491" font-style="italic" fill="#7B1FA2">ticket_no is sequential within</text>
-    <text x="618" y="503" font-style="italic" fill="#7B1FA2">(practitioner, date) — FR-35</text>
+    <text x="618" y="503" font-style="italic" fill="#7B1FA2">(practitioner, date) - FR-35</text>
   </g>
 
   <!-- Practitioner -->
@@ -206,7 +206,7 @@
   <g font-size="9.5" fill="#202124">
     <text x="308" y="624">− id : int</text>
     <text x="308" y="638">− practitioner_id : int</text>
-    <text x="308" y="652">− weekday : int  «0 = Monday … 6 = Sunday»</text>
+    <text x="308" y="652">− weekday : int  «0 = Monday to 6 = Sunday»</text>
     <text x="308" y="666">− start_time / end_time : time</text>
     <text x="308" y="680">− is_active : bool</text>
   </g>
@@ -224,7 +224,7 @@
     <text x="618" y="638">+ query_one(sql, params) : Row?</text>
     <text x="618" y="652">+ execute(sql, params) : int</text>
     <text x="618" y="666">+ transaction() : ContextManager</text>
-    <text x="618" y="680">+ write_audit(actor, action, …) : None</text>
+    <text x="618" y="680">+ write_audit(actor, action, ...) : None</text>
     <text x="618" y="694">+ init_schema() : None</text>
   </g>
   <text x="618" y="714" font-size="9" font-style="italic" fill="#C5221F">Parameterised SQL only (FR-56).</text>

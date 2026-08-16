@@ -8,7 +8,7 @@
 -r requirements-test.txt
 
 # ---------------------------------------------------------------------------
-# Documentation tooling — local only.
+# Documentation tooling: local only.
 #   tools/md2pdf.py      Markdown -> PDF for the submission documents
 #   tools/svg_preview.py renders the design diagrams to PNG and validates them
 #   tools/package.py     builds the submission archive

@@ -81,7 +81,7 @@ def _frozen_clock(monkeypatch):
 
     Set TC_TEST_TODAY=YYYY-MM-DD to run the whole suite as if it were that
     date. `tools/date_matrix.py` uses this to run across a full week, because a
-    test that passes only on Wednesdays is not a passing test — a lesson learned
+    test that passes only on Wednesdays is not a passing test - a lesson learned
     when the date rolled over mid-project and a seeded clash broke a test that
     had been green for hours.
 
@@ -160,7 +160,7 @@ def free_slot(app, patient):
     pseudo-random fill and of the weekday the tests happen to run on. The
     fixture must also skip days where the demo patient already holds an
     appointment with practitioner 1, because FR-27 permits only one per
-    patient, practitioner and day — a constraint that is correct behaviour and
+    patient, practitioner and day - a constraint that is correct behaviour and
     would otherwise look like a test failure.
     """
     patient_id = patient.user["id"]

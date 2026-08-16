@@ -1,4 +1,4 @@
-"""Configuration and platform-aware defaults (TC-U-37 … TC-U-46).
+"""Configuration and platform-aware defaults (TC-U-37 to TC-U-46).
 
 These exist because the first hosted deployment came up silently wrong: the
 database sat outside the only persistent directory, so every deploy destroyed
@@ -50,7 +50,7 @@ class TestLocalDefaults:
         assert path != "/home/data/theclinicue.sqlite3"
 
     def test_wal_journal_on_local_disk(self, clean_env):
-        """WAL everywhere except App Service — including a Linux host whose
+        """WAL everywhere except App Service - including a Linux host whose
         project directory happens to sit under /home."""
         assert load_config().sqlite_journal_mode == "WAL"
 

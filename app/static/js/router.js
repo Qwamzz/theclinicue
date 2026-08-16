@@ -1,7 +1,7 @@
 // Hash router.
 //
 // Hash routing keeps the app deployable as plain static files behind the same
-// process that serves the API — no rewrite rule, no reverse proxy.
+// process that serves the API - no rewrite rule, no reverse proxy.
 //
 // The role guards here decide what is *drawn*. They are not security: every
 // endpoint re-checks the caller's role server-side (NFR-SEC-06).

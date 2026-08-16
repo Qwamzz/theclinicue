@@ -18,7 +18,7 @@
     </symbol>
   </defs>
 
-  <text x="520" y="32" text-anchor="middle" font-size="19" font-weight="bold" fill="#202124">TheClinicue — UML Use Case Diagram (v1.0 delivered scope)</text>
+  <text x="520" y="32" text-anchor="middle" font-size="19" font-weight="bold" fill="#202124">TheClinicue - UML Use Case Diagram (v1.0 delivered scope)</text>
   <text x="520" y="52" text-anchor="middle" font-size="11" fill="#5f6368">17 business-goal use cases · 4 actors · deferred use cases UC-18 to UC-23 are not shown</text>
 
   <!-- system boundary -->

@@ -1,9 +1,9 @@
-# Deploying TheClinicue — complete step-by-step
+# Deploying TheClinicue: complete step-by-step
 
 Nothing here is assumed. Every command is copy-pasteable and every screen is named.
 
 - **Destination:** Azure App Service (Linux, Python 3.12) at **https://theclinicue.com**
-- **Time:** ~25 minutes of work, plus DNS propagation (up to 1 hour, usually 5–15 minutes)
+- **Time:** ~25 minutes of work, plus DNS propagation (up to 1 hour, usually 5-15 minutes)
 - **Cost:** ~$13/month on B1 (needed for the custom domain), or $0 on F1 without it
 
 ### What you need before you start
@@ -16,16 +16,16 @@ Nothing here is assumed. Every command is copy-pasteable and every screen is nam
 | 4 | A GitHub account (`Qwamzz`) | Sign in at github.com |
 | 5 | An Azure subscription | Sign in at portal.azure.com |
 | 6 | The `theclinicue.com` domain | You said it is on Azure |
-| 7 | Azure CLI *(optional but much faster)* | `az version` — install from https://aka.ms/installazurecliwindows |
-| 8 | GitHub CLI *(optional, makes Step 1.2 easier)* | `gh --version` — already installed here as v2.97.0 |
+| 7 | Azure CLI *(optional but much faster)* | `az version` - install from https://aka.ms/installazurecliwindows |
+| 8 | GitHub CLI *(optional, makes Step 1.2 easier)* | `gh --version` - already installed here as v2.97.0 |
 
 ---
 
-# Part 1 — Put the code on GitHub
+# Part 1: Put the code on GitHub
 
-## Step 1.1 — Create an empty repository
+## Step 1.1: Create an empty repository
 
-> **Skip this step if you use Option A in Step 1.2** — the GitHub CLI creates the
+> **Skip this step if you use Option A in Step 1.2** - the GitHub CLI creates the
 > repository for you. This section is for the plain-Git route.
 
 1. Go to **https://github.com/new**
@@ -34,20 +34,20 @@ Nothing here is assumed. Every command is copy-pasteable and every screen is nam
    - **Repository name:** `theclinicue`
    - **Description:** `Outpatient appointment and queue management for community clinics`
    - **Public** *(so your examiner can read the source without being invited)*
-3. **Leave all three tickboxes OFF** — do not add a README, .gitignore or licence.
+3. **Leave all three tickboxes OFF** - do not add a README, .gitignore or licence.
    > This matters. If the repository has any commit in it, your push in Step 1.2 is rejected with `Updates were rejected because the remote contains work that you do not have locally`.
 4. Click **Create repository**.
 
-GitHub shows a "quick setup" page. Leave it open — you need the URL.
+GitHub shows a "quick setup" page. Leave it open - you need the URL.
 
-## Step 1.2 — Push
+## Step 1.2: Push
 
-There are two ways to authenticate. **Option A is easier** — it uses a browser
+There are two ways to authenticate. **Option A is easier** - it uses a browser
 sign-in instead of hand-creating a token. The GitHub CLI is already installed
 on this machine (`gh` v2.97.0).
 
 > **If you have already created `Qwamzz/theclinicue` on github.com** (it exists
-> and is empty), skip `gh repo create` — it will fail with "Name already exists".
+> and is empty), skip `gh repo create` - it will fail with "Name already exists".
 > The `origin` remote is already configured in this project, so all you need is:
 >
 > ```bash
@@ -55,7 +55,7 @@ on this machine (`gh` v2.97.0).
 > git push -u origin main
 > ```
 
-### Option A — GitHub CLI (recommended)
+### Option A: GitHub CLI (recommended)
 
 ```bash
 gh auth login
@@ -73,7 +73,7 @@ Answer the prompts:
 It shows a one-time code, then opens github.com in your browser. Paste the
 code, approve, and come back to the terminal.
 
-Then create the repository and push in one command — this replaces Step 1.1
+Then create the repository and push in one command - this replaces Step 1.1
 entirely, so you can skip creating it in the web UI:
 
 ```bash
@@ -87,10 +87,10 @@ gh repo view Qwamzz/theclinicue --web
 ```
 
 > If `gh` is not on your PATH, it lives at `C:\Program Files\GitHub CLI\gh.exe`.
-> Open a **new** terminal after installing — PATH changes do not apply to
+> Open a **new** terminal after installing - PATH changes do not apply to
 > already-open windows.
 
-### Option B — plain Git with a Personal Access Token
+### Option B: plain Git with a Personal Access Token
 
 Do Step 1.1 first (create the empty repository in the web UI), then:
 
@@ -110,7 +110,7 @@ git push -u origin main
 4. **Expiration:** 90 days
 5. **Scopes:** tick **`repo`** (the top-level box selects the sub-boxes)
 6. **Generate token**
-7. **Copy it now** — GitHub shows it exactly once
+7. **Copy it now** - GitHub shows it exactly once
 8. Paste it as the *password* at the prompt
 
 ### Either way, verify
@@ -120,21 +120,21 @@ Refresh your repository page. You should see `app/`, `docs/`, `tests/`,
 
 > Nothing sensitive is pushed. `.gitignore` excludes the database, `.env`,
 > coverage output and the virtual environment, and there are no secrets in the
-> code — Azure generates the session key in Part 2.
+> code - Azure generates the session key in Part 2.
 
-## Step 1.3 — Confirm CI is running
+## Step 1.3: Confirm CI is running
 
 Click the **Actions** tab. A workflow named **Test and deploy to Azure** should be running.
 
-The `test` job will pass (it runs the 334 tests, the seven-day date matrix and the production config check). The `deploy` job will **fail** — that is expected and correct at this point, because you have not yet created the Azure app or added the publish profile. You fix that in Part 2 and Part 3.
+The `test` job will pass (it runs the 334 tests, the seven-day date matrix and the production config check). The `deploy` job will **fail** - that is expected and correct at this point, because you have not yet created the Azure app or added the publish profile. You fix that in Part 2 and Part 3.
 
 ---
 
-# Part 2 — Create the Azure app
+# Part 2: Create the Azure app
 
 Choose **either** Option A (one command) **or** Option B (portal clicks). They produce the same result.
 
-## Option A — Azure CLI (recommended, ~3 minutes)
+## Option A: Azure CLI (recommended, ~3 minutes)
 
 ```bash
 az login
@@ -157,7 +157,7 @@ That single script:
 - turns on log streaming
 - **prints your publish profile** (needed in Part 3) and **your exact DNS records** (needed in Part 4)
 
-**Keep that output.** Copy it into a scratch file — you need two pieces of it later.
+**Keep that output.** Copy it into a scratch file - you need two pieces of it later.
 
 To change any default:
 
@@ -169,7 +169,7 @@ APP_NAME=theclinicue-prod LOCATION=uksouth SKU=B1 bash azure-setup.sh
 
 Skip to **Part 3**.
 
-## Option B — Azure Portal (~10 minutes)
+## Option B: Azure Portal (~10 minutes)
 
 ### 2.1 Create the Web App
 
@@ -243,7 +243,7 @@ Left menu → **Settings → Configuration → General settings**:
 
 **Save.**
 
-> Without the startup command Azure runs its default `gunicorn app:app`, which is wrong — the WSGI callable here is `wsgi:app`, and the database needs seeding on first boot.
+> Without the startup command Azure runs its default `gunicorn app:app`, which is wrong - the WSGI callable here is `wsgi:app`, and the database needs seeding on first boot.
 
 ### 2.4 Turn on HTTPS-only and the health check
 
@@ -252,21 +252,21 @@ Left menu → **Settings → Configuration → General settings**:
 
 ---
 
-# Part 3 — Connect GitHub to Azure
+# Part 3: Connect GitHub to Azure
 
 > **If you connected Azure's Deployment Center to GitHub**, the portal has
 > already done Part 3 for you: it generated
 > `.github/workflows/main_theclinicue.yml` and created the matching
 > `AZUREAPPSERVICE_PUBLISHPROFILE_*` secret. That workflow now also runs the
-> quality gate — the full test suite, the seven-day date matrix and the
-> production configuration check — before it builds or deploys anything, and it
+> quality gate - the full test suite, the seven-day date matrix and the
+> production configuration check - before it builds or deploys anything, and it
 > smoke-tests the live health endpoint afterwards.
 >
 > You can skip the rest of Part 3. **You still need Step 2.3** (the startup
-> command `bash startup.sh`) and **Step 2.2** (the application settings) —
+> command `bash startup.sh`) and **Step 2.2** (the application settings) -
 > the portal's Deployment Center does not set those.
 
-## Step 3.1 — Get the publish profile
+## Step 3.1: Get the publish profile
 
 **Portal route:** Web App → **Overview** → top toolbar → **Download publish profile**. It saves a `.PublishSettings` file. Open it in Notepad and copy **everything**.
 
@@ -279,15 +279,15 @@ az webapp deployment list-publishing-profiles \
 
 Copy the whole XML output, starting at `<publishData>`.
 
-## Step 3.2 — Store it as a GitHub secret
+## Step 3.2: Store it as a GitHub secret
 
 1. Go to **https://github.com/Qwamzz/theclinicue/settings/secrets/actions**
 2. **New repository secret**
-3. **Name:** `AZURE_WEBAPP_PUBLISH_PROFILE` *(exactly this — the workflow looks for it by name)*
+3. **Name:** `AZURE_WEBAPP_PUBLISH_PROFILE` *(exactly this - the workflow looks for it by name)*
 4. **Secret:** paste the entire XML
 5. **Add secret**
 
-## Step 3.3 — If you changed the app name
+## Step 3.3: If you changed the app name
 
 Edit `.github/workflows/azure-deploy.yml`, line 12:
 
@@ -295,7 +295,7 @@ Edit `.github/workflows/azure-deploy.yml`, line 12:
   AZURE_WEBAPP_NAME: theclinicue     # <- change to your actual app name
 ```
 
-## If GitHub Actions is unavailable — deploy directly
+## If GitHub Actions is unavailable: deploy directly
 
 GitHub Actions can be blocked for reasons that have nothing to do with your
 code. The most common is an account-level billing lock, which shows up as:
@@ -316,8 +316,8 @@ bash azure-deploy-direct.sh  # every time you want to ship
 ```
 
 `azure-deploy-direct.sh` enforces the **same quality gate** the CI workflow
-does — the full 334-test suite, the seven-day date matrix and the production
-configuration check — and abandons the deployment if any of them fail. It then
+does - the full 334-test suite, the seven-day date matrix and the production
+configuration check - and abandons the deployment if any of them fail. It then
 packages only the runtime files, zip-deploys them, waits for the restart and
 smoke-tests the live `/api/health`. Only the machine running the gate changes;
 the gate itself does not.
@@ -325,7 +325,7 @@ the gate itself does not.
 Once billing is sorted, pushing to `main` resumes automatic deployment and you
 can stop using the script.
 
-## Step 3.4 — Deploy
+## Step 3.4: Deploy
 
 ```bash
 git commit --allow-empty -m "Trigger first deployment"
@@ -334,12 +334,12 @@ git push
 
 Watch **Actions** in GitHub. You will see:
 
-1. **test** — ~4 minutes. Runs 334 tests with an 80% coverage floor, the seven-day date matrix, and the production configuration check.
-2. **deploy** — ~2 minutes. Only starts if `test` passed. Ends by curling the live `/api/health` and asserting `"status":"ok"`.
+1. **test** - ~4 minutes. Runs 334 tests with an 80% coverage floor, the seven-day date matrix, and the production configuration check.
+2. **deploy** - ~2 minutes. Only starts if `test` passed. Ends by curling the live `/api/health` and asserting `"status":"ok"`.
 
 **If `test` fails, nothing is deployed.** That gate is the point of having the suite.
 
-## Step 3.5 — Verify
+## Step 3.5: Verify
 
 ```bash
 curl https://theclinicue.azurewebsites.net/api/health
@@ -367,11 +367,11 @@ az webapp log tail --name theclinicue --resource-group theclinicue-rg
 
 ---
 
-# Part 4 — Point theclinicue.com at it
+# Part 4: Point theclinicue.com at it
 
 Skip this whole part if you are staying on F1 / the azurewebsites.net address.
 
-## Step 4.1 — Collect the two values you need
+## Step 4.1: Collect the two values you need
 
 ```bash
 az webapp show --name theclinicue --resource-group theclinicue-rg \
@@ -380,7 +380,7 @@ az webapp show --name theclinicue --resource-group theclinicue-rg \
 
 **Portal route:** Web App → **Custom domains** → **Add custom domain**. The verification ID and IP are shown on that blade.
 
-## Step 4.2 — Add the DNS records
+## Step 4.2: Add the DNS records
 
 Go to where the `theclinicue.com` zone lives. If you bought the domain through **Azure App Service Domains**, it is in Azure DNS: **portal.azure.com → DNS zones → theclinicue.com**.
 
@@ -392,7 +392,7 @@ Add three records:
 | `A` | `@` | *the inboundIpAddress from Step 4.1* | 3600 |
 | `CNAME` | `www` | `theclinicue.azurewebsites.net` | 3600 |
 
-> In Azure DNS, `@` is entered as a blank name or `@` depending on the blade. The `asuid` TXT record is what proves to Azure that you control the domain — without it, Step 4.3 fails.
+> In Azure DNS, `@` is entered as a blank name or `@` depending on the blade. The `asuid` TXT record is what proves to Azure that you control the domain - without it, Step 4.3 fails.
 
 **Wait, then check propagation:**
 
@@ -401,9 +401,9 @@ nslookup theclinicue.com
 nslookup -type=txt asuid.theclinicue.com
 ```
 
-Do not continue until both return the values you set. This usually takes 5–15 minutes.
+Do not continue until both return the values you set. This usually takes 5-15 minutes.
 
-## Step 4.3 — Bind the domain
+## Step 4.3: Bind the domain
 
 ```bash
 az webapp config hostname add --resource-group theclinicue-rg \
@@ -415,7 +415,7 @@ az webapp config hostname add --resource-group theclinicue-rg \
 
 **Portal route:** **Custom domains → Add custom domain →** enter `theclinicue.com` → **Validate** → **Add**.
 
-## Step 4.4 — Free TLS certificate
+## Step 4.4: Free TLS certificate
 
 ```bash
 az webapp config ssl create --resource-group theclinicue-rg \
@@ -433,9 +433,9 @@ Repeat both commands for `www.theclinicue.com`.
 
 **Portal route:** **Custom domains** → next to the domain, **Add binding** → **TLS/SSL type: SNI SSL** → **Certificate: Create App Service Managed Certificate** → **Add**.
 
-> The certificate is free and auto-renews. It can only be issued **after** the hostname is bound and DNS resolves — that is why the order matters.
+> The certificate is free and auto-renews. It can only be issued **after** the hostname is bound and DNS resolves - that is why the order matters.
 
-## Step 4.5 — Final check
+## Step 4.5: Final check
 
 Open **https://theclinicue.com**. You should get the sign-in page with a valid padlock.
 
@@ -445,7 +445,7 @@ curl https://theclinicue.com/api/health
 
 ---
 
-# Part 5 — Finish the submission
+# Part 5: Finish the submission
 
 Substitute the live URLs into all seven PDFs and the links file:
 
@@ -457,7 +457,7 @@ python tools/package.py \
   --repo-url "https://github.com/Qwamzz/theclinicue"
 ```
 
-This writes `Submission/22424650_TheClinicue.zip` — that is the file you upload to SAKAI.
+This writes `Submission/22424650_TheClinicue.zip` - that is the file you upload to SAKAI.
 
 ---
 
@@ -468,13 +468,13 @@ This writes `Submission/22424650_TheClinicue.zip` — that is the file you uploa
 | `Updates were rejected because the remote contains work` | The GitHub repo was created with a README | `git pull --rebase origin main` then push again, or delete and recreate it empty |
 | Git asks for a password and rejects yours | GitHub requires a token | Use a Personal Access Token with `repo` scope (Step 1.2) |
 | `Application Error` on first visit | Startup command not set | **Configuration → General settings → Startup Command** = `bash startup.sh` |
-| Logs: `TC_SECRET_KEY must be set in production` | App setting missing | Add it in Environment variables. *(The app refuses to start rather than generate one — deliberate, see `app/config.py`.)* |
+| Logs: `TC_SECRET_KEY must be set in production` | App setting missing | Add it in Environment variables. *(The app refuses to start rather than generate one - deliberate, see `app/config.py`.)* |
 | Logs: `unable to open database file` | `/home` storage disabled | Set `WEBSITES_ENABLE_APP_SERVICE_STORAGE=true` and restart |
 | `database is locked` under load | WAL journal on SMB | Set `TC_SQLITE_JOURNAL=DELETE`, restart. Properly fixed by TD-01. |
 | Logs: `ModuleNotFoundError: flask` | Oryx did not build | Set `SCM_DO_BUILD_DURING_DEPLOYMENT=true`, redeploy |
-| Deploy succeeds, site 404s | Wrong WSGI target | Should be `wsgi:app`, not `app:app` — `startup.sh` handles it |
+| Deploy succeeds, site 404s | Wrong WSGI target | Should be `wsgi:app`, not `app:app` - `startup.sh` handles it |
 | GitHub Actions: `deploy` fails with `No credentials found` | Secret missing or misnamed | It must be exactly `AZURE_WEBAPP_PUBLISH_PROFILE` |
-| GitHub Actions: `test` fails | A genuine test failure | Read the log — the gate is working. Fix before deploying. |
+| GitHub Actions: `test` fails | A genuine test failure | Read the log - the gate is working. Fix before deploying. |
 | Custom domain will not validate | `asuid` TXT missing or not propagated | `nslookup -type=txt asuid.theclinicue.com` |
 | Certificate creation fails | Domain not bound, or DNS not resolving | Bind hostname first, wait for DNS, then create |
 | Site slow on first hit | **Always on** off (unavailable on F1) | Turn **Always on** to `On` (needs B1+) |
@@ -509,11 +509,11 @@ It is still not production-grade, and the submission says so:
 - Writes serialise; under contention the app returns `503 SERVICE_BUSY` with `Retry-After` rather than failing outright.
 - There is no automated backup (**TD-12**).
 
-The Technical Debt Register keeps a hard gate: **no real patient data until TD-01 (Azure Database for PostgreSQL), TD-02 (schema migrations) and TD-12 (rehearsed backups) have shipped** — release v1.0.1, ~20.5 hours.
+The Technical Debt Register keeps a hard gate: **no real patient data until TD-01 (Azure Database for PostgreSQL), TD-02 (schema migrations) and TD-12 (rehearsed backups) have shipped** - release v1.0.1, ~20.5 hours.
 
 ---
 
-# Appendix — running it locally
+# Appendix: running it locally
 
 ```bash
 python -m venv .venv
@@ -534,7 +534,7 @@ python wsgi.py                  # http://localhost:8000
 | `python tools/prod_check.py` | production configuration |
 | `python tools/smoke.py` | end-to-end smoke run |
 
-# Appendix — Docker, if you prefer
+# Appendix: Docker, if you prefer
 
 ```bash
 docker build -t theclinicue .
@@ -547,4 +547,4 @@ docker run -d --name theclinicue -p 8000:8000 \
   theclinicue
 ```
 
-The `-v` volume is what makes data survive a restart. Put TLS in front of it — `TC_COOKIE_SECURE=true` requires HTTPS, and over plain HTTP the browser silently discards the session cookie.
+The `-v` volume is what makes data survive a restart. Put TLS in front of it - `TC_COOKIE_SECURE=true` requires HTTPS, and over plain HTTP the browser silently discards the session cookie.

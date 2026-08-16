@@ -1,6 +1,6 @@
 # User Manual
 
-## TheClinicue — Outpatient Appointment & Queue Management System
+## TheClinicue: Outpatient Appointment & Queue Management System
 
 **Version:** 1.0
 **For:** Patients, reception staff and clinic administrators
@@ -21,7 +21,7 @@ TheClinicue lets you book a clinic appointment before you travel, and gives you 
 ### 1.3 What you need
 
 - A phone, tablet or computer with a web browser (Chrome, Firefox, Safari or Edge).
-- An internet connection. A slow connection is fine — the whole application is about the size of one photograph.
+- An internet connection. A slow connection is fine - the whole application is about the size of one photograph.
 - Nothing to install.
 
 ### 1.4 Getting in
@@ -38,16 +38,16 @@ Open the clinic's TheClinicue address in your browser. You will see the sign-in 
 
 ---
 
-# PART A — For Patients
+# PART A: For Patients
 
 ## 2. Creating Your Account
 
 1. On the sign-in page, choose **Create account**.
 2. Fill in:
-   - **Full name** — as the clinic knows you.
-   - **Email address** — this is how you sign in.
-   - **Phone number** — so the clinic can reach you if plans change. Any format works: `0241112222` or `+233 24 111 2222`.
-   - **Password** — at least 8 characters, with at least one letter and one number.
+   - **Full name** - as the clinic knows you.
+   - **Email address** - this is how you sign in.
+   - **Phone number** - so the clinic can reach you if plans change. Any format works: `0241112222` or `+233 24 111 2222`.
+   - **Password** - at least 8 characters, with at least one letter and one number.
 3. Choose **Create account**. You are signed in straight away and can book immediately.
 
 > **If it says the email is already registered**, you already have an account. Go back to **Sign in** instead.
@@ -55,13 +55,13 @@ Open the clinic's TheClinicue address in your browser. You will see the sign-in 
 ## 3. Booking an Appointment
 
 1. Choose **Book** in the menu.
-2. **Service** — pick what you are coming for. The length of the appointment is shown next to each one, for example *General Consultation (30 min)*.
-3. **Clinician** — pick who you want to see.
-4. **Date** — pick a day. You can book up to 60 days ahead.
-5. **Available times** — the buttons show every time that is genuinely free. Tap one; it turns solid blue.
+2. **Service** - pick what you are coming for. The length of the appointment is shown next to each one, for example *General Consultation (30 min)*.
+3. **Clinician** - pick who you want to see.
+4. **Date** - pick a day. You can book up to 60 days ahead.
+5. **Available times** - the buttons show every time that is genuinely free. Tap one; it turns solid blue.
 6. Choose **Confirm booking**.
 
-You will see a green confirmation with your **booking code**, for example `TC-6S24CU`. Write it down or take a screenshot — the front desk can find you faster with it.
+You will see a green confirmation with your **booking code**, for example `TC-6S24CU`. Write it down or take a screenshot - the front desk can find you faster with it.
 
 ### 3.1 If no times are shown
 
@@ -79,7 +79,7 @@ If someone else books the same slot a moment before you, you will see:
 
 > *"That time was just booked. Please choose another slot."*
 
-The list refreshes automatically. Pick another time. Nothing was booked in your name — you have not been double-charged or double-booked.
+The list refreshes automatically. Pick another time. Nothing was booked in your name - you have not been double-charged or double-booked.
 
 ### 3.3 One appointment per clinician per day
 
@@ -89,8 +89,8 @@ You cannot hold two appointments with the same clinician on the same day. If you
 
 Choose **My appointments**.
 
-- **Upcoming** — everything still to come, soonest first. Each card shows the date, time, service, clinician, room, status and booking code.
-- **Past** — your history, including anything completed, cancelled or recorded as a no-show.
+- **Upcoming** - everything still to come, soonest first. Each card shows the date, time, service, clinician, room, status and booking code.
+- **Past** - your history, including anything completed, cancelled or recorded as a no-show.
 
 ### 4.1 Cancelling
 
@@ -98,11 +98,11 @@ Choose **My appointments**.
 2. Choose **Cancel**.
 3. Confirm when asked.
 
-The time is released immediately for another patient. **Please cancel if you cannot attend** — it is the single most useful thing you can do for other patients, and it takes ten seconds.
+The time is released immediately for another patient. **Please cancel if you cannot attend** - it is the single most useful thing you can do for other patients, and it takes ten seconds.
 
 You cannot cancel an appointment that has already been completed or that you missed.
 
-## 5. On the Day — Your Ticket and Queue Position
+## 5. On the Day: Your Ticket and Queue Position
 
 1. Arrive at the clinic a few minutes early.
 2. Give your **booking code** or your **name** at the front desk.
@@ -123,7 +123,7 @@ Open **My appointments** on your phone and you will see a yellow card at the top
 
 > **Refresh the page to update it.** The card does not refresh by itself in this version. Pull down on your phone, or reload the page, to see the latest position.
 
-When your ticket is called, the card says *"You are being seen now — please go to the consulting room."*
+When your ticket is called, the card says *"You are being seen now - please go to the consulting room."*
 
 ## 6. Signing Out
 
@@ -131,15 +131,15 @@ Choose **Sign out**, top right. Always sign out on a shared or clinic computer.
 
 ---
 
-# PART B — For Reception Staff
+# PART B: For Reception Staff
 
 ## 7. The Front Desk Screen
 
 Sign in and choose **Front desk**. The screen has three areas:
 
-- **Left** — the day sheet: every appointment for the chosen date.
-- **Top right** — the live queue for one clinician.
-- **Bottom right** — walk-in booking.
+- **Left** - the day sheet: every appointment for the chosen date.
+- **Top right** - the live queue for one clinician.
+- **Bottom right** - walk-in booking.
 
 ### 7.1 Finding a patient quickly
 
@@ -165,21 +165,21 @@ The patient is given the next ticket number for that clinician and joins the que
 
 | Message | Meaning | What to do |
 |---|---|---|
-| *"This patient has already been checked in."* | Someone checked them in already. | Nothing — they are in the queue. |
+| *"This patient has already been checked in."* | Someone checked them in already. | Nothing - they are in the queue. |
 | *"Only appointments scheduled for today can be checked in. This one is for 2026-08-24."* | The appointment is for a different day. | If they have come on the wrong day, book them a walk-in slot instead (Section 10). |
 
 ## 9. Running the Queue
 
 The **Live queue** panel on the right shows one clinician at a time. Change clinician with the dropdown.
 
-- **Now serving** — the ticket currently with the clinician.
-- **The list** — everyone still waiting, in order, with how long they have been waiting.
+- **Now serving** - the ticket currently with the clinician.
+- **The list** - everyone still waiting, in order, with how long they have been waiting.
 
 ### 9.1 Calling the next patient
 
 When the clinician is ready, choose **Call next patient**. The longest-waiting patient is called and the panel updates.
 
-If nobody is waiting you will see *"Nobody is waiting for this practitioner."* — that is normal, not an error.
+If nobody is waiting you will see *"Nobody is waiting for this practitioner."* - that is normal, not an error.
 
 ### 9.2 Finishing a consultation
 
@@ -191,7 +191,7 @@ If a patient never arrives, or leaves before being called, choose **No-show** on
 
 This matters more than it looks: the no-show rate is the main number the clinic manager uses to plan staffing. Recording it accurately is part of the job.
 
-> **Note on names.** The queue panel shows shortened names such as `Y. D****`. This is deliberate — the panel may be visible to other patients, and full names should not be.
+> **Note on names.** The queue panel shows shortened names such as `Y. D****`. This is deliberate - the panel may be visible to other patients, and full names should not be.
 
 ## 10. Walk-in Patients and Booking on Someone's Behalf
 
@@ -208,7 +208,7 @@ They now have a normal appointment and can be checked in.
 
 ---
 
-# PART C — For Administrators
+# PART C: For Administrators
 
 ## 11. Reports
 
@@ -222,8 +222,8 @@ Pick a date and choose **Show**:
 |---|---|
 | **Total booked** | All appointments for the day, in any state. |
 | **Completed** | Consultations that actually happened. |
-| **No-show rate** | No-shows as a percentage of patients who were *expected*. Cancellations are excluded from the denominator — a patient who cancelled was not expected to attend, and counting them would flatter the figure. |
-| **Mean wait** | Average minutes between check-in and being called. Shows `—` when nobody has been called yet. |
+| **No-show rate** | No-shows as a percentage of patients who were *expected*. Cancellations are excluded from the denominator - a patient who cancelled was not expected to attend, and counting them would flatter the figure. |
+| **Mean wait** | Average minutes between check-in and being called. Shows `-` when nobody has been called yet. |
 | **Cancelled** | Appointments cancelled in advance. |
 | **Still waiting** | Patients checked in but not yet called. |
 
@@ -233,7 +233,7 @@ Below is a per-clinician count of consultations completed.
 
 Pick a date range. For each clinician you see slots offered, appointments made, utilisation as a bar, and no-show percentage.
 
-Utilisation bars are green above 75%, amber 50–75%, red below 50%. A persistently red clinician has more capacity than demand; a persistently green one may need more hours.
+Utilisation bars are green above 75%, amber 50-75%, red below 50%. A persistently red clinician has more capacity than demand; a persistently green one may need more hours.
 
 > **Please read this figure as approximate.** Slots offered are calculated from each clinician's *current* weekly availability applied across the whole period. If you changed someone's hours during the range, their figure will be off for the earlier part. This is recorded as technical debt item TD-11 and is scheduled to be corrected in v1.1.
 
@@ -243,7 +243,7 @@ Choose **Clinic setup**. This page controls what patients can book.
 
 ### 12.1 Services
 
-A service is a type of appointment with a fixed length. The length sets how the day is divided into slots — a 30-minute service produces 09:00, 09:30, 10:00; a 45-minute one produces 09:00, 09:45, 10:30.
+A service is a type of appointment with a fixed length. The length sets how the day is divided into slots - a 30-minute service produces 09:00, 09:30, 10:00; a 45-minute one produces 09:00, 09:45, 10:30.
 
 - **To add:** type a name and a length in minutes, then choose **Add service**.
 - **To withdraw:** choose **Retire**. It disappears from patient booking but old appointments keep their history. Choose **Restore** to bring it back.
@@ -255,7 +255,7 @@ Names must be unique, and length must be between 5 and 240 minutes.
 - **To add:** enter name, specialty and room, then choose **Add**.
 - **To remove:** choose **Deactivate**. They disappear from booking; their past appointments are preserved.
 
-### 12.3 Weekly availability — the important one
+### 12.3 Weekly availability: the important one
 
 **No availability means no appointments.** This is the most common setup mistake: a clinician is added, nobody sets their hours, and patients see "no times available" with no explanation.
 
@@ -266,13 +266,13 @@ To add a working window:
 3. Set **From** and **To**.
 4. Choose **Add window**.
 
-**Example.** Dr Mensah works 08:00–12:00 Monday to Friday, and also 13:00–16:00 on Monday, Wednesday and Friday. That is eight windows: five mornings plus three afternoons. Add the morning and afternoon as *separate* windows so the lunch break is genuinely unbookable.
+**Example.** Dr Mensah works 08:00-12:00 Monday to Friday, and also 13:00-16:00 on Monday, Wednesday and Friday. That is eight windows: five mornings plus three afternoons. Add the morning and afternoon as *separate* windows so the lunch break is genuinely unbookable.
 
 Rules the system enforces:
 
 - The end time must be after the start time.
 - Windows for the same clinician and day may not overlap.
-- Windows may touch: 08:00–12:00 and 12:00–16:00 is fine and means no lunch break.
+- Windows may touch: 08:00-12:00 and 12:00-16:00 is fine and means no lunch break.
 
 Choose **Remove** to withdraw a window. Appointments already booked under it are not disturbed.
 
@@ -293,7 +293,7 @@ Choose **Users**.
 
 ### 13.1 When someone leaves
 
-Deactivate their account immediately. Do not delete it — deletion would orphan the appointments they created. Deactivation takes effect on their next request, even if they are signed in at that moment.
+Deactivate their account immediately. Do not delete it - deletion would orphan the appointments they created. Deactivation takes effect on their next request, even if they are signed in at that moment.
 
 ## 14. Audit Log
 
@@ -313,7 +313,7 @@ Filter by typing an action name, for example `LOGIN_FAILED`, and choosing **Filt
 
 ---
 
-# PART D — Reference
+# PART D: Reference
 
 ## 15. Appointment Statuses
 
@@ -326,7 +326,7 @@ Filter by typing an action name, for example `LOGIN_FAILED`, and choosing **Filt
 | **Cancelled** | Called off in advance. The time was released. |
 | **No show** | Did not attend. The time was not released. |
 
-Statuses only move forwards: Booked → Checked in → In progress → Completed. Anything else is refused. That is why you cannot complete an appointment without checking the patient in first — the sequence is what keeps the reports honest.
+Statuses only move forwards: Booked → Checked in → In progress → Completed. Anything else is refused. That is why you cannot complete an appointment without checking the patient in first - the sequence is what keeps the reports honest.
 
 ## 16. Troubleshooting
 
@@ -345,14 +345,14 @@ Statuses only move forwards: Booked → Checked in → In progress → Completed
 
 - TheClinicue stores your **name, email address, phone number and appointments**. Nothing else.
 - It stores **no medical information** of any kind.
-- Your password is stored only as a one-way cryptographic hash. Nobody — including clinic staff and the developer — can read it. If you forget it, an administrator must reset it; they cannot tell you what it was.
+- Your password is stored only as a one-way cryptographic hash. Nobody (including clinic staff and the developer) can read it. If you forget it, an administrator must reset it; they cannot tell you what it was.
 - On the shared queue display your name is shortened, for example `Y. D****`.
 - Every action on your record is logged with who did it and when.
 - Only reception staff and administrators can see your appointments. Other patients cannot.
 
 ## 18. Getting Help
 
-1. Check Section 16 above — most messages explain themselves.
+1. Check Section 16 above - most messages explain themselves.
 2. Ask the clinic's TheClinicue administrator.
 3. For faults, the administrator should record what was on screen, what was being attempted, the time, and the exact wording of any message, and check the audit log for the matching entry.
 

@@ -4,8 +4,8 @@ This is the algorithmic core of TheClinicue (SRS §8.4 identified it as the
 highest-risk component, so it was built and unit-tested before any HTTP or UI
 code existed).
 
-`generate_slots` is a pure function of its arguments — no database, no clock,
-no request — which is what makes the awkward cases exhaustively testable.
+`generate_slots` is a pure function of its arguments - no database, no clock,
+no request - which is what makes the awkward cases exhaustively testable.
 """
 
 from __future__ import annotations
@@ -43,7 +43,7 @@ Interval = tuple[int, int]
 
 
 # --------------------------------------------------------------------------
-# The pure algorithm (FR-20 … FR-22)
+# The pure algorithm (FR-20 to FR-22)
 # --------------------------------------------------------------------------
 
 def overlaps(a: Interval, b: Interval) -> bool:
@@ -64,10 +64,10 @@ def generate_slots(
     booked     intervals already taken, same units
     duration   slot width, from the chosen service
     min_start  when given, drop slots starting before it (used to hide times
-               that have already elapsed today — FR-22)
+               that have already elapsed today - FR-22)
 
     A slot is emitted only when it fits *entirely* inside its window, so a
-    09:00–09:50 window with a 30-minute service yields 09:00 and nothing else:
+    09:00-09:50 window with a 30-minute service yields 09:00 and nothing else:
     a consultation that would overrun the practitioner's availability is not
     offered.
     """
@@ -206,7 +206,7 @@ def list_slots(
     *,
     horizon_days: int = 60,
 ) -> dict[str, Any]:
-    """Free slots for one practitioner, service and date (FR-20 … FR-23)."""
+    """Free slots for one practitioner, service and date (FR-20 to FR-23)."""
     assert_bookable_date(date_iso, horizon_days)
     practitioner = _require_active_practitioner(conn, practitioner_id)
     service = _require_active_service(conn, service_id)

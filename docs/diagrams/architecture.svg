@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 660" width="900" height="660" font-family="Helvetica, Arial, sans-serif">
   <rect width="900" height="660" fill="#ffffff"/>
-  <text x="450" y="30" text-anchor="middle" font-size="19" font-weight="bold" fill="#202124">TheClinicue — Layered System Architecture</text>
-  <text x="450" y="50" text-anchor="middle" font-size="12" fill="#5f6368">Client–server, four logical layers, single deployable WSGI process</text>
+  <text x="450" y="30" text-anchor="middle" font-size="19" font-weight="bold" fill="#202124">TheClinicue - Layered System Architecture</text>
+  <text x="450" y="50" text-anchor="middle" font-size="12" fill="#5f6368">Client-server, four logical layers, single deployable WSGI process</text>
 
   <!-- ===== Tier 1: Client ===== -->
   <rect x="30" y="70" width="640" height="92" rx="6" fill="#E8F0FE" stroke="#1A73E8" stroke-width="1.6"/>
-  <text x="44" y="90" font-size="13" font-weight="bold" fill="#1A73E8">1. PRESENTATION TIER — Browser (no build step, no framework)</text>
+  <text x="44" y="90" font-size="13" font-weight="bold" fill="#1A73E8">1. PRESENTATION TIER - Browser (no build step, no framework)</text>
   <rect x="46" y="100" width="140" height="48" rx="4" fill="#ffffff" stroke="#1A73E8"/>
   <text x="116" y="120" text-anchor="middle" font-size="11" fill="#202124">Patient Portal</text>
   <text x="116" y="136" text-anchor="middle" font-size="9" fill="#5f6368">book / cancel / queue</text>
@@ -25,7 +25,7 @@
 
   <!-- ===== Tier 2: API ===== -->
   <rect x="30" y="196" width="640" height="98" rx="6" fill="#E6F4EA" stroke="#137333" stroke-width="1.6"/>
-  <text x="44" y="216" font-size="13" font-weight="bold" fill="#137333">2. APPLICATION TIER — Flask blueprints (HTTP concerns only)</text>
+  <text x="44" y="216" font-size="13" font-weight="bold" fill="#137333">2. APPLICATION TIER - Flask blueprints (HTTP concerns only)</text>
   <rect x="46" y="226" width="98" height="26" rx="4" fill="#ffffff" stroke="#137333"/>
   <text x="95" y="243" text-anchor="middle" font-size="10" fill="#202124">auth.py</text>
   <rect x="152" y="226" width="112" height="26" rx="4" fill="#ffffff" stroke="#137333"/>
@@ -42,11 +42,11 @@
   <text x="350" y="277" text-anchor="middle" font-size="10" fill="#202124">Request pipeline:  @require_auth  →  @require_role  →  @require_csrf  →  validators.py  →  service call</text>
 
   <line x1="350" y1="294" x2="350" y2="322" stroke="#5f6368" stroke-width="1.6" marker-end="url(#arrow)"/>
-  <text x="360" y="313" font-size="10" fill="#5f6368">plain Python calls — no HTTP objects cross this boundary (NFR-MNT-01)</text>
+  <text x="360" y="313" font-size="10" fill="#5f6368">plain Python calls - no HTTP objects cross this boundary (NFR-MNT-01)</text>
 
   <!-- ===== Tier 3: Domain ===== -->
   <rect x="30" y="326" width="640" height="94" rx="6" fill="#FEF7E0" stroke="#B06000" stroke-width="1.6"/>
-  <text x="44" y="346" font-size="13" font-weight="bold" fill="#B06000">3. DOMAIN TIER — Service layer (all business rules; framework-independent)</text>
+  <text x="44" y="346" font-size="13" font-weight="bold" fill="#B06000">3. DOMAIN TIER - Service layer (all business rules; framework-independent)</text>
   <rect x="46" y="356" width="192" height="52" rx="4" fill="#ffffff" stroke="#B06000"/>
   <text x="142" y="374" text-anchor="middle" font-size="11" font-weight="bold" fill="#202124">scheduling.py</text>
   <text x="142" y="389" text-anchor="middle" font-size="9" fill="#5f6368">slot generation, conflict</text>
@@ -65,7 +65,7 @@
 
   <!-- ===== Tier 4: DAL ===== -->
   <rect x="30" y="452" width="640" height="70" rx="6" fill="#F3E8FD" stroke="#7B1FA2" stroke-width="1.6"/>
-  <text x="44" y="472" font-size="13" font-weight="bold" fill="#7B1FA2">4. DATA ACCESS LAYER — db.py</text>
+  <text x="44" y="472" font-size="13" font-weight="bold" fill="#7B1FA2">4. DATA ACCESS LAYER - db.py</text>
   <rect x="46" y="482" width="146" height="28" rx="4" fill="#ffffff" stroke="#7B1FA2"/>
   <text x="119" y="500" text-anchor="middle" font-size="10" fill="#202124">connection per request</text>
   <rect x="202" y="482" width="146" height="28" rx="4" fill="#ffffff" stroke="#7B1FA2"/>
@@ -79,7 +79,7 @@
 
   <!-- ===== Tier 5: DB ===== -->
   <rect x="30" y="554" width="640" height="78" rx="6" fill="#FCE8E6" stroke="#C5221F" stroke-width="1.6"/>
-  <text x="44" y="574" font-size="13" font-weight="bold" fill="#C5221F">5. PERSISTENCE — SQLite 3 (WAL, foreign keys ON)</text>
+  <text x="44" y="574" font-size="13" font-weight="bold" fill="#C5221F">5. PERSISTENCE - SQLite 3 (WAL, foreign keys ON)</text>
   <text x="44" y="594" font-size="10" fill="#202124">users · services · practitioners · availability_rules · appointments · queue_entries · audit_log</text>
   <text x="44" y="612" font-size="9.5" fill="#C5221F" font-style="italic">TD-01: single-file SQLite on an ephemeral container filesystem. Abstracted behind db.py so migration to PostgreSQL is bounded.</text>
 

@@ -1,6 +1,6 @@
 # Software Effort Estimation
 
-## TheClinicue — Outpatient Appointment & Queue Management System
+## TheClinicue: Outpatient Appointment & Queue Management System
 
 **Document version:** 1.0
 **Estimation date:** 12 August 2026 (end of Phase 1, before any implementation)
@@ -18,7 +18,7 @@ Estimation was therefore treated as a **scoping instrument**, not a prediction e
 
 | # | Technique | Role in this project | Why included |
 |---|---|---|---|
-| 1 | **Use Case Points (UCP)** — Karner (1993) | **Primary.** Functional sizing and relative cost per use case. | Requirements were elicited and documented as use cases, so UCP consumes the existing artefact with no re-modelling. It also produces a *per-use-case* cost that directly supports the scope-cut decision. |
+| 1 | **Use Case Points (UCP)** - Karner (1993) | **Primary.** Functional sizing and relative cost per use case. | Requirements were elicited and documented as use cases, so UCP consumes the existing artefact with no re-modelling. It also produces a *per-use-case* cost that directly supports the scope-cut decision. |
 | 2 | **COCOMO II Post-Architecture** with Function Point sizing | Independent cross-check on total size. | An algorithmic model based on a completely different sizing unit. Agreement between two unrelated models raises confidence that the sizing is not an artefact of one method's weights. |
 | 3 | **Three-point (PERT) bottom-up estimation** over a work breakdown structure | **Planning estimate.** The number the schedule is actually built on. | Only a bottom-up estimate can be decomposed to the task level, tracked against actuals, and used to quantify schedule risk. It is also the only one of the three calibrated to *this* developer and *this* delivery standard. |
 
@@ -28,7 +28,7 @@ Four alternatives were considered and rejected for this context:
 
 - **Lines of code / expert guess.** Rejected: no defensible basis before design, and notoriously biased downward under schedule pressure.
 - **Story points alone.** Rejected as primary: story points are a *relative* unit with no meaning until a team velocity exists. With a single developer and no historical velocity, there is nothing to calibrate against. (Story points are nonetheless used informally in Section 6 as a sanity check on task ordering.)
-- **Function Point Analysis alone.** Not rejected — it is used, but as the *input to COCOMO II* rather than standalone, because raw FP counts still require a language- and context-specific hours-per-FP factor that is unavailable here.
+- **Function Point Analysis alone.** Not rejected - it is used, but as the *input to COCOMO II* rather than standalone, because raw FP counts still require a language- and context-specific hours-per-FP factor that is unavailable here.
 - **Pure COCOMO II.** Rejected as primary because it requires a size estimate in KSLOC, which must itself be derived (from FP), compounding two estimation errors before any project-specific reasoning occurs.
 
 Use Case Points was selected because:
@@ -38,11 +38,11 @@ Use Case Points was selected because:
 3. **It decomposes to the unit of scope decision.** UCP assigns weight *per use case*, so cutting a use case has an immediately visible size consequence. Neither COCOMO nor FP offers this granularity as naturally.
 4. **It explicitly models environment.** The Environmental Complexity Factor captures single-developer, high-motivation, stable-requirements conditions, which are exactly the unusual features of this project.
 
-Its known weakness — that the standard productivity factor of 20 hours per UCP is poorly calibrated outside mid-size commercial team projects — is not concealed. It is addressed head-on in Section 5.
+Its known weakness (that the standard productivity factor of 20 hours per UCP is poorly calibrated outside mid-size commercial team projects) is not concealed. It is addressed head-on in Section 5.
 
 ---
 
-## 2. Technique 1 — Use Case Points
+## 2. Technique 1: Use Case Points
 
 ### 2.1 Actors and Unadjusted Actor Weight (UAW)
 
@@ -62,7 +62,7 @@ Actor complexity is classified per Karner: **Simple** (another system through a 
 
 ### 2.2 Use Cases and Unadjusted Use Case Weight (UUCW)
 
-Use cases are counted at **business-goal granularity**, not endpoint granularity — a use case is one complete interaction that achieves a user goal, which may span several API calls. Complexity is by transaction count: **Simple** (≤3 transactions, weight 5), **Average** (4–7, weight 10), **Complex** (>7, weight 15).
+Use cases are counted at **business-goal granularity**, not endpoint granularity - a use case is one complete interaction that achieves a user goal, which may span several API calls. Complexity is by transaction count: **Simple** (≤3 transactions, weight 5), **Average** (4-7, weight 10), **Complex** (>7, weight 15).
 
 #### 2.2.1 v1.0 delivered scope
 
@@ -115,7 +115,7 @@ Use cases are counted at **business-goal granularity**, not endpoint granularity
 
 | Factor | Description | Weight | Rating | Justification | Value |
 |---|---|---|---|---|---|
-| T1 | Distributed system | 2 | 2 | Client–server over HTTP, but a single server process; no distributed state. | 4.0 |
+| T1 | Distributed system | 2 | 2 | Client-server over HTTP, but a single server process; no distributed state. | 4.0 |
 | T2 | Response time / performance objectives | 1 | 4 | NFR-PER-01/02 set explicit millisecond targets. | 4.0 |
 | T3 | End-user efficiency | 1 | 4 | Front-desk speed (15 s per check-in) is a stated stakeholder success criterion. | 4.0 |
 | T4 | Complex internal processing | 1 | 3 | Slot generation with conflict exclusion and a guarded state machine; non-trivial but not algorithmically deep. | 3.0 |
@@ -132,7 +132,7 @@ Use cases are counted at **business-goal granularity**, not endpoint granularity
 
 **TCF = 0.6 + (0.01 × 40.0) = 1.00**
 
-A TCF of exactly 1.00 indicates a system of average technical difficulty — the security and portability demands are offset by the absence of distribution, third-party integration and training subsystems. This is a plausible and unforced result.
+A TCF of exactly 1.00 indicates a system of average technical difficulty - the security and portability demands are offset by the absence of distribution, third-party integration and training subsystems. This is a plausible and unforced result.
 
 ### 2.5 Environmental Complexity Factor (ECF)
 
@@ -165,7 +165,7 @@ An ECF of 0.74 (below 1.0) correctly reflects genuinely favourable environmental
 
 ### 2.7 Effort at the standard productivity factor
 
-Karner's original productivity factor is **20 person-hours per UCP**. Schneider and Winters' refinement selects the factor by counting E1–E6 rated below 3 plus E7–E8 rated above 3: a total of ≤2 selects 20 h/UCP, 3–4 selects 28 h/UCP, and ≥5 indicates the project should be restructured before estimating.
+Karner's original productivity factor is **20 person-hours per UCP**. Schneider and Winters' refinement selects the factor by counting E1-E6 rated below 3 plus E7-E8 rated above 3: a total of ≤2 selects 20 h/UCP, 3-4 selects 28 h/UCP, and ≥5 indicates the project should be restructured before estimating.
 
 For this project only **E2 (rated 2)** falls below 3, and neither E7 nor E8 exceeds 3. The count is **1**, which selects **PF = 20 person-hours per UCP**.
 
@@ -174,7 +174,7 @@ For this project only **E2 (rated 2)** falls below 3, and neither E7 nor E8 exce
 | Full elicited system | 191.7 | 20 | **3,834 h** | 25.2 |
 | v1.0 delivered scope | 133.2 | 20 | **2,664 h** | 17.5 |
 
-### 2.8 Relative cost per use case — the scope-decision output
+### 2.8 Relative cost per use case: the scope-decision output
 
 This is the output that actually drove the scope decision. Allocating the v1.0 effort in proportion to use case weight gives a comparable cost for each candidate feature:
 
@@ -190,18 +190,18 @@ This is the output that actually drove the scope decision. Allocating the v1.0 e
 Two conclusions followed directly and are reflected in the SRS scope section:
 
 1. **The four Complex use cases account for 35% of functional size between them.** They are also the four that carry the entire value proposition. None could be cut; instead they were scheduled earliest so that any overrun would surface early (SRS §8.4).
-2. **The deferred use cases UC-18 to UC-23 account for 75 of 245 points — 31% of the full system's functional size for none of its core value.** Deferring them was the single largest and least painful scope reduction available, and it is why the deferral list in SRS §8.3 is drawn where it is.
+2. **The deferred use cases UC-18 to UC-23 account for 75 of 245 points - 31% of the full system's functional size for none of its core value.** Deferring them was the single largest and least painful scope reduction available, and it is why the deferral list in SRS §8.3 is drawn where it is.
 
 ---
 
-## 3. Technique 2 — COCOMO II cross-check (Function Point sized)
+## 3. Technique 2: COCOMO II cross-check (Function Point sized)
 
 ### 3.1 Function Point count
 
 | Component | Count and complexity | FP |
 |---|---|---|
 | Internal Logical Files | `users` (Avg 10), `appointments` (Avg 10), `services` (Low 7), `practitioners` (Low 7), `availability_rules` (Low 7), `queue_entries` (Low 7), `audit_log` (Low 7) | 55 |
-| External Interface Files | None — no external data stores in v1.0 | 0 |
+| External Interface Files | None - no external data stores in v1.0 | 0 |
 | External Inputs | 14 inputs (register, login, logout, book, cancel, check-in, call-next, complete, no-show, create/update service, create/update practitioner, create availability, change role, set account status): 9 Average (4), 5 High (6) | 66 |
 | External Outputs | 3 reports (daily summary, utilisation, waiting time): 2 Average (5), 1 High (7) | 17 |
 | External Inquiries | 11 inquiries (services, practitioners, slots, own appointments, day schedule, live queue, own position, user list, audit log, profile, health): 10 Average (4), 1 High (6) | 46 |
@@ -215,7 +215,7 @@ Two conclusions followed directly and are reflected in the SRS scope section:
 
 ### 3.2 Size in KSLOC
 
-Using a backfiring ratio of **32 source statements per function point for Python** (Jones' language-level tables place Python in the 30–40 range):
+Using a backfiring ratio of **32 source statements per function point for Python** (Jones' language-level tables place Python in the 30-40 range):
 
 `Size = 199 × 32 = 6,368 SLOC = 6.37 KSLOC`
 
@@ -225,11 +225,11 @@ Using a backfiring ratio of **32 source statements per function point for Python
 
 | Scale factor | Rating | Justification | Value |
 |---|---|---|---|
-| PREC — Precedentedness | High | CRUD-plus-scheduling web applications are a well-precedented pattern. | 2.48 |
-| FLEX — Development flexibility | Very High | Sole developer; no externally imposed process or interface constraints. | 1.01 |
-| RESL — Architecture / risk resolution | High | Principal risks identified, mitigated and scheduled before build (SRS §7, §8.4). | 2.83 |
-| TEAM — Team cohesion | Extra High | One person; no inter-team friction is possible. | 0.00 |
-| PMAT — Process maturity | Nominal | A documented, followed process, but no organisational maturity infrastructure. | 4.68 |
+| PREC - Precedentedness | High | CRUD-plus-scheduling web applications are a well-precedented pattern. | 2.48 |
+| FLEX - Development flexibility | Very High | Sole developer; no externally imposed process or interface constraints. | 1.01 |
+| RESL - Architecture / risk resolution | High | Principal risks identified, mitigated and scheduled before build (SRS §7, §8.4). | 2.83 |
+| TEAM - Team cohesion | Extra High | One person; no inter-team friction is possible. | 0.00 |
+| PMAT - Process maturity | Nominal | A documented, followed process, but no organisational maturity infrastructure. | 4.68 |
 | | | **ΣSF** | **11.00** |
 
 `E = 0.91 + (0.01 × 11.00) = 1.02`
@@ -238,17 +238,17 @@ Using a backfiring ratio of **32 source statements per function point for Python
 
 | Multiplier | Rating | Justification | Value |
 |---|---|---|---|
-| RELY — Required reliability | Low | v1.0 is prototype-grade; failure is recoverable and non-life-critical (no clinical data). | 0.92 |
-| RUSE — Required reusability | Low | Reuse required only within this project. | 0.95 |
-| DOCU — Documentation match to needs | Very High | Documentation is a first-class assessed deliverable, far above typical project needs. | 1.23 |
-| ACAP — Analyst capability | High | | 0.85 |
-| PCAP — Programmer capability | High | | 0.88 |
-| PCON — Personnel continuity | Very High | Identical individual throughout; zero turnover. | 0.81 |
-| PLEX — Platform experience | High | | 0.91 |
-| LTEX — Language and tool experience | High | Python and Flask are familiar. | 0.91 |
-| TOOL — Use of software tools | High | Modern editor, version control, test runner, coverage tooling. | 0.90 |
-| SITE — Multisite development | Very High | Fully collocated by definition. | 0.86 |
-| SCED — Required schedule | Very Low | 48 hours is severe compression against any nominal schedule. | 1.43 |
+| RELY - Required reliability | Low | v1.0 is prototype-grade; failure is recoverable and non-life-critical (no clinical data). | 0.92 |
+| RUSE - Required reusability | Low | Reuse required only within this project. | 0.95 |
+| DOCU - Documentation match to needs | Very High | Documentation is a first-class assessed deliverable, far above typical project needs. | 1.23 |
+| ACAP - Analyst capability | High | | 0.85 |
+| PCAP - Programmer capability | High | | 0.88 |
+| PCON - Personnel continuity | Very High | Identical individual throughout; zero turnover. | 0.81 |
+| PLEX - Platform experience | High | | 0.91 |
+| LTEX - Language and tool experience | High | Python and Flask are familiar. | 0.91 |
+| TOOL - Use of software tools | High | Modern editor, version control, test runner, coverage tooling. | 0.90 |
+| SITE - Multisite development | Very High | Fully collocated by definition. | 0.86 |
+| SCED - Required schedule | Very Low | 48 hours is severe compression against any nominal schedule. | 1.43 |
 | DATA, CPLX, TIME, STOR, PVOL, APEX | Nominal | | 1.00 |
 | | | **∏EM** | **0.597** |
 
@@ -262,11 +262,11 @@ At 152 hours per person-month: **1,763 person-hours**.
 
 **Nominal schedule:** `TDEV = 3.67 × PM^F` where `F = 0.28 + 0.2 × (E − B) = 0.302`
 
-`TDEV = 3.67 × 11.60^0.302 = 3.67 × 2.096 = ` **7.7 calendar months**, compressed to **5.8 months** at the Very Low SCED setting — with a team, not one person.
+`TDEV = 3.67 × 11.60^0.302 = 3.67 × 2.096 = ` **7.7 calendar months**, compressed to **5.8 months** at the Very Low SCED setting - with a team, not one person.
 
 ---
 
-## 4. Technique 3 — Bottom-up PERT estimate (the planning estimate)
+## 4. Technique 3: Bottom-up PERT estimate (the planning estimate)
 
 Each work package was estimated three ways: Optimistic (O), Most Likely (M) and Pessimistic (P). Expected effort `E = (O + 4M + P) / 6`; standard deviation `σ = (P − O) / 6`.
 
@@ -297,7 +297,7 @@ Each work package was estimated three ways: Optimistic (O), Most Likely (M) and 
 
 `z = (48 − 55.60) / 2.43 = −3.12`
 
-The probability of completing the plan as drawn within 48 hours is approximately **0.09%** — effectively zero. The estimate is unambiguous: **the plan did not fit, by roughly 7.6 hours.**
+The probability of completing the plan as drawn within 48 hours is approximately **0.09%** - effectively zero. The estimate is unambiguous: **the plan did not fit, by roughly 7.6 hours.**
 
 This is the single most valuable output of the estimation exercise. It was known at hour 6, not discovered at hour 44.
 
@@ -310,7 +310,7 @@ Rather than reduce functional scope further (the Must-have set was already minim
 | M1 | Zero-build frontend: hand-written HTML/CSS/vanilla JS, no framework, bundler or npm toolchain. | 2.00 | TD-05 (no component model; manual DOM handling) |
 | M2 | Direct SQLite through the standard library behind a thin data access layer, instead of an ORM with a migration framework. | 1.50 | TD-01 (SQLite in production), TD-02 (no migration tooling) |
 | M3 | Reuse Werkzeug's PBKDF2 implementation rather than integrating Argon2id with its native build chain. | 0.75 | TD-06 (PBKDF2 rather than a memory-hard KDF) |
-| M4 | Author all documentation as one Markdown source set and render to PDF with a purpose-built generator, rather than formatting by hand. | 1.50 | None — this is genuine leverage, and the generator is reusable |
+| M4 | Author all documentation as one Markdown source set and render to PDF with a purpose-built generator, rather than formatting by hand. | 1.50 | None - this is genuine leverage, and the generator is reusable |
 | M5 | Seed-data script doubles as the integration-test fixture. | 0.80 | TD-08 (test data coupled to demonstration data) |
 | M6 | Usability and performance verification by documented manual procedure rather than automated tooling. | 1.20 | TD-09 (no automated accessibility or load testing) |
 | | **Total** | **7.75** | |
@@ -333,12 +333,12 @@ A 52% confidence is honest but thin. It was accepted only because it is paired w
 
 A checkpoint was set at **hour 32**. If cumulative actual effort exceeded plan by more than 3 hours at that point, requirements would be dropped in this pre-agreed order, all of them Should-haves:
 
-1. FR-51 — practitioner utilisation report *(−1.0 h)*
-2. FR-52 — mean waiting time report *(−0.5 h)*
-3. FR-44 — patient-visible live queue position *(−1.0 h)*
-4. FR-49 — admin audit log browser UI, retaining the audit *write* path *(−1.0 h)*
+1. FR-51 - practitioner utilisation report *(−1.0 h)*
+2. FR-52 - mean waiting time report *(−0.5 h)*
+3. FR-44 - patient-visible live queue position *(−1.0 h)*
+4. FR-49 - admin audit log browser UI, retaining the audit *write* path *(−1.0 h)*
 
-Deciding the cut order **in advance** is the point. Under time pressure at hour 40 the decision would otherwise be made badly, and would most likely fall on testing — the one thing that must not be cut.
+Deciding the cut order **in advance** is the point. Under time pressure at hour 40 the decision would otherwise be made badly, and would most likely fall on testing - the one thing that must not be cut.
 
 ---
 
@@ -362,19 +362,19 @@ The gap is **not** a claim of fifty-fold personal productivity. It is a differen
 
 1. **Team and process overhead that does not exist in solo work.** Both models are calibrated on multi-person projects and embed coordination cost, handoffs, code review, status reporting, onboarding and specification churn between roles. A one-person project incurs none of it. Brooks' observation that communication cost grows with the square of team size cuts the other way at n = 1.
 
-2. **Production quality attributes that are deferred, not delivered.** The models price a *productised* system: hardened security with external review, WCAG conformance testing, internationalisation, load and soak testing, disaster recovery, observability, database migration tooling, high availability, support runbooks and a maintenance capability. TheClinicue v1.0 delivers the functional surface and defers most of this. **That deferral is not hidden — it is precisely the content of the Technical Debt Register and the Future Evolution roadmap.**
+2. **Production quality attributes that are deferred, not delivered.** The models price a *productised* system: hardened security with external review, WCAG conformance testing, internationalisation, load and soak testing, disaster recovery, observability, database migration tooling, high availability, support runbooks and a maintenance capability. TheClinicue v1.0 delivers the functional surface and defers most of this. **That deferral is not hidden - it is precisely the content of the Technical Debt Register and the Future Evolution roadmap.**
 
 3. **Framework and platform leverage the 1993 and 2000 calibrations did not assume.** Karner's and Boehm's factors assume routing, session management, password hashing, connection pooling, templating, serialisation and persistence are largely built. Flask, Werkzeug and SQLite supply all of it. Backfiring 199 FP to 6,368 SLOC assumes those statements must be *written*; a large proportion of them are instead *imported*.
 
 ### 5.3 Consequence for how the estimates are used
 
 - **UCP and COCOMO II are used for sizing and for relative scope decisions**, which is what they are reliable for here. Section 2.8 shows exactly how UCP's per-use-case weights drove the deferral list.
-- **The bottom-up PERT estimate is the planning estimate.** It is the only one calibrated to this developer, this technology and this — explicitly prototype-grade — delivery standard.
+- **The bottom-up PERT estimate is the planning estimate.** It is the only one calibrated to this developer, this technology and this (explicitly prototype-grade) delivery standard.
 - **The implied local productivity factor is 47.85 / 133.2 = 0.36 person-hours per UCP.** This is recorded as a *project-local calibration constant with no external validity whatsoever*. It is stated here so that it can be re-derived from recorded actuals and, over several comparable projects, become a genuinely calibrated figure. A single data point is not a calibration; it is the first data point of one.
 
 ### 5.4 The honest headline
 
-> A production-grade build of TheClinicue v1.0 is a **1,800–2,700 hour** undertaking. This project delivers its **functional surface in 48 hours — roughly 2% of that effort**. The remaining 98% is not wished away: it is enumerated as technical debt and scheduled in the evolution roadmap.
+> A production-grade build of TheClinicue v1.0 is a **1,800-2,700 hour** undertaking. This project delivers its **functional surface in 48 hours - roughly 2% of that effort**. The remaining 98% is not wished away: it is enumerated as technical debt and scheduled in the evolution roadmap.
 
 Stating this plainly is more useful than any single number, and it is the reason the Technical Debt Register is treated in this project as a first-class deliverable rather than an appendix.
 
@@ -394,7 +394,7 @@ As a final ordering check, the in-scope use cases were sized in a modified Fibon
 | 13 | UC-04 | 13 |
 | | **Total** | **81 points** |
 
-At the 33.5 hours of the plan allocated to work packages 3–12 (implementation), the implied rate is **0.41 hours per story point**. The relative ordering matches the UCP weighting exactly — UC-04 is the largest item under both methods, and the same three use cases sit in the second tier — which confirms the two sizings are consistent with one another even though their absolute scales differ.
+At the 33.5 hours of the plan allocated to work packages 3-12 (implementation), the implied rate is **0.41 hours per story point**. The relative ordering matches the UCP weighting exactly (UC-04 is the largest item under both methods, and the same three use cases sit in the second tier) which confirms the two sizings are consistent with one another even though their absolute scales differ.
 
 ---
 
@@ -404,12 +404,12 @@ At the 33.5 hours of the plan allocated to work packages 3–12 (implementation)
 
 | ID | Assumption | Effect if violated |
 |---|---|---|
-| EA-01 | The developer works 48 largely uninterrupted hours across four calendar days at roughly 12 hours per day. | Fragmented time carries a context-switching penalty of an estimated 10–15%, which would consume the entire remaining margin. |
+| EA-01 | The developer works 48 largely uninterrupted hours across four calendar days at roughly 12 hours per day. | Fragmented time carries a context-switching penalty of an estimated 10-15%, which would consume the entire remaining margin. |
 | EA-02 | Requirements remain frozen after the Phase 1 baseline. | The ECF rating of E6 = 4 assumes this; any change would invalidate both the UCP result and the plan. |
-| EA-03 | No unfamiliar technology is introduced. Python, Flask, SQLite, SQL, HTML, CSS and JavaScript are all known. | Each new technology would add an estimated 2–4 hours of learning curve not present in any work package. |
+| EA-03 | No unfamiliar technology is introduced. Python, Flask, SQLite, SQL, HTML, CSS and JavaScript are all known. | Each new technology would add an estimated 2-4 hours of learning curve not present in any work package. |
 | EA-04 | The hosting platform deploys a standard containerised Python service without incident. | Work package 15 (2.75 h) has the thinnest cover; a platform problem is the most likely source of an overrun late in the schedule. |
-| EA-05 | Documentation is authored in Markdown and rendered mechanically. | Hand-formatting in a word processor would add an estimated 3–4 hours to work package 16. |
-| EA-06 | No field access to a real clinic is required, and proxy elicitation is accepted. | Genuine stakeholder interviews would add 8–12 hours to work package 1 and would very likely change the requirements. |
+| EA-05 | Documentation is authored in Markdown and rendered mechanically. | Hand-formatting in a word processor would add an estimated 3-4 hours to work package 16. |
+| EA-06 | No field access to a real clinic is required, and proxy elicitation is accepted. | Genuine stakeholder interviews would add 8-12 hours to work package 1 and would very likely change the requirements. |
 
 ### 7.2 Constraints
 
@@ -418,7 +418,7 @@ At the 33.5 hours of the plan allocated to work packages 3–12 (implementation)
 | EC-01 | Hard 48-hour ceiling; the deadline cannot move. | Effort is the *dependent* variable only until it hits 48; beyond that, scope must absorb everything. This is what forced Section 4.2. |
 | EC-02 | One developer. No parallelism is available. | Effort hours and elapsed hours are the same number. There is no crashing the schedule by adding people. |
 | EC-03 | Zero budget for paid hosting, gateways or tooling. | Removes managed-database and notification work packages entirely, and creates TD-01. |
-| EC-04 | Documentation is assessed, not optional. | Work packages 1, 2, 14 and 16 total 19.0 hours — **34% of the pre-mitigation estimate is documentation and specification**, which is far above a typical commercial ratio and is a deliberate response to the assessment scheme. |
+| EC-04 | Documentation is assessed, not optional. | Work packages 1, 2, 14 and 16 total 19.0 hours - **34% of the pre-mitigation estimate is documentation and specification**, which is far above a typical commercial ratio and is a deliberate response to the assessment scheme. |
 
 ---
 
@@ -426,9 +426,9 @@ At the 33.5 hours of the plan allocated to work packages 3–12 (implementation)
 
 This section answers the assessment requirement directly. Five concrete decisions were made *because of* the estimate, not independently of it:
 
-1. **Six use cases were deferred out of v1.0.** UCP Section 2.8 showed UC-18 to UC-23 to be 31% of functional size for none of the core value proposition. They became the v1.1–v2.0 roadmap in SRS §8.3.
+1. **Six use cases were deferred out of v1.0.** UCP Section 2.8 showed UC-18 to UC-23 to be 31% of functional size for none of the core value proposition. They became the v1.1-v2.0 roadmap in SRS §8.3.
 
-2. **The four Complex use cases were scheduled first.** UCP identified UC-04, UC-08, UC-09 and UC-10 as 35% of functional size. Work packages 7 and 8 were therefore placed at hours 13–20, so that an overrun on the riskiest work would surface with 28 hours of recovery time available rather than 4.
+2. **The four Complex use cases were scheduled first.** UCP identified UC-04, UC-08, UC-09 and UC-10 as 35% of functional size. Work packages 7 and 8 were therefore placed at hours 13-20, so that an overrun on the riskiest work would surface with 28 hours of recovery time available rather than 4.
 
 3. **Four technology choices were made to buy schedule, with the cost recorded.** M1, M2, M3 and M6 in Section 4.2 exist solely because the PERT estimate showed a 7.6-hour overrun. Each one is entered in the Technical Debt Register with its resolution plan. **This is the direct, traceable link between effort estimation and technical debt management, and it runs in that direction: the estimate created the debt, deliberately and with the price visible.**
 
@@ -464,10 +464,10 @@ Actual effort was recorded against each work package during execution. Variance 
 | 16 | Documentation and packaging | 3.67 | 3.75 | +0.08 |
 | | **Total** | **47.85** | **48.25** | **+0.40** |
 
-**Variance analysis.** Delivery came in 0.4 hours (0.8%) over the mitigated plan — within one-fifth of a standard deviation, and therefore not evidence of estimation skill so much as of a plan with adequate contingency and a scope that was cut early enough. The two largest overruns are instructive:
+**Variance analysis.** Delivery came in 0.4 hours (0.8%) over the mitigated plan - within one-fifth of a standard deviation, and therefore not evidence of estimation skill so much as of a plan with adequate contingency and a scope that was cut early enough. The two largest overruns are instructive:
 
 - **Security (+0.50 h)** overran because CSRF double-submit interacted awkwardly with the login flow, which issues both cookies in the same response. This is the class of integration detail that bottom-up estimation systematically underestimates.
-- **Scheduling service (+0.50 h)** overran on the FR-26 booking race condition, exactly the risk flagged in SRS §8.4. The mitigation — building and unit-testing it first — worked: the overrun was absorbed at hour 18 rather than discovered at hour 44.
+- **Scheduling service (+0.50 h)** overran on the FR-26 booking race condition, exactly the risk flagged in SRS §8.4. The mitigation (building and unit-testing it first) worked: the overrun was absorbed at hour 18 rather than discovered at hour 44.
 
 The contingency de-scope list in Section 4.4 was **not** invoked; at the hour-32 checkpoint cumulative variance stood at +0.66 hours, inside the 3-hour trigger.
 
@@ -480,7 +480,7 @@ The contingency de-scope list in Section 4.4 was **not** invoked; at the hour-32
 | Technique selected | Use Case Points (primary), cross-checked with COCOMO II and a bottom-up PERT estimate |
 | Why | UCP consumes the existing use-case-based SRS, applies at the earliest useful moment, and decomposes to the unit of the scope decision |
 | Functional size | 133.2 UCP / 199 adjusted function points / 6.37 KSLOC |
-| Estimated effort, production-grade | 1,763 – 2,664 person-hours |
+| Estimated effort, production-grade | 1,763 - 2,664 person-hours |
 | Estimated effort, this delivery | 47.85 person-hours (PERT expected, after mitigation) |
 | Estimated duration | 48 elapsed hours, single developer, ≈ 12 h/day over 4 days |
 | Actual effort | 48.25 person-hours (+0.8% variance) |

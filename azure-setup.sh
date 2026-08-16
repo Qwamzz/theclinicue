@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Provision TheClinicue on Azure App Service (Linux) in one run.
 #
-# Everything this script does can also be clicked through in the portal —
+# Everything this script does can also be clicked through in the portal -
 # DEPLOY.md documents both routes. Using the CLI is faster and, more usefully,
 # it is repeatable: infrastructure that exists only as a sequence of clicks
 # cannot be rebuilt after a mistake.

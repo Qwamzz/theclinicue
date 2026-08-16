@@ -1,4 +1,4 @@
-"""System and user-acceptance tests (TC-S-01 … TC-S-06).
+"""System and user-acceptance tests (TC-S-01 to TC-S-06).
 
 These follow whole journeys across roles, in the order a real clinic day runs.
 They are the tests that would catch a defect that every unit passes.

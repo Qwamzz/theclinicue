@@ -46,7 +46,7 @@ SOURCES = (SOURCE_SELF, SOURCE_STAFF, SOURCE_WALK_IN)
 OCCUPYING_STATUSES = (BOOKED, CHECKED_IN, IN_PROGRESS, COMPLETED, NO_SHOW)
 
 # --------------------------------------------------------------------------
-# The appointment state machine — see diagrams/statechart_appointment.svg
+# The appointment state machine: see diagrams/statechart_appointment.svg
 # --------------------------------------------------------------------------
 
 TRANSITIONS: dict[str, frozenset[str]] = {
@@ -125,7 +125,7 @@ def today_iso() -> str:
 
 
 def weekday_of(date_iso: str) -> int:
-    """0 = Monday … 6 = Sunday, matching availability_rules.weekday."""
+    """0 = Monday to 6 = Sunday, matching availability_rules.weekday."""
     return date.fromisoformat(date_iso).weekday()
 
 
@@ -137,7 +137,7 @@ def add_days(date_iso: str, days: int) -> str:
 # Presentation helpers
 # --------------------------------------------------------------------------
 
-_CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"  # no I/O/0/1 — spoken aloud at a desk
+_CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"  # no I/O/0/1 - spoken aloud at a desk
 
 
 def new_appointment_code() -> str:

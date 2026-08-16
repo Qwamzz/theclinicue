@@ -1,4 +1,4 @@
-# Secrets — never commit (NFR-SEC-05)
+# Secrets: never commit (NFR-SEC-05)
 .env
 *.pem
 *.key
@@ -33,7 +33,7 @@ app/_build_info.json
 Submission/
 *.zip
 
-# Editor and IDE configuration — local to a machine, not part of the project
+# Editor and IDE configuration: local to a machine, not part of the project
 .vscode/
 .idea/
 .DS_Store

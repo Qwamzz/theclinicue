@@ -1,4 +1,4 @@
-"""Appointment booking, listing and cancellation (FR-24 … FR-33)."""
+"""Appointment booking, listing and cancellation (FR-24 to FR-33)."""
 
 from __future__ import annotations
 
@@ -23,9 +23,9 @@ bp = Blueprint("appointments", __name__, url_prefix="/api/appointments")
 
 @bp.post("")
 def create():
-    """FR-24 … FR-27, and FR-32 when staff book for someone else.
+    """FR-24 to FR-27, and FR-32 when staff book for someone else.
 
-    A patient may only book for themselves. Staff may name any patient — the
+    A patient may only book for themselves. Staff may name any patient - the
     branch below is the whole of that distinction, and it is server-side.
     """
     config = current_app.config["TC"]

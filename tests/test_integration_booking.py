@@ -1,5 +1,5 @@
 """Integration tests for slot discovery, booking and cancellation
-(TC-I-14 … TC-I-28 / FR-19 … FR-33)."""
+(TC-I-14 to TC-I-28 / FR-19 to FR-33)."""
 
 from __future__ import annotations
 
@@ -70,7 +70,7 @@ class TestSlots:
         assert set(response.get_json()["fields"]) >= {"practitioner_id", "service_id", "date"}
 
     def test_a_day_with_no_availability_returns_an_empty_list(self, patient):
-        """Sunday: the clinic is closed. An empty list, not an error — the UI
+        """Sunday: the clinic is closed. An empty list, not an error - the UI
         needs to say 'closed', not 'something went wrong'."""
         date_iso = today_iso()
         for _ in range(8):

@@ -31,7 +31,7 @@ async function start() {
     store.setUser(session.authenticated ? session.user : null);
   } catch {
     // A failed session probe means the server is unreachable, not that the
-    // user is signed out — say so rather than silently bouncing to login.
+    // user is signed out - say so rather than silently bouncing to login.
     store.setUser(null);
     toast('Could not reach the clinic server. Some features may not work.', 'error');
   }
@@ -50,7 +50,7 @@ async function start() {
       await api.logout();
     } catch {
       // Even if the call fails, clearing local state is the honest outcome of
-      // pressing "sign out" — the cookie is HttpOnly and will expire.
+      // pressing "sign out" - the cookie is HttpOnly and will expire.
     }
     store.clear();
     toast('Signed out.');

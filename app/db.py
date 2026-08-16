@@ -1,4 +1,4 @@
-"""Data access layer — the only module that knows SQLite exists.
+"""Data access layer - the only module that knows SQLite exists.
 
 Confining SQLite here is what converts TD-01 (the move to PostgreSQL) from a
 rewrite into a bounded change, and it is where FR-56 (parameterised SQL only)
@@ -34,7 +34,7 @@ def memory_uri(tag: str) -> str:
     A bare ':memory:' database is private to one connection, so it is useless
     here: every request opens its own connection and would find an empty
     schema. The shared-cache form gives all connections in the process the same
-    database, provided at least one connection stays open — which is what the
+    database, provided at least one connection stays open - which is what the
     keep-alive connection in create_app() is for.
     """
     return f"file:tc_{tag}?mode=memory&cache=shared"
@@ -86,7 +86,7 @@ def close_db(_exc: BaseException | None = None) -> None:
 
 
 def init_schema(conn: sqlite3.Connection) -> None:
-    """Apply schema.sql. Idempotent — every statement is IF NOT EXISTS.
+    """Apply schema.sql. Idempotent - every statement is IF NOT EXISTS.
 
     This is emphatically not a migration system; altering an existing column
     requires manual work. That gap is TD-02.
@@ -130,7 +130,7 @@ def transaction(conn: sqlite3.Connection, immediate: bool = False) -> Iterator[s
 
     `immediate=True` takes the write lock up front. Booking and check-in use it
     so that the re-verification read and the insert cannot be interleaved with
-    another writer — the mechanism behind FR-26.
+    another writer - the mechanism behind FR-26.
 
     Nested use is tolerated: if a transaction is already open the block simply
     joins it, and only the outermost block commits.

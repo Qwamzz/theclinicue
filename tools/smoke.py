@@ -28,7 +28,7 @@ def main() -> int:
 
     def check(label, condition, detail=""):
         mark = "ok  " if condition else "FAIL"
-        print(f"{mark} {label}{(' — ' + str(detail)) if detail and not condition else ''}")
+        print(f"{mark} {label}{(' - ' + str(detail)) if detail and not condition else ''}")
         if not condition:
             failures.append(label)
 

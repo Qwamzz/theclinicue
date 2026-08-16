@@ -1,8 +1,8 @@
-"""Operational reporting (FR-50 … FR-52).
+"""Operational reporting (FR-50 to FR-52).
 
 Read-only by construction: nothing in this module writes. These are the
 figures the clinic administrator was identified as needing in stakeholder
-analysis (S4) — attendance, no-show rate, utilisation and waiting time.
+analysis (S4) - attendance, no-show rate, utilisation and waiting time.
 """
 
 from __future__ import annotations
@@ -62,7 +62,7 @@ def daily_summary(conn: sqlite3.Connection, date_iso: str | None = None) -> dict
 def mean_wait_minutes(conn: sqlite3.Connection, date_iso: str | None = None) -> float | None:
     """Mean minutes between check-in and being called (FR-52).
 
-    Returns None rather than 0.0 when nobody has been called yet — "no data"
+    Returns None rather than 0.0 when nobody has been called yet - "no data"
     and "no wait" are different facts and the UI must be able to tell them
     apart.
     """
@@ -91,7 +91,7 @@ def utilisation(
 
     Slots offered is computed from the *current* availability rules, so a rule
     edited mid-period is applied retrospectively across the whole range. That
-    is a known inaccuracy — correcting it needs dated availability snapshots,
+    is a known inaccuracy - correcting it needs dated availability snapshots,
     which is recorded as TD-11.
     """
     practitioners = query(
@@ -179,7 +179,7 @@ def _weekday_counts(from_date: str, to_date: str) -> dict[int, int]:
 
 
 def throughput(conn: sqlite3.Connection, date_iso: str | None = None) -> dict[str, Any]:
-    """Consultations completed per practitioner today — the day-shift view."""
+    """Consultations completed per practitioner today - the day-shift view."""
     day = date_iso or today_iso()
     rows = query(
         conn,

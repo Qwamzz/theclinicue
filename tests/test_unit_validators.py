@@ -1,4 +1,4 @@
-"""Unit tests for the validation layer (TC-U-30 … TC-U-36 / FR-53)."""
+"""Unit tests for the validation layer (TC-U-30 to TC-U-36 / FR-53)."""
 
 from __future__ import annotations
 

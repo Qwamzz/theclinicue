@@ -34,7 +34,7 @@ export async function renderBooking() {
   const serviceSelect = select('service_id',
     services.map((s) => ({ value: s.id, label: `${s.name} (${s.duration_min} min)` })));
   const practitionerSelect = select('practitioner_id',
-    practitioners.map((p) => ({ value: p.id, label: `${p.full_name} — ${p.specialty || 'Clinician'}` })));
+    practitioners.map((p) => ({ value: p.id, label: `${p.full_name} - ${p.specialty || 'Clinician'}` })));
   const dateInput = input('date', {
     type: 'date', min: todayISO(), max: addDays(todayISO(), 60), value: addDays(todayISO(), 1),
   });
@@ -64,7 +64,7 @@ export async function renderBooking() {
 
   async function loadSlots() {
     chosenSlot = null;
-    slotArea.replaceChildren(h('p', { class: 'hint', text: 'Looking for free times…' }));
+    slotArea.replaceChildren(h('p', { class: 'hint', text: 'Looking for free times...' }));
 
     const date = dateInput.value;
     if (!date) {
@@ -104,7 +104,7 @@ export async function renderBooking() {
         grid.append(button);
       }
       slotArea.replaceChildren(
-        h('label', { text: `Available times — ${formatDate(date)}` }),
+        h('label', { text: `Available times - ${formatDate(date)}` }),
         grid,
         h('p', { class: 'hint', text: `Each appointment lasts ${result.duration_min} minutes.` }),
         confirmButton);
@@ -170,7 +170,7 @@ export async function renderMyAppointments() {
   mount(page);
   page.append(h('div', { class: 'page-head' },
     h('h1', { text: 'My appointments' }),
-    h('p', { text: 'Everything you have booked, and your place in today’s queue.' })));
+    h('p', { text: 'Everything you have booked, and your place in today's queue.' })));
 
   const queueSlot = h('div');
   const listSlot = h('div');
@@ -189,7 +189,7 @@ async function refreshQueue(slot) {
     }
     const ahead = position.ahead;
     const aheadText = position.status === 'CALLED'
-      ? 'You are being seen now — please go to the consulting room.'
+      ? 'You are being seen now - please go to the consulting room.'
       : ahead === 0 ? 'You are next.' : `${ahead} ${ahead === 1 ? 'patient is' : 'patients are'} ahead of you.`;
 
     slot.replaceChildren(h('div', { class: 'card' },
@@ -207,7 +207,7 @@ async function refreshQueue(slot) {
 }
 
 async function refreshList(slot) {
-  slot.replaceChildren(h('p', { class: 'hint', text: 'Loading…' }));
+  slot.replaceChildren(h('p', { class: 'hint', text: 'Loading...' }));
   try {
     const [upcoming, past] = await Promise.all([
       api.myAppointments('upcoming'),
@@ -218,7 +218,7 @@ async function refreshList(slot) {
       h('h2', { text: 'Upcoming' }),
       upcoming.items.length
         ? h('ul', { class: 'appt-list' }, upcoming.items.map((a) => appointmentCard(a, slot)))
-        : empty('Nothing booked yet', 'Use “Book an appointment” to reserve a time.'))];
+        : empty('Nothing booked yet', 'Use "Book an appointment" to reserve a time.'))];
 
     if (past.items.length) {
       children.push(h('div', { class: 'card' },

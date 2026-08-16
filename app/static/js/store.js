@@ -1,5 +1,5 @@
 // Minimal observable session state. Role information held here drives
-// navigation only — every authorisation decision is made server-side
+// navigation only - every authorisation decision is made server-side
 // (NFR-SEC-06). Editing this object in the console changes what is drawn and
 // nothing that is permitted.
 

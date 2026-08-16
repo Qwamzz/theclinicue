@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Deploy TheClinicue straight from this machine to Azure App Service.
 #
-# This is the fallback for when GitHub Actions is unavailable — a billing block
+# This is the fallback for when GitHub Actions is unavailable: a billing block
 # on the account, a private repo without minutes, or simply wanting to ship
 # without waiting for CI.
 #
@@ -35,7 +35,7 @@ else PY="python"; fi
 
 # ----------------------------------------------------------- quality gate
 if [ "$SKIP_TESTS" = "1" ]; then
-    say "SKIPPING the quality gate (SKIP_TESTS=1) — not recommended"
+    say "SKIPPING the quality gate (SKIP_TESTS=1) - not recommended"
 else
     say "Quality gate: full test suite"
     "$PY" -m pytest --no-header -q || die "Tests failed. Nothing was deployed."

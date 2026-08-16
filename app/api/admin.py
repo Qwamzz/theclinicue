@@ -1,5 +1,5 @@
-"""Administrative configuration, audit browsing and reporting (FR-14 … FR-17,
-FR-45 … FR-52). Every route in this blueprint is admin-only."""
+"""Administrative configuration, audit browsing and reporting (FR-14 to FR-17,
+FR-45 to FR-52). Every route in this blueprint is admin-only."""
 
 from __future__ import annotations
 
@@ -246,7 +246,7 @@ def availability_delete(rule_id: int):
 
 
 # ---------------------------------------------------------------------------
-# Users (FR-45 … FR-47)
+# Users (FR-45 to FR-47)
 # ---------------------------------------------------------------------------
 
 @bp.get("/users")
@@ -362,7 +362,7 @@ def audit_list():
 
 
 # ---------------------------------------------------------------------------
-# Reports (FR-50 … FR-52)
+# Reports (FR-50 to FR-52)
 # ---------------------------------------------------------------------------
 
 @bp.get("/reports/daily")

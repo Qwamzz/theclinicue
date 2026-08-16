@@ -4,7 +4,7 @@
 
 TheClinicue replaces the paper-and-shouting outpatient queue with real appointment slots, a digital
 check-in with ticket numbers, and operational reporting the clinic manager can act on. It stores
-no clinical data — that boundary is deliberate.
+no clinical data - that boundary is deliberate.
 
 [![tests](https://img.shields.io/badge/tests-334%20passing-brightgreen)]()
 [![coverage](https://img.shields.io/badge/coverage-92%25-brightgreen)]()
@@ -62,14 +62,14 @@ python tools/smoke.py                             # end-to-end smoke run
 ## Architecture
 
 Four layers, deployed as one WSGI process. The load-bearing rule is that **no Flask object crosses
-into the domain layer, and no SQL appears above the data access layer** — which is what makes the
+into the domain layer, and no SQL appears above the data access layer** - which is what makes the
 service layer testable without a web request, and what confines SQLite to a single module.
 
 ```
 Browser (no build step, no framework)
    │  HTTPS · JSON · session cookie + X-CSRF-Token
    ▼
-app/api/*.py          Flask blueprints — HTTP concerns only
+app/api/*.py          Flask blueprints - HTTP concerns only
    │  @require_auth → @require_role → @require_csrf → validate()
    ▼
 app/services/*.py     all business rules; imports no framework
@@ -89,7 +89,7 @@ SQLite (WAL, foreign keys on)
 | `app/security.py` | Hashing, JWT sessions, CSRF, RBAC, rate limiting |
 | `app/validators.py` | Declarative request validation |
 | `app/schema.sql` | Schema, constraints and indexes |
-| `app/static/` | The client: HTML, CSS, ES modules — 82 KB total |
+| `app/static/` | The client: HTML, CSS, ES modules - 82 KB total |
 | `docs/` | SRS, effort estimation, design, testing, technical debt |
 
 ---
@@ -124,18 +124,18 @@ startup command, health check, HTTPS enforcement and logging; and prints the pub
 the DNS records for the custom domain.
 
 Push to `main` and GitHub Actions runs the full suite, the seven-day date matrix and the production
-configuration check — then deploys only if all three pass, and smoke-tests `/api/health` afterwards.
+configuration check - then deploys only if all three pass, and smoke-tests `/api/health` afterwards.
 
 Full walkthrough, including the custom domain and the free managed TLS certificate, is in
 [DEPLOY.md](DEPLOY.md).
 
 > Azure persists `/home`, so bookings survive restarts and redeploys. But `/home` is an SMB share,
-> where SQLite's WAL journal is unreliable — hence `TC_SQLITE_JOURNAL=DELETE`. That is a workaround;
+> where SQLite's WAL journal is unreliable - hence `TC_SQLITE_JOURNAL=DELETE`. That is a workaround;
 > the fix is **TD-01**, migrating to Azure Database for PostgreSQL.
 
 ### Configuration
 
-All configuration is environment variables — see [`.env.example`](.env.example). In production the
+All configuration is environment variables - see [`.env.example`](.env.example). In production the
 application **refuses to start** without `TC_SECRET_KEY`, rather than generating one that would
 differ between workers and be discarded on restart.
 
@@ -151,7 +151,7 @@ differ between workers and be discarded on restart.
 | Authorisation | Server-side role checks on every protected endpoint; client-side checks are presentation only |
 | Object access | Another patient's record returns 404, not 403, so ids cannot be enumerated |
 | Injection | Every statement parameterised; no string-interpolated SQL in the codebase |
-| XSS | The client's only element factory assigns text through `textContent` — raw HTML is rejected by design |
+| XSS | The client's only element factory assigns text through `textContent` - raw HTML is rejected by design |
 | Brute force | Per-identity and per-address login throttling |
 | Audit | Append-only log of every security-relevant and state-changing action |
 | Headers | CSP, `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, HSTS in production |
@@ -178,12 +178,12 @@ Found a security issue? Please report it privately rather than opening a public 
 
 These are documented rather than hidden. The full analysis is in `docs/Technical_Debt_Plan.md`.
 
-- **SQLite on an ephemeral filesystem (TD-01)** — data is lost on redeploy unless a volume is mounted. *No real patient data until this is repaid.*
-- **No schema migrations (TD-02)** — the first schema change after go-live is a manual operation.
-- **Sessions cannot be revoked (TD-03)** — logout clears the cookie but the token stays valid until it expires. Deactivating the user *does* take effect immediately.
-- **The live queue does not refresh itself (TD-14)** — reload to see changes.
-- **Utilisation figures are approximate (TD-11)** — capacity is computed from current availability applied retrospectively.
-- **UTC only (TD-17)** — correct for Ghana (GMT+0); wrong anywhere else.
+- **SQLite on an ephemeral filesystem (TD-01)** - data is lost on redeploy unless a volume is mounted. *No real patient data until this is repaid.*
+- **No schema migrations (TD-02)** - the first schema change after go-live is a manual operation.
+- **Sessions cannot be revoked (TD-03)** - logout clears the cookie but the token stays valid until it expires. Deactivating the user *does* take effect immediately.
+- **The live queue does not refresh itself (TD-14)** - reload to see changes.
+- **Utilisation figures are approximate (TD-11)** - capacity is computed from current availability applied retrospectively.
+- **UTC only (TD-17)** - correct for Ghana (GMT+0); wrong anywhere else.
 
 ---
 
@@ -194,7 +194,7 @@ Built with [Flask](https://flask.palletsprojects.com/), [Werkzeug](https://werkz
 and [pytest](https://docs.pytest.org/). Password hashing follows the
 [OWASP Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html);
 the threat model follows [OWASP ASVS 4.0](https://owasp.org/www-project-application-security-verification-standard/).
-No third-party CSS or JavaScript is used — the client is hand-written.
+No third-party CSS or JavaScript is used - the client is hand-written.
 
 ## Licence
 

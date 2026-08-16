@@ -6,7 +6,7 @@
     </marker>
   </defs>
 
-  <text x="460" y="26" text-anchor="middle" font-size="19" font-weight="bold" fill="#202124">Appointment Lifecycle — UML State Machine (FR-43)</text>
+  <text x="460" y="26" text-anchor="middle" font-size="19" font-weight="bold" fill="#202124">Appointment Lifecycle - UML State Machine (FR-43)</text>
   <text x="460" y="45" text-anchor="middle" font-size="11" fill="#5f6368">Any transition not drawn here is rejected by the service layer with 409 INVALID_TRANSITION</text>
 
   <!-- initial pseudostate -->
@@ -96,7 +96,7 @@
 
   <!-- ===== transition table ===== -->
   <rect x="40" y="420" width="840" height="66" rx="5" fill="#F8F9FA" stroke="#9AA0A6"/>
-  <text x="52" y="438" font-size="11" font-weight="bold" fill="#202124">Permitted transitions (the complete set — everything else is rejected)</text>
+  <text x="52" y="438" font-size="11" font-weight="bold" fill="#202124">Permitted transitions (the complete set - everything else is rejected)</text>
   <text x="52" y="456" font-size="9.5" fill="#3C4043">BOOKED → CHECKED_IN · BOOKED → CANCELLED · BOOKED → NO_SHOW · CHECKED_IN → IN_PROGRESS · CHECKED_IN → NO_SHOW · IN_PROGRESS → COMPLETED</text>
   <text x="52" y="472" font-size="9.5" fill="#C5221F">Rejected examples: COMPLETED → CANCELLED (FR-31) · CANCELLED → CHECKED_IN · BOOKED → IN_PROGRESS (must be checked in first) · CHECKED_IN → CHECKED_IN (FR-36)</text>
 </svg>

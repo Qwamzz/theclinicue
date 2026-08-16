@@ -1,5 +1,5 @@
 """Integration tests for check-in and the consultation queue
-(TC-I-29 … TC-I-38 / FR-34 … FR-44)."""
+(TC-I-29 to TC-I-38 / FR-34 to FR-44)."""
 
 from __future__ import annotations
 
@@ -61,7 +61,7 @@ class TestCheckIn:
         seed happened to generate makes the test depend on the weekday it runs
         on: FR-27 allows one live appointment per patient, practitioner and day,
         so a seeded clash raises IntegrityError on some days and not others.
-        (This test did exactly that when the date rolled over — see TD-08.)
+        (This test did exactly that when the date rolled over - see TD-08.)
         """
         from app.domain import to_hhmm, utc_stamp
 

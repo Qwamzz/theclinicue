@@ -1,4 +1,4 @@
-"""Security tests (TC-SEC-01 … TC-SEC-14).
+"""Security tests (TC-SEC-01 to TC-SEC-14).
 
 These map to the STRIDE table in docs/System_Design.md §5.1. Each one is an
 attack attempt written from the attacker's point of view, not a feature check.
@@ -13,7 +13,7 @@ from app.domain import add_days, today_iso
 
 
 class TestAuthorisation:
-    """TC-SEC-01 … TC-SEC-04 / FR-11, FR-12, NFR-SEC-06."""
+    """TC-SEC-01 to TC-SEC-04 / FR-11, FR-12, NFR-SEC-06."""
 
     PROTECTED = [
         ("get", "/api/services"),
@@ -62,7 +62,7 @@ class TestAuthorisation:
 
 
 class TestCsrf:
-    """TC-SEC-05 … TC-SEC-07 / FR-07."""
+    """TC-SEC-05 to TC-SEC-07 / FR-07."""
 
     def test_state_change_without_a_token_is_refused(self, staff):
         response = staff.post("/api/queue/call-next", {"practitioner_id": 1}, csrf=False)
@@ -75,7 +75,7 @@ class TestCsrf:
 
     def test_a_token_from_another_session_is_refused(self, app, staff, admin):
         """The token is bound to the signed session, so replaying another
-        user's token does not work — this is stronger than plain double-submit."""
+        user's token does not work - this is stronger than plain double-submit."""
         staff.csrf = admin.csrf
         assert staff.post("/api/queue/call-next", {"practitioner_id": 1}).status_code == 403
 
@@ -90,7 +90,7 @@ class TestCsrf:
 
     def test_re_login_while_signed_in_still_needs_a_token(self, app, patient):
         """Once a session exists, /auth/login is a state-changing request like
-        any other and is covered — this mitigates login CSRF, where an attacker
+        any other and is covered - this mitigates login CSRF, where an attacker
         silently signs the victim into an account the attacker controls."""
         response = patient._client.post(
             "/api/auth/login",
@@ -150,7 +150,7 @@ class TestInjection:
 
 
 class TestInformationDisclosure:
-    """TC-SEC-10 … TC-SEC-12 / FR-55, NFR-SEC-04."""
+    """TC-SEC-10 to TC-SEC-12 / FR-55, NFR-SEC-04."""
 
     def test_security_headers_are_present(self, patient):
         response = patient.get("/api/services")
@@ -270,7 +270,7 @@ class TestObjectAccess:
 class TestHealthEndpoint:
     def test_health_is_public_and_reveals_nothing_sensitive(self, anon):
         """NFR-REL-03. The platform probe has no credentials, so this must be
-        open — and must therefore say nothing useful to an attacker."""
+        open - and must therefore say nothing useful to an attacker."""
         response = anon.get("/api/health")
         assert response.status_code == 200
         body = response.get_json()

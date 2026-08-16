@@ -1,5 +1,5 @@
 """Integration tests for registration, login and sessions
-(TC-I-01 … TC-I-13 / FR-01 … FR-13)."""
+(TC-I-01 to TC-I-13 / FR-01 to FR-13)."""
 
 from __future__ import annotations
 
@@ -54,7 +54,7 @@ class TestRegistration:
 
     def test_production_uses_600000_pbkdf2_iterations(self):
         """NFR-SEC-02 by inspection. The test environment deliberately lowers
-        the cost, so this asserts the setting the deployment actually gets —
+        the cost, so this asserts the setting the deployment actually gets -
         which is the thing the requirement is about."""
         from app.config import PRODUCTION_HASH_METHOD, load_config
 
@@ -116,7 +116,7 @@ class TestLogin:
         assert "SameSite=Lax" in session
 
     def test_csrf_cookie_is_readable_by_script(self, anon):
-        """It must NOT be HttpOnly — the client has to echo it in a header."""
+        """It must NOT be HttpOnly - the client has to echo it in a header."""
         response = anon.login("patient@theclinicue.com", "Patient#2026")
         csrf = next(c for c in response.headers.getlist("Set-Cookie") if c.startswith("tc_csrf="))
         assert "HttpOnly" not in csrf

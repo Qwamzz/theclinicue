@@ -1,5 +1,5 @@
 """Unit tests for domain helpers and the appointment state machine
-(TC-U-01 … TC-U-07, TC-U-21 … TC-U-26)."""
+(TC-U-01 to TC-U-07, TC-U-21 to TC-U-26)."""
 
 from __future__ import annotations
 
@@ -77,7 +77,7 @@ class TestDateHelpers:
 
 
 class TestStateMachine:
-    """TC-U-21 … TC-U-24 / FR-43."""
+    """TC-U-21 to TC-U-24 / FR-43."""
 
     @pytest.mark.parametrize(
         "current,target",

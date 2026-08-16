@@ -1,5 +1,5 @@
 """Integration tests for administration, audit and reporting
-(TC-I-39 … TC-I-47 / FR-14 … FR-18, FR-45 … FR-52)."""
+(TC-I-39 to TC-I-47 / FR-14 to FR-18, FR-45 to FR-52)."""
 
 from __future__ import annotations
 

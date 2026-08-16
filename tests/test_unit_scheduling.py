@@ -1,4 +1,4 @@
-"""Unit tests for the slot-generation algorithm (TC-U-08 … TC-U-20).
+"""Unit tests for the slot-generation algorithm (TC-U-08 to TC-U-20).
 
 `generate_slots` is a pure function, so these tests exercise it directly with
 no database and no application context. SRS §8.4 identified this as the
@@ -87,7 +87,7 @@ class TestGeneration:
 
     def test_overlapping_windows_do_not_duplicate_slots(self):
         """Two availability rules that overlap must not offer the same time
-        twice — the result is a set of start times, not a concatenation."""
+        twice - the result is a set of start times, not a concatenation."""
         slots = generate_slots(
             [window("08:00", "10:00"), window("09:00", "11:00")], [], 60
         )
@@ -105,7 +105,7 @@ class TestConflictExclusion:
 
     def test_partial_overlap_excludes_the_slot(self):
         """TC-U-13. A 20-minute booking straddling 09:00 must remove the whole
-        09:00 slot — offering it would produce a real double-booking."""
+        09:00 slot - offering it would produce a real double-booking."""
         slots = generate_slots([window("08:00", "10:00")], [window("08:50", "09:10")], 30)
         assert as_times(slots) == ["08:00", "09:30"]
 

@@ -42,7 +42,7 @@ export async function renderReports() {
       utilSlot));
 
   async function loadDaily() {
-    dailySlot.replaceChildren(h('p', { class: 'hint', text: 'Loading…' }));
+    dailySlot.replaceChildren(h('p', { class: 'hint', text: 'Loading...' }));
     try {
       const report = await api.reportDaily(dateInput.value);
       const noShowClass = report.no_show_rate > 15 ? 'bad' : report.no_show_rate > 8 ? 'warn' : 'good';
@@ -51,7 +51,7 @@ export async function renderReports() {
         stat('Total booked', report.total),
         stat('Completed', report.by_status.COMPLETED, 'good'),
         stat('No-show rate', `${report.no_show_rate}%`, noShowClass),
-        stat('Mean wait', report.mean_wait_minutes === null ? '—' : `${report.mean_wait_minutes} m`, 'warn'),
+        stat('Mean wait', report.mean_wait_minutes === null ? '-' : `${report.mean_wait_minutes} m`, 'warn'),
         stat('Cancelled', report.by_status.CANCELLED),
         stat('Still waiting', report.by_status.CHECKED_IN));
 
@@ -76,7 +76,7 @@ export async function renderReports() {
   }
 
   async function loadUtilisation() {
-    utilSlot.replaceChildren(h('p', { class: 'hint', text: 'Loading…' }));
+    utilSlot.replaceChildren(h('p', { class: 'hint', text: 'Loading...' }));
     try {
       const report = await api.reportUtilisation(fromInput.value, toInput.value);
       if (!report.items.length) {
@@ -139,7 +139,7 @@ export async function renderUsers() {
   roleSelect.addEventListener('change', load);
 
   async function load() {
-    slot.replaceChildren(h('p', { class: 'hint', text: 'Loading…' }));
+    slot.replaceChildren(h('p', { class: 'hint', text: 'Loading...' }));
     try {
       const result = await api.adminUsers({ q: searchInput.value.trim(), role: roleSelect.value, limit: 50 });
       if (!result.items.length) { slot.replaceChildren(empty('No accounts match')); return; }
@@ -222,7 +222,7 @@ export async function renderClinicSetup() {
 }
 
 async function loadServices(slot) {
-  slot.replaceChildren(h('p', { class: 'hint', text: 'Loading…' }));
+  slot.replaceChildren(h('p', { class: 'hint', text: 'Loading...' }));
   try {
     const result = await api.adminServices();
     const nameInput = input('svc_name', { type: 'text', required: true });
@@ -271,7 +271,7 @@ async function loadServices(slot) {
 }
 
 async function loadPractitioners(slot, availabilitySlot) {
-  slot.replaceChildren(h('p', { class: 'hint', text: 'Loading…' }));
+  slot.replaceChildren(h('p', { class: 'hint', text: 'Loading...' }));
   try {
     const result = await api.adminPractitioners();
     const nameInput = input('prac_name', { type: 'text', required: true });
@@ -300,7 +300,7 @@ async function loadPractitioners(slot, availabilitySlot) {
     const rows = result.items.map((practitioner) => h('tr', null,
       h('td', null, h('div', { text: practitioner.full_name }),
         h('div', { class: 'appt-meta', text: practitioner.specialty || '' })),
-      h('td', { text: practitioner.room || '—' }),
+      h('td', { text: practitioner.room || '-' }),
       h('td', null, h('span', {
         class: `badge badge-${practitioner.is_active ? 'CHECKED_IN' : 'CANCELLED'}`,
         text: practitioner.is_active ? 'Active' : 'Inactive' })),
@@ -361,7 +361,7 @@ async function loadAvailability(slot, practitioners) {
   });
 
   async function loadList() {
-    listSlot.replaceChildren(h('p', { class: 'hint', text: 'Loading…' }));
+    listSlot.replaceChildren(h('p', { class: 'hint', text: 'Loading...' }));
     try {
       const result = await api.adminAvailability(practitionerSelect.value);
       const active = result.items.filter((r) => r.is_active);
@@ -413,7 +413,7 @@ export async function renderAudit() {
     slot));
 
   async function load() {
-    slot.replaceChildren(h('p', { class: 'hint', text: 'Loading…' }));
+    slot.replaceChildren(h('p', { class: 'hint', text: 'Loading...' }));
     try {
       const result = await api.adminAudit({ action: actionInput.value.trim(), limit: 50 });
       if (!result.items.length) { slot.replaceChildren(empty('No matching entries')); return; }

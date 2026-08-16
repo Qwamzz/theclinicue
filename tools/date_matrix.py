@@ -1,7 +1,7 @@
 """Run the whole test suite once per weekday to prove date-independence.
 
-A clinic scheduler is full of weekday logic — availability rules, closed
-weekends, "today" comparisons — so a suite that only runs on the current date
+A clinic scheduler is full of weekday logic - availability rules, closed
+weekends, "today" comparisons - so a suite that only runs on the current date
 tests one seventh of the behaviour. This runs seven consecutive days.
 
     python tools/date_matrix.py [--start YYYY-MM-DD] [--days 7]

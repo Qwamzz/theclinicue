@@ -1,4 +1,4 @@
-"""Check-in and consultation queue endpoints (FR-34 … FR-44)."""
+"""Check-in and consultation queue endpoints (FR-34 to FR-44)."""
 
 from __future__ import annotations
 
@@ -24,7 +24,7 @@ def _appointment_id_from_body() -> int:
 @bp.post("/check-in")
 @require_staff
 def check_in():
-    """FR-34 … FR-37."""
+    """FR-34 to FR-37."""
     user = current_user()
     assert user is not None
     result = queue_service.check_in(

@@ -1,4 +1,4 @@
-"""Read-only catalogue and slot discovery (FR-19 … FR-23)."""
+"""Read-only catalogue and slot discovery (FR-19 to FR-23)."""
 
 from __future__ import annotations
 
@@ -37,7 +37,7 @@ def list_practitioners():
 @bp.get("/availability")
 @require_auth
 def list_availability():
-    """Which weekdays a practitioner works — lets the client grey out
+    """Which weekdays a practitioner works - lets the client grey out
     impossible dates before the user picks one."""
     v = Validator(request.args.to_dict())
     practitioner_id = v.integer("practitioner_id", minimum=1)
@@ -60,7 +60,7 @@ def list_availability():
 @bp.get("/slots")
 @require_auth
 def list_slots():
-    """FR-20 … FR-23."""
+    """FR-20 to FR-23."""
     config = current_app.config["TC"]
     v = Validator(request.args.to_dict())
     practitioner_id = v.integer("practitioner_id", minimum=1)

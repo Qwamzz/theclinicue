@@ -61,7 +61,7 @@ PRACTITIONERS = [
     ("Nurse Adjoa Tetteh", "Child Health", "Room 1"),
 ]
 
-# (practitioner index, weekdays, start, end) — 0 = Monday
+# (practitioner index, weekdays, start, end): 0 = Monday
 AVAILABILITY = [
     (0, [0, 1, 2, 3, 4], "08:00", "12:00"),
     (0, [0, 2, 4], "13:00", "16:00"),

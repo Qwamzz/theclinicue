@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 740" width="1020" height="740" font-family="Helvetica, Arial, sans-serif">
   <rect width="1020" height="740" fill="#ffffff"/>
-  <text x="510" y="28" text-anchor="middle" font-size="19" font-weight="bold" fill="#202124">TheClinicue — Entity Relationship Diagram</text>
+  <text x="510" y="28" text-anchor="middle" font-size="19" font-weight="bold" fill="#202124">TheClinicue - Entity Relationship Diagram</text>
   <text x="510" y="48" text-anchor="middle" font-size="11" fill="#5f6368">7 relations · SQLite 3 · foreign keys enforced · PK = primary key, FK = foreign key, UK = unique</text>
 
   <!-- ============ relationship lines (under boxes) ============ -->
@@ -147,12 +147,12 @@
     <text x="750" y="397">      is_active      INTEGER</text>
     <text x="750" y="412">      created_at     TEXT</text>
   </g>
-  <text x="750" y="433" font-size="8.5" font-style="italic" fill="#5f6368">weekday: 0 = Monday … 6 = Sunday</text>
-  <text x="750" y="446" font-size="8.5" font-style="italic" fill="#5f6368">CHECK (start_time &lt; end_time)  — FR-18</text>
+  <text x="750" y="433" font-size="8.5" font-style="italic" fill="#5f6368">weekday: 0 = Monday to 6 = Sunday</text>
+  <text x="750" y="446" font-size="8.5" font-style="italic" fill="#5f6368">CHECK (start_time &lt; end_time)  - FR-18</text>
 
   <!-- ============ notes ============ -->
   <rect x="655" y="455" width="340" height="118" rx="5" fill="#FCE8E6" stroke="#C5221F" stroke-width="1.2"/>
-  <text x="667" y="474" font-size="11" font-weight="bold" fill="#C5221F">Uniqueness constraints — the correctness guarantees</text>
+  <text x="667" y="474" font-size="11" font-weight="bold" fill="#C5221F">Uniqueness constraints - the correctness guarantees</text>
   <text x="667" y="493" font-size="9" font-weight="bold" fill="#3C4043">Partial unique index on appointments (FR-21, FR-26):</text>
   <text x="667" y="507" font-size="9" fill="#3C4043">   (practitioner_id, appt_date, start_time) WHERE status &lt;&gt; 'CANCELLED'</text>
   <text x="667" y="521" font-size="8.5" font-style="italic" fill="#5f6368">   Makes double-booking impossible even under a concurrent write.</text>
@@ -163,9 +163,9 @@
   <rect x="655" y="583" width="340" height="130" rx="5" fill="#F8F9FA" stroke="#9AA0A6"/>
   <text x="667" y="602" font-size="11" font-weight="bold" fill="#202124">Design notes</text>
   <text x="667" y="620" font-size="9" fill="#3C4043">• Times stored as ISO 'HH:MM' text; dates as ISO 'YYYY-MM-DD'.</text>
-  <text x="667" y="633" font-size="9" fill="#3C4043">   SQLite has no native date type — see TD-04.</text>
+  <text x="667" y="633" font-size="9" fill="#3C4043">   SQLite has no native date type - see TD-04.</text>
   <text x="667" y="649" font-size="9" fill="#3C4043">• appointments.status ∈ {BOOKED, CHECKED_IN, IN_PROGRESS,</text>
-  <text x="667" y="662" font-size="9" fill="#3C4043">   COMPLETED, CANCELLED, NO_SHOW} — enforced by CHECK and by</text>
+  <text x="667" y="662" font-size="9" fill="#3C4043">   COMPLETED, CANCELLED, NO_SHOW} - enforced by CHECK and by</text>
   <text x="667" y="675" font-size="9" fill="#3C4043">   the service-layer state machine (FR-43).</text>
   <text x="667" y="691" font-size="9" fill="#3C4043">• Deactivation (is_active = 0) replaces deletion everywhere, so</text>
   <text x="667" y="704" font-size="9" fill="#3C4043">   historical appointments never lose their referent.</text>

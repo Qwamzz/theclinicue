@@ -1,4 +1,4 @@
-"""Registration, login, logout and session introspection (FR-01 … FR-13)."""
+"""Registration, login, logout and session introspection (FR-01 to FR-13)."""
 
 from __future__ import annotations
 
@@ -36,7 +36,7 @@ def _public_user(row) -> dict:
 
 @bp.post("/register")
 def register():
-    """FR-01 … FR-04. Self-registration always creates a PATIENT; the role is
+    """FR-01 to FR-04. Self-registration always creates a PATIENT; the role is
     never taken from the request body, or anyone could mint an administrator."""
     config = current_app.config["TC"]
     payload = request.get_json(silent=True)
@@ -84,7 +84,7 @@ def register():
 
 @bp.post("/login")
 def login():
-    """FR-05 … FR-08, FR-13."""
+    """FR-05 to FR-08, FR-13."""
     config = current_app.config["TC"]
     payload = request.get_json(silent=True)
 

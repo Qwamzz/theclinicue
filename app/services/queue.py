@@ -1,4 +1,4 @@
-"""Check-in, ticketing and the consultation queue (FR-34 … FR-44).
+"""Check-in, ticketing and the consultation queue (FR-34 to FR-44).
 
 Every state change funnels through `_transition`, so the state machine in
 domain.TRANSITIONS cannot be bypassed by adding a new endpoint (FR-43).
@@ -72,7 +72,7 @@ def check_in(
     actor_id: int,
     ip_address: str = "",
 ) -> dict[str, Any]:
-    """Admit a booked patient to today's queue (FR-34 … FR-37)."""
+    """Admit a booked patient to today's queue (FR-34 to FR-37)."""
     with transaction(conn, immediate=True):
         appointment = _load_appointment(conn, appointment_id)
 
@@ -139,7 +139,7 @@ def call_next(
 ) -> dict[str, Any] | None:
     """Call the longest-waiting patient (FR-38, FR-39).
 
-    Returns None when the queue is empty — an empty queue is a normal outcome,
+    Returns None when the queue is empty - an empty queue is a normal outcome,
     not an error, so the caller gets 200 with a null payload rather than a 404.
     """
     queue_date = date_iso or today_iso()
